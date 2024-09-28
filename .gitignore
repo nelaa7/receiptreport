@@ -3,4 +3,5 @@
 env/
 receiptreport/__pycache__
 
+db.sqlite3
 .gitignore
