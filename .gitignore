@@ -1,2 +1,3 @@
-env/
-.venv/
+# Virtual Environment
+.venv/ 
+receiptreport/__pycache__
