@@ -1,0 +1,160 @@
+@extends('admin.layouts-admin.layouts-admin')
+@section('content')
+
+                <!--begin::Content-->
+                <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+                    <!--begin::Toolbar-->
+                    <div class="toolbar d-flex flex-stack mb-3 mb-lg-5" id="kt_toolbar">
+                        <!--begin::Container-->
+                        <div id="kt_toolbar_container" class="container-fluid d-flex flex-stack flex-wrap">
+                            <!--begin::Page title-->
+                            <div class="page-title d-flex flex-column me-5 py-2">
+                                <!--begin::Title-->
+                                <h1 class="d-flex flex-column text-dark fw-bold fs-3 mb-0">Management Data User</h1>
+                                <!--end::Title-->
+                                <!--begin::Breadcrumb-->
+                                <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 pt-1">
+                                    <!--begin::Item-->
+                                    <li class="breadcrumb-item text-muted">
+                                        <a href="../../demo10/dist/index.html"
+                                            class="text-muted text-hover-primary">Dashboard</a>
+                                    </li>
+                                    <!--end::Item-->
+                                    <!--begin::Item-->
+                                    <li class="breadcrumb-item">
+                                        <span class="bullet bg-gray-200 w-5px h-2px"></span>
+                                    </li>
+                                    <!--end::Item-->
+                                    <!--begin::Item-->
+                                    <li class="breadcrumb-item text-muted">Management</li>
+                                    <!--end::Item-->
+                                    <!--begin::Item-->
+                                    <li class="breadcrumb-item">
+                                        <span class="bullet bg-gray-200 w-5px h-2px"></span>
+                                    </li>
+                                    <!--end::Item-->
+                                    <!--begin::Item-->
+                                    <li class="breadcrumb-item text-dark">User</li>
+                                    <!--end::Item-->
+                                </ul>
+                                <!--end::Breadcrumb-->
+                            </div>
+                            <!--end::Page title-->
+                        </div>
+                        <!--end::Container-->
+                    </div>
+                    <!--end::Toolbar-->
+
+                    <!--begin::Post-->
+                    <div class="post d-flex flex-column-fluid" id="kt_post">
+                        <!--begin::Container-->
+                        <div class="container mt-5">
+                            <form id="kt_ecommerce_add_product_form" class="needs-validation" novalidate>
+                                <div class="card shadow-sm">
+                                    <div class="card-header">
+                                        <h2 class="card-title">Add Data User</h2>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="mb-4">
+                                            <label for="NIKNumber" class="form-label">NIK <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="NIKNumber" name="NIKNumber" required minlength="8" maxlength="8" pattern="\d{8}" inputmode="numeric">
+                                            <div class="form-text">Isi NIK dengan teliti dan benar</div>
+                                            <div class="invalid-feedback">
+                                                Mohon masukkan NIK yang valid
+                                            </div>
+                                        </div>
+                                        <div class="mb-4">
+                                            <label for="NamaText" class="form-label">Nama <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" id="NamaText" name="NamaText" required inputmode="text">
+                                            <div class="form-text">Isi nama lengkap</div>
+                                        </div>
+                                        <div class="mb-4">
+                                            <label for="Email" class="form-label">Email </label>
+                                            <input type="text" class="form-control" id="Email" name="Email" required inputmode="text">
+                                            <div class="form-text">Isi dengan benar</div>
+                                        </div>
+                                        <!--begin::Role-->
+                                        <div class="d-flex flex-wrap gap-5">
+                                            <!--begin::Input group-->
+                                            <div class="fv-row w-100 flex-md-root">
+                                                <!--begin::Label-->
+                                                <label class="required form-label" for="Role">Role</label>
+                                                <!--end::Label-->
+                                                <!--begin::Select-->
+                                                <select class="form-select mb-2" id="Role" name="Role" data-control="select2" data-hide-search="true" data-placeholder="Pilih Role User">
+                                                    <option></option>
+                                                    <option value="UserTeknisi">User Teknisi</option>
+                                                    <option value="UserLeader">User Leader</option>
+                                                    <option value="Finance">Finance</option>
+                                                </select>
+                                                <!--end::Select-->
+                                                <!--begin::Description-->
+                                                <div class="text-muted fs-7">Pilih role yang sesuai</div>
+                                                <!--end::Description-->
+                                            </div>
+                                            <!--end::Input group-->
+                                        </div>
+                                        <!--end::Jenis Nota-->
+
+                                    </div>
+                                        <!--end::Card header-->
+                                    <div class="card-footer d-flex justify-content-end">
+                                        <button type="button" class="btn btn-secondary me-2" id="kt_modal_edit_item_cancel">Cancel</button>
+                                        <button type="submit" class="btn btn-primary" id="kt_modal_edit_item_submit">Submit</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+
+                        <script>
+
+                            const submitButton = document.getElementById('kt_modal_edit_item_submit');
+
+                            submitButton.addEventListener('click', e =>{
+                                e.preventDefault();
+
+                                Swal.fire({
+                                    text: "Form has been successfully submitted!",
+                                    icon: "success",
+                                    buttonsStyling: false,
+                                    confirmButtonText: "Oke",
+                                    customClass: {
+                                        confirmButton: "btn btn-primary"
+                                    }
+                                }).then(() => {
+                                    //ganti halaman
+                                    window.location.href = 'list-kendaraan'
+                                });
+                            });
+
+                            const discardButton = document.getElementById('kt_modal_edit_item_cancel');
+
+                            discardButton.addEventListener('click', e => {
+                                e.preventDefault();
+
+                                Swal.fire({
+                                    title: 'Discard Changes?',
+                                    text: "Are you sure you want to discard the changes?",
+                                    icon: 'warning',
+                                    showCancelButton: true,
+                                    confirmButtonText: 'Yes, discard it!',
+                                    cancelButtonText: 'No, keep it',
+                                    customClass: {
+                                        confirmButton: 'btn btn-danger',
+                                        cancelButton: 'btn btn-light'
+                                    }
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        // Jika pengguna mengkonfirmasi, lakukan aksi yang diinginkan
+                                        console.log('Changes discarded.');
+                                         window.location.href = 'list-kendaraan'
+                                        // Anda bisa melakukan reset atau tindakan lain di sini
+                                        // document.getElementById('yourFormId').reset(); // jika ada form
+                                    } else {
+                                        console.log('Discard action cancelled.');
+                                    }
+                                });
+                            });
+</script>
+@endsection('content')

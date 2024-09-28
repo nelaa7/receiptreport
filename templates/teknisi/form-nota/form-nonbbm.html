@@ -1,0 +1,155 @@
+@extends('layouts.footer')
+@extends('layouts.header')
+
+@section('content')
+
+
+
+
+
+        <!--begin::Post-->
+        <div class="post d-flex flex-column-fluid" id="kt_post">
+            <!--begin::Container-->
+            <div class="container mt-5">
+                <form id="kt_ecommerce_add_product_form" class="needs-validation" novalidate>
+                    <div class="card shadow-sm">
+                        <div class="card-header">
+                            <h2 class="card-title">Form Nota</h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-4">
+                                <!--begin::Label-->
+                                <label class="fs-6 fw-semibold mb-2">Jenis Nota
+                                    <i class="fas fa-exclamation-circle ms-2 fs-7" data-bs-toggle="tooltip"
+                                        title="Pilih jenis nota yang akan diinputkan"></i></label>
+                                <!--End::Label-->
+                                <select class="form-select form-select-solid" data-control="select2" data-dropdown-css-class="w-200px" data-placeholder="Pilih nota" data-hide-search="true">
+                                    <option></option>
+                                    <option value="1">Option 1</option>
+                                    <option value="2">Option 2</option>
+                                    <option value="3">Option 3</option>
+                                    <option value="4">Option 4</option>
+                                    <option value="5">Option 5</option>
+                                </select>
+                            </div>
+                            <div class="mb-4">
+                                <label for="plateNumber" class="required form-label">Nominal</label>
+                                <input type="text" class="form-control" id="plateNumber" placeholder="30.000"
+                                    required>
+                                <div class="form-text">Isi nominal sesuai dengan nota.</div>
+                            </div>
+
+                            <!--end::Input group-->
+                            <!--begin::Media-->
+                            <div class="mb-10 fv-row">
+                                <!--begin::Label-->
+                                <label class="required form-label">Foto Nota</label>
+                                <!--end::Label-->
+                                <!--begin::Input group-->
+                                <div class="fv-row mb-2">
+                                    <!--begin::Dropzone-->
+                                    <div class="dropzone" id="kt_ecommerce_add_product_media">
+                                        <!--begin::Message-->
+                                        <div class="dz-message needsclick">
+                                            <!--begin::Icon-->
+                                            <i class="bi bi-file-earmark-arrow-up text-primary fs-3x"></i>
+                                            <!--end::Icon-->
+                                            <!--begin::Info-->
+                                            <div class="ms-4">
+                                                <h3 class="fs-5 fw-bold text-gray-900 mb-1">Drop
+                                                    files here or click to upload.</h3>
+                                            </div>
+                                            <!--end::Info-->
+                                        </div>
+                                    </div>
+                                    <!--end::Dropzone-->
+                                </div>
+                                <!--end::Input group-->
+                                <!--begin::Description-->
+                                <div class="text-muted fs-7">Foto nota dengan jelas.
+                                </div>
+                                <!--end::Description-->
+                            </div>
+                            <!--end::Media-->
+
+
+                            <!--begin::Media-->
+                            <div class="mb-10 fv-row">
+                                <!--begin::Label-->
+                                <label class="required form-label">Foto Evidence</label>
+                                <!--end::Label-->
+                                <!--begin::Input group-->
+                                <div class="fv-row mb-2">
+                                    <!--begin::Dropzone-->
+                                    <div class="dropzone" id="kt_ecommerce_add_product_media">
+                                        <!--begin::Message-->
+                                        <div class="dz-message needsclick">
+                                            <!--begin::Icon-->
+                                            <i class="bi bi-file-earmark-arrow-up text-primary fs-3x"></i>
+                                            <!--end::Icon-->
+                                            <!--begin::Info-->
+                                            <div class="ms-4">
+                                                <h3 class="fs-5 fw-bold text-gray-900 mb-1">Drop
+                                                    files here or click to upload.</h3>
+                                            </div>
+                                            <!--end::Info-->
+                                        </div>
+                                    </div>
+                                    <!--end::Dropzone-->
+                                </div>
+                                <!--end::Input group-->
+                                <!--begin::Description-->
+                                <div class="text-muted fs-7">Foto bukti kegiatan dengan jelas.
+                                </div>
+                                <!--end::Description-->
+                            </div>
+                            <!--end::Media-->
+                        </div>
+                        <!--end::Card header-->
+                        <div class="card-footer d-flex justify-content-end">
+                            <!--begin::Button-->
+                        <button type="reset" id="kt_modal_edit_item_cancel" class="btn btn-light me-3">Cancel</button>
+                        <!--end::Button-->
+                        <!--begin::Button-->
+                        <button type="submit" id="kt_modal_edit_item_submit" class="btn btn-primary">
+                            <span class="indicator-label">Save Changes</span>
+                            <span class="indicator-progress">Please wait...
+                            <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+                        </button>
+                        <!--end::Button-->
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <script>
+
+                const submitButton = document.getElementById('kt_modal_edit_item_submit');
+    
+                submitButton.addEventListener('click', e =>{
+                    e.preventDefault();
+                
+                    Swal.fire({
+                        text: "Form has been successfully submitted!",
+                        icon: "success",
+                        buttonsStyling: false,
+                        confirmButtonText: "Oke",
+                        customClass: {
+                            confirmButton: "btn btn-primary"
+                        }
+                    }).then(() => {
+                        //ganti halaman
+                        window.location.href = 'history-nonbbm'
+                    });
+                });
+    
+                const discardButton = document.getElementById('kt_modal_edit_item_cancel');
+    
+                discardButton.addEventListener('click', e => {
+                    e.preventDefault();
+                    window.location.href = '/dashboard'
+    
+    
+                    });
+    </script>
+        @endsection
