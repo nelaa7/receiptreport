@@ -1,12 +1,7 @@
-@extends('layouts.footer')
-@extends('layouts.header')
+{% extends 'layouts/footer.html' %}
+{% extends 'layouts/header.html' %}
 
-@section('content')
-
-
-
-
-
+{% block content %}
         <!--begin::Post-->
         <div class="post d-flex flex-column-fluid" id="kt_post">
             <!--begin::Container-->
@@ -152,4 +147,4 @@
     
                     });
     </script>
-        @endsection
+{%endblock%}

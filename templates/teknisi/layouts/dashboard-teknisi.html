@@ -1,41 +1,39 @@
-@extends('layouts.footer')
-@extends('layouts.header')
+{% extends 'layouts/footer.html' %}
+{% extends 'layouts/header.html' %}
 
-@section('content')
-    {{-- <div class="container pt-8"> --}}
+{% block content %}
+    <div class="container pt-8">
         <!--begin::Example-->
         <div class="row justify-content-center g-4 g-4">
-            <div class="separator separator-dashed separator-content border-primary my-10"><span class="h1">NOTA</span>
+            <div class="separator separator-dashed separator-content border-primary my-10">
+                <span class="h1">NOTA</span>
             </div>
         </div>
         <!--end::Example-->
 
-
         <!--begin::Card-->
-        <div class="container my-5 ">
+        <div class="container my-5">
             <div class="row justify-content-center g-4 g-4">
                 <!-- Card 1 -->
-                <a href="teknisi/form-notabbm" class="col-12 col-md-4">
-                    <div class="card hover-elevate-up shadow-sm parent-hover ">
-                        <div class="card border border bg-opacity-25 bg-success ">
+                <a href="{% url 'teknisi:form_notabbm' %}" class="col-12 col-md-4">
+                    <div class="card hover-elevate-up shadow-sm parent-hover">
+                        <div class="card border border bg-opacity-25 bg-success">
                             <div class="card-body custom-center">
                                 <i class="bi bi-receipt" style="font-size: 5rem;"></i>
                                 <h5 class="card-title">Nota BBM</h5>
-                                <div class="fw-semibold text-muted text-hover-primary fs-7">Formulir nota
-                                    BBM</div>
+                                <div class="fw-semibold text-muted text-hover-primary fs-7">Formulir nota BBM</div>
                             </div>
                         </div>
                     </div>
                 </a>
                 <!-- Card 2 -->
-                <a href="/teknisi/form-nonbbm" class="col-12 col-md-4">
-                    <div class="card hover-elevate-up shadow-sm parent-hover ">
+                <a href="{% url 'teknisi:form_nonbbm' %}" class="col-12 col-md-4">
+                    <div class="card hover-elevate-up shadow-sm parent-hover">
                         <div class="card border border bg-opacity-25 bg-success">
                             <div class="card-body custom-center">
                                 <i class="bi bi-receipt" style="font-size: 5rem;"></i>
                                 <h5 class="card-title">Nota Non BBM</h5>
-                                <div class="fw-semibold text-muted text-hover-primary fs-7">Formulir nota
-                                    selain BBM</div>
+                                <div class="fw-semibold text-muted text-hover-primary fs-7">Formulir nota selain BBM</div>
                             </div>
                         </div>
                     </div>
@@ -43,38 +41,35 @@
             </div>
         </div>
 
-
         <!--begin::Example-->
-        <div class="separator separator-dashed separator-content border-primary my-15"><span class="h1">AKTIVITAS</span>
+        <div class="separator separator-dashed separator-content border-primary my-15">
+            <span class="h1">AKTIVITAS</span>
         </div>
         <!--end::Example-->
 
-
         <!--begin::Card-->
-        <div class="container my-5 ">
+        <div class="container my-5">
             <div class="row justify-content-center g-4 g-4">
                 <!-- Card 1 -->
-                <a href="history-bbm" class="col-12 col-md-4">
+                <a href="{% url 'history_bbm' %}" class="col-12 col-md-4">
                     <div class="card hover-elevate-up shadow-sm parent-hover">
                         <div class="card border border bg-opacity-25 bg-info">
                             <div class="card-body custom-center">
                                 <i class="bi bi-clock-history" style="font-size: 5rem;"></i>
                                 <h5 class="card-title">History</h5>
-                                <div class="fw-semibold text-muted text-hover-primary fs-7">Histori nota
-                                    yang pernah dikirim</div>
+                                <div class="fw-semibold text-muted text-hover-primary fs-7">Histori nota yang pernah dikirim</div>
                             </div>
                         </div>
                     </div>
                 </a>
                 <!-- Card 2 -->
-                <a href="progress" class="col-12 col-md-4">
+                <a href="{% url 'progress' %}" class="col-12 col-md-4">
                     <div class="card hover-elevate-up shadow-sm parent-hover">
                         <div class="card border border bg-opacity-25 bg-info">
                             <div class="card-body custom-center">
                                 <i class="bi bi-send-fill" style="font-size: 5rem;"></i>
                                 <h5 class="card-title">Progress</h5>
-                                <div class="fw-semibold text-muted text-hover-primary fs-7">Status nota yang
-                                    dikirim</div>
+                                <div class="fw-semibold text-muted text-hover-primary fs-7">Status nota yang dikirim</div>
                             </div>
                         </div>
                     </div>
@@ -83,50 +78,33 @@
         </div>
     </div>
 
+    <style>
+        .custom-center {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            height: 100%;
+        }
+    </style>
 
-
-<style>
-    .custom-center {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        height: 100%;
-        /* Pastikan card-body mengambil seluruh tinggi card */
-    }
-</style>
-
-
-<style>
-    .custom-card {
-        width: 100%;
-        max-width: 18rem;
-        /* Maksimum lebar card */
-        height: auto;
-        /* Sesuaikan dengan kebutuhan Anda */
-    }
-
-    @media (max-width: 576px) {
+    <style>
         .custom-card {
-            max-width: 100%;
-            /* Lebar card pada layar kecil */
+            width: 100%;
+            max-width: 18rem;
             height: auto;
         }
-    }
 
-    .custom-gutter {
-        margin-bottom: 2rem;
-        /* Jarak antar card secara vertikal */
-    }
-</style>
-    
-@endsection
+        @media (max-width: 576px) {
+            .custom-card {
+                max-width: 100%;
+                height: auto;
+            }
+        }
 
-
-
-
-
-
-               
-
+        .custom-gutter {
+            margin-bottom: 2rem;
+        }
+    </style>
+{% endblock %}

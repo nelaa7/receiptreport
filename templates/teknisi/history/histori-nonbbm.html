@@ -1,6 +1,7 @@
-@extends('layouts.footer')
-@extends('layouts.teknisi-histori')
-@section('content')
+{% extends 'layouts/footer.html' %}
+{% extends 'layouts/teknisi-histori.html' %}
+
+{% block content %}
 
             <!--begin::Content-->
             <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
@@ -265,4 +266,4 @@
                             <!--end::Card body-->
                         </div>
                         <!--end::Card-->
-@endsection
+                        {% endblock %}

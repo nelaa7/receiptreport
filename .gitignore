@@ -1,3 +1,6 @@
 # Virtual Environment
 .venv/ 
+env/
 receiptreport/__pycache__
+
+.gitignore
