@@ -1,7 +1,7 @@
-@extends('admin.layouts-admin.layouts-admin')
+{% extends 'finance/layouts/layout-admin.html' %}
+{% load static %}
 
-@section('content')
-
+{% block content %}
                 <!--begin::Content-->
                 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
                     <!--begin::Toolbar-->
@@ -201,7 +201,6 @@
                                                 <th class="min-w-125px">Nominal</th>
                                                 <th class="min-w-125px">Nota</th>
                                                 <th class="min-w-125px">Odo</th>
-                                                {{-- <th class="min-w-70px">Keterangan</th> --}}
                                                 <th class="min-w-70px">Status</th>
                                                 <th class="text-end min-w-70px">Actions</th>
                                             </tr>
@@ -511,4 +510,4 @@
                                     });
                                 });
     </script>
-@endsection('content')
+{% endblock %}
