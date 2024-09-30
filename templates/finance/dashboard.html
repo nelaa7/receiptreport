@@ -1,12 +1,13 @@
-{% extends 'finance/layouts/layout-admin.html' %}
+{% include "finance/layouts/layout-admin.html" %} 
+{% include "layouts/footer.html" %} 
 {% load static %}
 
 {% block content %}
-{% comment %} <div class="container pt-8">
+<div class="container pt-8">
     <!--begin::Post-->
-    <div class="post d-flex flex-column-fluid" id="kt_post"> {% endcomment %}
+    <div class="post d-flex flex-column-fluid" id="kt_post"> 
         
-        {% comment %} <!--begin::Container-->
+        <!--begin::Container-->
         <div id="kt_content_container" class="container-xxl">
             <!--begin::Navbar-->
             <div class="card mb-6">
@@ -78,9 +79,4 @@
     </div>
     <!--end::Post-->
 </div>
-{% endblock %} {% endcomment %}
-
-<div class="container pt-8">
-    <p>Selamat melanjutkan aktivitas</p>
-</div>
-{% endblock %}
+{% endblock %} 

@@ -1,4 +1,5 @@
-{% extends 'finance/layouts/layout-admin.html' %}
+{% include "finance/layouts/layout-admin.html" %} 
+{% include "layouts/footer.html" %} 
 {% load static %}
 
 {% block content %}
@@ -264,11 +265,7 @@
                                                     <img src="" alt="Gambar" id="outputImage" class="img-fluid" style="max-width: 100px; max-height: 100px;">
                                                 </td>
                                                 <!--end::Evidence=-->
-                                                {{-- <!--begin::Keterangan=-->
-                                                <td>
-                                                    <span class="text-gray-800 text-hover-primary mb-1">Nota Konsumsi</span>
-                                                </td>
-                                                <!--end::Keterangan=--> --}}
+                                                
                                                 <!--begin::Verifikasi=-->
                                                 <td>
                                                     <span class="badge badge-light-primary">Verified</span>
@@ -510,4 +507,5 @@
                                     });
                                 });
     </script>
-{% endblock %}
+
+    {% endblock %}

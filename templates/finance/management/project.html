@@ -1,6 +1,8 @@
-@extends('admin.layouts-admin.layouts-admin')
-@section('content')
+{% include "finance/layouts/layout-admin.html" %} 
+{% include "layouts/footer.html" %} 
+{% load static %}
 
+{% block content %}
                 <!--begin::Content-->
                 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
                     <!--begin::Toolbar-->
@@ -262,4 +264,5 @@
                                     });
                                 });
     </script>
-@endsection('content')
+
+    {% endblock %} 
