@@ -2,6 +2,8 @@
 .venv/ 
 env/
 receiptreport/__pycache__
+receiptreport/settings.py
+
 
 db.sqlite3
 .gitignore
