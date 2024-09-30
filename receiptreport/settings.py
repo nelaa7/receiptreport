@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'receiptreport'
+    'receiptreport',
+    'notareport'
 ]
 
 MIDDLEWARE = [
@@ -77,8 +78,14 @@ WSGI_APPLICATION = 'receiptreport.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        # 'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME' : 'receipt',
+        'USER'  : 'postgres',
+        'PASSWORD' : 'L@ngitbiru22',
+        'HOST' : 'localhost',
+        'PORT' : '',
+        
     }
 }
 
