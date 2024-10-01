@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here.
 
-class sto (models.Model):
+class Sto (models.Model):
     id = models.AutoField(primary_key=True)
     nama_sto = models.CharField(max_length=255)
     
@@ -17,7 +17,7 @@ class sto (models.Model):
         return self.nama_sto
     
     
-class posisi (models.Model):
+class Posisi (models.Model):
     id = models.AutoField(primary_key=True)
     nama_posisi = models.CharField(max_length=225)
 
@@ -32,7 +32,7 @@ class posisi (models.Model):
         return self.nama_posisi
     
     
-class project (models.Model):
+class Project (models.Model):
     id = models.AutoField(primary_key=True)
     id_project = models.CharField(max_length=255)
     
@@ -142,7 +142,7 @@ class Natura(models.Model):
 
     id = models.AutoField(primary_key=True)
     nik = models.ForeignKey(Naker, on_delete=models.CASCADE)
-    id_posisi = models.ForeignKey(posisi, on_delete=models.CASCADE)
+    id_posisi = models.ForeignKey(Posisi, on_delete=models.CASCADE)
     witel = models.CharField(max_length=10, choices=WITEL_CHOICES)
     km_referensi = models.CharField(max_length=20)
     km_liter = models.CharField(max_length=20)
@@ -173,7 +173,7 @@ class TransaksiBBM(models.Model):
 
     id = models.AutoField(primary_key=True)
     nik = models.ForeignKey(Naker, on_delete=models.CASCADE)
-    sto = models.ForeignKey(sto, on_delete=models.CASCADE)
+    id_sto = models.ForeignKey(Sto, on_delete=models.CASCADE)
     id_jenis_nota = models.ForeignKey(JenisNota, on_delete=models.CASCADE)
     tgl_nota = models.DateField()
     jenis_KBM = models.CharField(max_length=2, choices=JENIS_KBM_CHOICES)
@@ -206,7 +206,7 @@ class TransaksiNonBBM(models.Model):
 
     id = models.AutoField(primary_key=True)
     nik = models.ForeignKey(Naker, on_delete=models.CASCADE)
-    sto = models.ForeignKey(sto, on_delete=models.CASCADE)
+    sto = models.ForeignKey(Sto, on_delete=models.CASCADE)
     jenis_nota = models.ForeignKey(JenisNota, on_delete=models.CASCADE)
     tgl_nota = models.DateField(null=True, blank=True)
     nominal = models.IntegerField()
