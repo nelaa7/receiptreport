@@ -91,7 +91,7 @@ class Naker(models.Model):
         verbose_name_plural = 'Naker'
 
     def __str__(self): 
-        return self.nik
+        return f'{self.nik} ({self.sto}) ({self.posisi}) ({self.unit}) ({self.nama}) ({self.witel})'
     
 
 class Kendaraan(models.Model):
@@ -110,8 +110,8 @@ class Kendaraan(models.Model):
     nik = models.ForeignKey(Naker, on_delete=models.CASCADE)
     tgl_pendataan = models.DateTimeField(auto_now_add=True)
     witel = models.CharField(max_length=10, choices=WITEL_CHOICES)
-    jenis_kbm = models.CharField(max_length=2, choices=JENIS_KBM_CHOICES)
-    merk_type_kbm = models.CharField(max_length=100)
+    jenis_KBM = models.CharField(max_length=2, choices=JENIS_KBM_CHOICES)
+    merk_type_KBM = models.CharField(max_length=100)
     NIK_pengguna_KBM = models.CharField(max_length=20)
     no_polisi = models.CharField(max_length=20)
     odometer = models.CharField(max_length=20)
@@ -130,7 +130,7 @@ class Kendaraan(models.Model):
         verbose_name_plural = 'Kendaraan'
         
     def __str__(self):
-        return f'{self.merk_type_kbm} ({self.no_polisi})'
+        return f'{self.merk_type_KBM} ({self.no_polisi})'
     
 
 class Natura(models.Model):
@@ -173,18 +173,17 @@ class TransaksiBBM(models.Model):
 
     id = models.AutoField(primary_key=True)
     nik = models.ForeignKey(Naker, on_delete=models.CASCADE)
-    id_sto = models.ForeignKey(sto, on_delete=models.CASCADE)
+    sto = models.ForeignKey(sto, on_delete=models.CASCADE)
     id_jenis_nota = models.ForeignKey(JenisNota, on_delete=models.CASCADE)
-    tgl_input = models.DateTimeField(null=True, blank=True)
     tgl_nota = models.DateField()
-    jenis_kbm = models.CharField(max_length=2, choices=JENIS_KBM_CHOICES)
+    jenis_KBM = models.CharField(max_length=2, choices=JENIS_KBM_CHOICES)
     no_polisi = models.CharField(max_length=20)
     km = models.CharField(max_length=20)
     nominal = models.IntegerField()
     foto_nota = models.ImageField(upload_to='notas/')
     foto_odo = models.ImageField(upload_to='odos/')
     uraian_kegiatan = models.TextField()
-    status = models.CharField(max_length=10, choices=STATUS_CHOICES)
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='Proccessed')
     status_changed_at = models.DateTimeField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -209,13 +208,12 @@ class TransaksiNonBBM(models.Model):
     nik = models.ForeignKey(Naker, on_delete=models.CASCADE)
     sto = models.ForeignKey(sto, on_delete=models.CASCADE)
     jenis_nota = models.ForeignKey(JenisNota, on_delete=models.CASCADE)
-    tgl_input = models.DateTimeField(auto_now_add=True)
     tgl_nota = models.DateField(null=True, blank=True)
     nominal = models.IntegerField()
     foto_nota = models.ImageField(upload_to='notas/')
     foto_evidence = models.ImageField(upload_to='evidences/')
     uraian_kegiatan = models.TextField()
-    status = models.CharField(max_length=10, choices=STATUS_CHOICES)
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='Proccessed')
     status_changed_at = models.DateTimeField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
