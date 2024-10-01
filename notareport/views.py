@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Kendaraan
+from .forms import form_kendaraan
 
 # View Finance
 def dashboard_admin(request):
@@ -31,18 +32,78 @@ def report_admin_bbm(request):
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 def form_kendaraan(request):
-    form = Kendaraan()
     nik = request.user.naker.nik if hasattr(request.user, 'naker') else ''
     jenis_kbm_choices = Kendaraan.JENIS_KBM_CHOICES
+    
+    if request.method == 'POST':
+        merk_type_option = request.POST.get('merk_type_option')  # Menangkap nilai radio button
+        merk_type_kbm = request.POST.get('merk_type_kbm')  # nilai text area
+        nik_pengguna_kbm = request.POST.get('nik_pengguna_kbm') 
+        no_polisi = request.POST.get('no_polisi') 
+        odometer = request.POST.get('odometer')
+        foto_odometer = request.FILES.get('foto_odometer')  
+        foto_depan = request.FILES.get('foto_depan')  
+        foto_samping = request.FILES.get('foto_samping')
+        tgl_stnk = request.POST.get('tgl_stnk')
+        tgl_service = request.POST.get('tgl_service')
+        kondisi_kendaraan = request.POST.get('kondisi_kendaraan')
+        foto_kondisi = request.FILES.get('foto_kondisi')
+
+        # Menentukan merk_type yang digunakan
+        merk_type = merk_type_kbm if merk_type_kbm else merk_type_option
+        
+        # Menyimpan data ke database
+        Kendaraan.objects.create(
+            merk_type_KBM=merk_type,     
+            nik_pengguna_kbm=nik_pengguna_kbm,
+            no_polisi=no_polisi,
+            odometer=odometer,
+            foto_speedometer=foto_odometer,
+            foto_tampak_depan=foto_depan,
+            foto_tampak_samping=foto_samping,
+            tgl_tempo_STNK_5thn=tgl_stnk,
+            tgl_service_terakhir=tgl_service,
+            kondisi_kendaraan=kondisi_kendaraan,
+            foto_kondisi_kendaraan=foto_kondisi
+        )
+
+        # Redirect ke halaman sukses atau halaman lain setelah menyimpan
+        return redirect('list-kendaraan')  # Ganti dengan URL yang sesuai
+
+    # Jika bukan POST, ambil pilihan merk_type_kbm dari model
+    merk_type_choices = Kendaraan.MERK_TYPE_KBM    
     context = {
-        'form': form,
         'witel_choices': Kendaraan.WITEL_CHOICES,
         'nik': nik,
-        'jenis_kbm_choices' : jenis_kbm_choices
+        'jenis_kbm_choices': jenis_kbm_choices,
+        'merk_type_choices': merk_type_choices,
     }
     return render(request, 'leader/kendaraan/form-kendaraan.html', context)
 
+def list_kendaraan(request):
+    return render(request, 'leader/kendaraan/list-kendaraan.html')
 
 # def form_kendaraan(request):
 #     witel_choices = Kendaraan.WITEL_CHOICES 

@@ -51,7 +51,8 @@
                    <div class="post d-flex flex-column-fluid" id="kt_post">
                     <!--begin::Container-->
                     <div class="container mt-5">
-                        <form id="kt_ecommerce_add_product_form" class="needs-validation" novalidate>
+                        <form id="kt_ecommerce_add_product_form" class="needs-validation" novalidate method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
                             <div class="card shadow-sm">
                                 <div class="card-header">
                                     <h2 class="card-title">Add Data Kendaraan</h2>
@@ -127,9 +128,7 @@
                                     <div class="mb-4">
                                         <!--begin::Label-->
                                         <label class="fs-6 fw-semibold mb-2">Merk & Type KBM
-                                            <i class="fas fa-exclamation-circle ms-2 fs-7"
-                                                data-bs-toggle="tooltip"
-                                                title="Sebutkan merk & type kendaraan"></i></label>
+                                            <i class="fas fa-exclamation-circle ms-2 fs-7"data-bs-toggle="tooltip"title="Sebutkan merk & type kendaraan"></i></label>
                                         <!--End::Label-->
                                         <!--begin::Row-->
                                         <div class="row row-cols-1 row-cols-md-3 row-cols-lg-1 row-cols-xl-3 g-9"
@@ -137,6 +136,8 @@
                                             data-kt-buttons-target="[data-kt-button='true']">
                                             <!--begin::Col-->
                                             <div class="col">
+                                                <div class="d-flex align-items-center"> <!-- Container Flexbox -->
+                                                    {% for merk in merk_type_choices %}
                                                 <!--begin::Option-->
                                                 <label
                                                     class="btn btn-outline btn-outline-dashed btn-active-light-primary  d-flex text-start p-6"
@@ -144,20 +145,21 @@
                                                     <!--begin::Radio-->
                                                     <span
                                                         class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-0">
-                                                        <input class="form-check-input" type="radio"
-                                                            name="discount_option" value="1" id="motor-radio"
-                                                            />
+                                                        <input class="form-check-input" type="radio" id="{{ merk.0 }}"
+                                                           name="merk_type_option" value="{{ merk.0 }}"/>
                                                     </span>
                                                     <!--end::Radio-->
                                                     <!--begin::Info-->
                                                     <span class="ms-2">
-                                                        <span class="fs-7 fw-bold text-gray-800 d-block">Honda Beat</span>
+                                                        <span class="fs-7 fw-bold text-gray-800 d-block">{{merk.1}}</span>
                                                     </span>
                                                     <!--end::Info-->
                                                 </label>
                                                 <!--end::Option-->
+                                                {% endfor %}
                                             </div>
                                             <!--end::Col-->
+                                            
                                             <!--begin::Col-->
                                             <div class="col">
                                                 <!--begin::Option-->
@@ -168,29 +170,7 @@
                                                     <span
                                                         class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-0">
                                                         <input class="form-check-input" type="radio"
-                                                            name="discount_option" value="2" id="mobil-radio" />
-                                                    </span>
-                                                    <!--end::Radio-->
-                                                    <!--begin::Info-->
-                                                    <span class="ms-2">
-                                                        <span class="fs-7 fw-bold text-gray-800 d-block">Mitsubishi Expander</span>
-                                                    </span>
-                                                    <!--end::Info-->
-                                                </label>
-                                                <!--end::Option-->
-                                            </div>
-                                            <!--end::Col-->
-                                            <!--begin::Col-->
-                                            <div class="col">
-                                                <!--begin::Option-->
-                                                <label
-                                                    class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex text-start p-6"
-                                                    data-kt-button="true">
-                                                    <!--begin::Radio-->
-                                                    <span
-                                                        class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-0">
-                                                        <input class="form-check-input" type="radio"
-                                                            name="discount_option" value="3" id="lainnya-radio" />
+                                                            name="merk_type_option" value="3" id="lainnya-radio" />
                                                     </span>
                                                     <!--end::Radio-->
                                                     <!--begin::Info-->
@@ -201,7 +181,7 @@
                                                 </label>
                                                 <!--end::Option-->
                                                 <!--begin::Textarea-->
-                                                <textarea class="form-control mt-3" name="lainnya" placeholder="Deskripsi lainnya" id="lainnya-textarea" style="display: none;"></textarea>
+                                                <textarea class="form-control mt-3" name="merk_type_kbm" rows="3" placeholder="Deskripsi lainnya" id="merk_type_kbm-textarea" style="display: none;"></textarea>
                                                 <!--end::Textarea-->
                                             </div>
                                             <!--end::Col-->
@@ -210,9 +190,9 @@
                                     </div>
 
                                     <script>
-                                        document.querySelectorAll('input[name="discount_option"]').forEach((radio) => {
+                                        document.querySelectorAll('input[name="merk_type_kbm"]').forEach((radio) => {
                                             radio.addEventListener('change', (event) => {
-                                                const textarea = document.getElementById('lainnya-textarea');
+                                                const textarea = document.getElementById('merk_type_kbm-textarea');
                                                 if (event.target.value === '3') {
                                                     textarea.style.display = 'block';
                                                 } else {
@@ -225,8 +205,8 @@
 
                                     <!--begin::NIK Pengguna-->
                                     <div class="mb-4">
-                                        <label for="NIKNumber" class="form-label">NIK Pengguna <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="NIKNumber" name="NIKNumber" required minlength="8" maxlength="8" pattern="\d{8}" inputmode="numeric">
+                                        <label for="nik_pengguna_kbm" class="form-label">NIK Pengguna <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="nik_pengguna_kbm" name="nik_pengguna_kbm" required minlength="8" maxlength="8" pattern="\d{8}" inputmode="numeric">
                                         <div class="form-text">Isi NIK dengan teliti dan benar</div>
                                         <div class="invalid-feedback">
                                             Mohon masukkan NIK yang valid
@@ -235,15 +215,15 @@
                                     <!--End::NIK Pengguna-->
                                     <!--begin::No Polisi-->
                                     <div class="mb-4">
-                                        <label for="plateNumber" class="form-label">No Polisi <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="plateNumber" placeholder="B 1234 ACD" required>
+                                        <label for="no_polisi" class="form-label">No Polisi <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="no_polisi" name="no_polisi" placeholder="B 1234 ACD" required pattern="^[A-Z]{1,2} \d{1,4} [A-Z]{1,3}$" >
                                         <div class="form-text">Nomor polisi harus unik</div>
                                     </div>
                                     <!--End::No Polisi-->
                                     <!--begin::Odometer-->
                                     <div class="mb-4">
-                                        <label for="plateNumber" class="form-label">Odometer <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="plateNumber" placeholder="25635" required>
+                                        <label for="odometer" class="form-label">Odometer (KM)<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" name="odometer" id="odometer" placeholder="25635" required min="0">
                                         <div class="form-text">Masukkan hanya angka</div>
                                     </div>
                                     <!--End::Odometer-->
@@ -255,7 +235,7 @@
                                             <!--end::Label-->
                                             <!--begin::Input group-->
                                             <div class="fv-row mb-2">
-                                                <input type="file" class="form-control" id="speedometerPhoto" accept="image/*">
+                                                <input type="file" class="form-control" id="foto_odometer" name="foto_odometer" accept="image/*" required>
                                             </div>
                                             <!--end::Input group-->
                                             <!--begin::Description-->
@@ -271,7 +251,7 @@
                                             <!--end::Label-->
                                             <!--begin::Input group-->
                                             <div class="fv-row mb-2">
-                                                <input type="file" class="form-control" id="speedometerPhoto" accept="image/*">
+                                                <input type="file" class="form-control" id="foto_depan" name="foto_depan" accept="image/*" required>
                                             </div>
                                             <!--end::Input group-->
                                             <!--begin::Description-->
@@ -287,7 +267,7 @@
                                             <!--end::Label-->
                                             <!--begin::Input group-->
                                             <div class="fv-row mb-2">
-                                                <input type="file" class="form-control" id="speedometerPhoto" accept="image/*">
+                                                <input type="file" class="form-control" id="foto_samping" name="foto_samping" accept="image/*" required>
                                             </div>
                                             <!--end::Input group-->
                                             <!--begin::Description-->
@@ -298,24 +278,24 @@
 
                                         <!--begin::Tanggal Jatuh Tempo STNK 5 Tahunan-->
                                         <div class="mb-4">
-                                            <label for="tanggalJatuhTempo" class="form-label">Tanggal Jatuh Tempo STNK 5 Tahunan <span class="text-danger">*</span></label>
-                                            <input type="date" class="form-control" id="tanggalJatuhTempo" required>
+                                            <label for="tgl_stnk" class="form-label">Tanggal Jatuh Tempo STNK 5 Tahunan <span class="text-danger">*</span></label>
+                                            <input type="date" class="form-control" id="tgl_stnk" name="tgl_stnk" required>
                                             <div class="form-text">Pilih tanggal yang sesuai</div>
                                         </div>
                                         <!--End::Tanggal Jatuh Tempo STNK 5 Tahunan-->
 
                                         <!--begin::Tanggal Service Terakhir-->
                                         <div class="mb-4">
-                                            <label for="tanggalJatuhTempo" class="form-label">Tanggal Service Terakhir <span class="text-danger">*</span></label>
-                                            <input type="date" class="form-control" id="tanggalJatuhTempo" required>
+                                            <label for="tgl_service" class="form-label">Tanggal Service Terakhir <span class="text-danger">*</span></label>
+                                            <input type="date" class="form-control" id="tgl_service" name="tgl_service" required>
                                             <div class="form-text">Pilih tanggal yang sesuai</div>
                                         </div>
                                         <!--End::Tanggal Service Terakhir-->
 
                                         <!--begin::Kondisi Kendaraan Yang Perlu Perbaikan-->
                                         <div class="mb-4">
-                                            <label for="vehicleCondition" class="form-label">Kondisi Kendaraan Yang Perlu Perbaikan</label>
-                                            <input type="text" class="form-control" id="vehicleCondition" placeholder="Ban Gundul">
+                                            <label for="kondisi_kendaraan" class="form-label">Kondisi Kendaraan Yang Perlu Perbaikan</label>
+                                            <input type="text" class="form-control" id="kondisi_kendaraan" name="kondisi_kendaraan" placeholder="Ban Gundul">
                                             <div class="form-text">Misal : Ban Gundul</div>
                                         </div>
                                         <!--End::Kondisi Kendaraan-->
@@ -324,7 +304,7 @@
                                         <div class="mb-10 fv-row" id="photoUploadSection" style="display: none;">
                                             <label class="required form-label">Foto Kondisi Kendaraan Yang Perlu Perbaikan</label>
                                             <div class="fv-row mb-2">
-                                                <input type="file" class="form-control" id="vehiclePhoto" accept="image/*">
+                                                <input type="file" class="form-control" id="foto_kondisi" name="foto_kondisi" accept="image/*">
                                             </div>
                                             <div class="text-muted fs-7">Foto bagian yang rusak dengan jelas</div>
                                         </div>
@@ -360,18 +340,18 @@
                                     </script>
 
                                     <!--end::Card header-->
-                                <div class="card-footer d-flex justify-content-end">
-                                    <!--begin::Button-->
-                                    <button type="reset" id="kt_modal_edit_item_cancel" class="btn btn-light me-3">Cancel</button>
-                                    <!--end::Button-->
-                                    <!--begin::Button-->
-                                    <button type="submit" id="kt_modal_edit_item_submit" class="btn btn-primary">
-                                        <span class="indicator-label">Submit</span>
-                                        <span class="indicator-progress">Please wait...
-                                        <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
-                                    </button>
-                                    <!--end::Button-->
-                                </div>
+                                    <div class="card-footer d-flex justify-content-end">
+                                        <!--begin::Button-->
+                                        <button type="reset" id="kt_modal_edit_item_cancel" class="btn btn-light me-3">Cancel</button>
+                                        <!--end::Button-->
+                                        <!--begin::Button-->
+                                        <button type="submit" id="kt_modal_edit_item_submit" class="btn btn-primary">
+                                            <span class="indicator-label">Submit</span>
+                                            <span class="indicator-progress">Please wait...
+                                            <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+                                        </button>
+                                        <!--end::Button-->
+                                    </div>
                             </div>
                         </form>
                     </div>
@@ -400,7 +380,7 @@
                                 }
                             }).then(() => {
                                 //ganti halaman
-                                window.location.href = 'management-naker'
+                                window.location.href = 'list-kendaraan'
                             });
                         });
 
