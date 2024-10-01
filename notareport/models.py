@@ -112,12 +112,12 @@ class Kendaraan(models.Model):
     ]
 
     id = models.AutoField(primary_key=True)
-    nik = models.ForeignKey(Naker, on_delete=models.CASCADE)
+    nik = models.ForeignKey(Naker, on_delete=models.CASCADE, related_name='kendaraan_nik')
     tgl_pendataan = models.DateTimeField(auto_now_add=True)
     witel = models.CharField(max_length=10, choices=WITEL_CHOICES)
     jenis_KBM = models.CharField(max_length=2, choices=JENIS_KBM_CHOICES)
     merk_type_KBM = models.CharField(max_length=100, choices=MERK_TYPE_KBM)
-    NIK_pengguna_KBM = models.CharField(max_length=20)
+    nik_pengguna_kbm = models.ForeignKey(Naker, on_delete=models.CASCADE, related_name='kendaraan_pengguna')
     no_polisi = models.CharField(max_length=20)
     odometer = models.CharField(max_length=20)
     foto_speedometer = models.ImageField(upload_to='speedometers/')

@@ -51,7 +51,7 @@
                    <div class="post d-flex flex-column-fluid" id="kt_post">
                     <!--begin::Container-->
                     <div class="container mt-5">
-                        <form id="kt_ecommerce_add_product_form" class="needs-validation" novalidate method="POST" enctype="multipart/form-data">
+                        <form action="{% url 'form-kendaraan' %}" method="POST" enctype="multipart/form-data" id="kt_ecommerce_add_product_form" class="needs-validation" novalidate >
                             {% csrf_token %}
                             <div class="card shadow-sm">
                                 <div class="card-header">
@@ -73,14 +73,14 @@
                                     <!--End::Area-->
                                     <!--begin::NIK-->
                                     <div class="mb-4">
-                                        <label for="NIKNumber" class="form-label">NIK <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="NIKNumber" name="NIKNumber" value="{{ nik }}" readonly required minlength="8" maxlength="8" pattern="\d{8}" inputmode="numeric">
+                                        <label for="nik" class="form-label">NIK <span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" id="nik" name="nik" value="{{ nik }}"  required minlength="8" maxlength="8" pattern="\d{8}" inputmode="numeric">
                                         <div class="form-text">Isi NIK dengan teliti dan benar</div>
                                         <div class="invalid-feedback">
                                             Mohon masukkan NIK yang valid
                                         </div>
                                     </div>
-                                    <!--End::NIK-->
+                                    <!--End::NIK--> 
                                     <!--begin::Jenis KBM-->
                                     <div class="mb-4">
                                         <!--begin::Label-->
@@ -105,7 +105,7 @@
 
                                                 <span
                                                     class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-0">
-                                                    <input class="form-check-input" type="radio" id="{{ jenis.0}}" name="jeniskbm_option" value="{{ jenis.0 }}"/>
+                                                    <input class="form-check-input" type="radio" id="{{ jenis.0}}" name="jenis_kbm_choices" value="{{ jenis.0 }}"/>
                                                 </span>
                                                 <!--end::Radio-->
                                                 <!--begin::Info-->
@@ -312,24 +312,24 @@
 
                                     <script>
                                         document.addEventListener('DOMContentLoaded', function() {
-                                            const vehicleCondition = document.getElementById('vehicleCondition');
+                                            const kondisi_kendaraan = document.getElementById('kondisi_kendaraan');
                                             const photoUploadSection = document.getElementById('photoUploadSection');
-                                            const vehiclePhoto = document.getElementById('vehiclePhoto');
+                                            const foto_kondisi = document.getElementById('foto_kondisi');
                                             const form = document.getElementById('vehicleForm');
 
-                                            vehicleCondition.addEventListener('input', function() {
+                                            kondisi_kendaraan.addEventListener('input', function() {
                                                 if (this.value.trim() !== '') {
                                                     photoUploadSection.style.display = 'block';
-                                                    vehiclePhoto.required = true;
+                                                    foto_kondisi.required = true;
                                                 } else {
                                                     photoUploadSection.style.display = 'none';
-                                                    vehiclePhoto.required = false;
+                                                    foto_kondisi.required = false;
                                                 }
                                             });
 
                                             form.addEventListener('submit', function(e) {
                                                 e.preventDefault();
-                                                if (vehicleCondition.value.trim() !== '' && !vehiclePhoto.value) {
+                                                if (kondisi_kendaraan.value.trim() !== '' && !foto_kondisi.value) {
                                                     alert('Harap upload foto kondisi kendaraan.');
                                                     return;
                                                 }
@@ -358,30 +358,41 @@
 
                     <script>
 
-                        $(document).ready(function() {
+                        {% comment %} $(document).ready(function() {
                             $('.form-select').select2({
                                 placeholder: "Pilih area",
                                 allowClear: true
                             });
-                        });
+                        }); {% endcomment %}
 
-                        const submitButton = document.getElementById('kt_modal_edit_item_submit');
-
-                        submitButton.addEventListener('click', e =>{
-                            e.preventDefault();
-
-                            Swal.fire({
-                                text: "Form has been successfully submitted!",
-                                icon: "success",
-                                buttonsStyling: false,
-                                confirmButtonText: "Oke",
-                                customClass: {
-                                    confirmButton: "btn btn-primary"
-                                }
-                            }).then(() => {
-                                //ganti halaman
-                                window.location.href = 'list-kendaraan'
-                            });
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const submitButton = document.getElementById('kt_modal_edit_item_submit');
+                            const form = document.getElementById('kt_ecommerce_add_product_form');
+                        
+                            console.log('Submit Button:', submitButton); // Cek jika tombol ditemukan
+                            console.log('Form:', form); // Cek jika form ditemukan
+                        
+                            if (submitButton && form) {
+                                submitButton.addEventListener('click', e => {
+                                    e.preventDefault();
+                        
+                                    Swal.fire({
+                                        text: "Form has been successfully submitted!",
+                                        icon: "success",
+                                        buttonsStyling: false,
+                                        confirmButtonText: "Oke",
+                                        customClass: {
+                                            confirmButton: "btn btn-primary"
+                                        }
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            form.submit(); // Kirimkan form setelah pengguna menekan "Oke"
+                                        }
+                                    });
+                                });
+                            } else {
+                                console.error('Button or Form not found!');
+                            }
                         });
 
                         const discardButton = document.getElementById('kt_modal_edit_item_cancel');
@@ -414,4 +425,11 @@
                         });
 </script>
 
-{% endblock %}
+</body>
+{% endblock %} 
+
+{% comment %} <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Submit</button>
+</form> {% endcomment %}
