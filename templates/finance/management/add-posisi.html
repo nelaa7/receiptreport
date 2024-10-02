@@ -51,7 +51,7 @@
                     <div class="post d-flex flex-column-fluid" id="kt_post">
                         <!--begin::Container-->
                         <div class="container mt-5">
-                            <form id="kt_ecommerce_add_product_form" class="needs-validation" novalidate>
+                            <form action="{% url 'add_posisi' %}" method="POST" enctype="multipart/form-data" id="kt_form_posisi" class="needs-validation" novalidate >
                                 <div class="card shadow-sm">
                                     <div class="card-header">
                                         <h2 class="card-title">Add Data Posisi</h2>

@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Kendaraan, Naker, MyUser, Sto, Posisi, Unit, Role
-from .forms import form_kendaraan, PasswordResetForm, RegistrationForm, FormAddNaker
+from .forms import form_kendaraan, PasswordResetForm, RegistrationForm, FormAddNaker, FormAddNatura, FormAddNota, FormAddPosisi
 from django.contrib import messages
 from django.contrib.auth import authenticate
 from django.http import JsonResponse
@@ -28,24 +28,72 @@ def progress_teknisi(request):
     return render(request, 'teknisi/progress.html')  
 
 def management_naker(request):
-    return render(request, 'finance/management/naker.html') 
+    nakers = Naker.objects.all()  # Fetch all naker data
+    return render(request, 'finance/management/naker.html', {'nakers': nakers})
 
 def add_naker(request):
     if request.method == 'POST':
         form = FormAddNaker(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('management_naker')
-        else:
-            return render(request, 'finance/management/add-naker.html', {'form': form})
+            return redirect('management-naker')
     else:
         form = FormAddNaker()
-    return render(request, 'finance/management/add-naker.html', {'form': form})
 
-def data_naker(request):
-    nakers = Naker.objects.all()
-    return render(request, 'finance/management/naker.html', {'nakers': nakers})
+    # Ambil witel_choices dari model
+    witel_choices = Naker.WITEL_CHOICES
 
+    return render(request, 'finance/management/add-naker.html', {
+        'form': form,
+        'witel_choices': witel_choices, 
+        'sto': Sto.objects.all(),
+        'posisi': Posisi.objects.all(),
+        'unit': Unit.objects.all(),
+        'role': Role.objects.all(),
+    })
+    
+def add_natura(request):
+    if request.method == 'POST':
+        form = FormAddNatura(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('management-natura')
+    else:
+        form = FormAddNatura()
+        
+    # Ambil witel_choices dari model
+    witel_choices = Naker.WITEL_CHOICES
+
+    return render(request, 'finance/management/add-natura.html', {
+        'form': form,
+        'posisi': Posisi.objects.all(),
+        'witel_choices': witel_choices,
+    })
+    
+
+def add_nota(request):
+    if request.method == 'POST':
+        form = FormAddNota(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('management-nota')
+    else:
+        form = FormAddNota()
+
+    return render(request, 'finance/management/add-nota.html')
+    
+    
+def add_posisi(request):
+    if request.method == 'POST':
+        form = FormAddPosisi(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('management-posisi')
+    else:
+        form = FormAddPosisi()
+
+    return render(request, 'finance/management/add-posisi.html')
+    
 
 
 

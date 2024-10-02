@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 from django import forms
-from .models import Kendaraan, MyUser, Naker
+from .models import Kendaraan, MyUser, Naker, Sto, Posisi, Unit, Role, Natura, JenisNota
 
 class form_kendaraan(ModelForm):
     class Meta:
@@ -105,11 +105,43 @@ class PasswordResetForm(forms.Form):
   
   
 class FormAddNaker(forms.ModelForm):
+    witel = forms.ChoiceField(choices=Naker.WITEL_CHOICES)
+    
     class Meta:
         model = Naker
         fields = ['nik', 'nama', 'witel', 'sto', 'posisi', 'unit', 'role']  
     
+    # Jika Anda ingin menampilkan pilihan tertentu, Anda bisa melakukannya di sini
+    def __init__(self, *args, **kwargs):
+        super(FormAddNaker, self).__init__(*args, **kwargs)
+        self.fields['sto'].queryset = Sto.objects.all()
+        self.fields['posisi'].queryset = Posisi.objects.all()
+        self.fields['unit'].queryset = Unit.objects.all()
+        self.fields['role'].queryset = Role.objects.all()
+        
+        
+class FormAddNatura(forms.ModelForm):
+    witel = forms.ChoiceField(choices=Natura.WITEL_CHOICES)
+    
+    class Meta:
+        model = Natura
+        fields = ['nik', 'nama', 'posisi', 'witel', 'km_referensi', 'km_liter', 'harga_bensin']
+ 
+ 
+class FormAddNota(forms.ModelForm):
 
+    class Meta:
+        model = JenisNota
+        fields = ['nama_nota']
+  
+  
+class FormAddPosisi(forms.ModelForm):
+
+    class Meta:
+        model = Posisi
+        fields = ['nama_posisi']
+      
+        
 
 
 

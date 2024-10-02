@@ -51,7 +51,7 @@
                     <div class="post d-flex flex-column-fluid" id="kt_post">
                         <!--begin::Container-->
                         <div class="container mt-5">
-                            <form id="kt_ecommerce_add_product_form" class="needs-validation" novalidate>
+                            <form action="{% url 'add_nota' %}" method="POST" enctype="multipart/form-data" id="kt_form_nota" class="needs-validation" novalidate >
                                 <div class="card shadow-sm">
                                     <div class="card-header">
                                         <h2 class="card-title">Add Data Nota</h2>
@@ -63,13 +63,13 @@
                                             <!--begin::Input group-->
                                             <div class="fv-row w-100 flex-md-root">
                                                 <!--begin::Label-->
-                                                <label class="required form-label" for="JenisNota">Jenis Nota</label>
+                                                <label class="required form-label" for="id_nama_nota">Jenis Nota</label>
                                                 <!--end::Label-->
                                                 <!--begin::Select-->
-                                                <select class="form-select mb-2" id="JenisNota" name="JenisNota" data-control="select2" data-hide-search="true" data-placeholder="Pilih Jenis Nota">
-                                                    <option></option>
-                                                    <option value="BBM">BBM</option>
-                                                    <option value="Non BBM">Non BBM</option>
+                                                <select class="form-select mb-2" id="id_nama_nota" name="nama_nota" data-control="select2" data-hide-search="true" data-placeholder="Pilih Jenis Nota">
+                                                    {% for nota_item in form.nama_nota.field.queryset %}
+                                                        <option value="{{ nota_item.id }}">{{ nota_item.nama_nota }}</option>
+                                                    {% endfor %}
                                                 </select>
                                                 <!--end::Select-->
                                                 <!--begin::Description-->

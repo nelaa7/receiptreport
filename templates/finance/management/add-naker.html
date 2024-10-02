@@ -51,7 +51,7 @@
                     <div class="post d-flex flex-column-fluid" id="kt_post">
                         <!--begin::Container-->
                         <div class="container mt-5">
-                            <form action="{% url 'add-naker' %}" method="POST" enctype="multipart/form-data" id="kt_ecommerce_add_product_form" class="needs-validation" novalidate >
+                            <form action="{% url 'add-naker' %}" method="POST" enctype="multipart/form-data" id="kt_form_naker" class="needs-validation" novalidate >
                                 {% csrf_token %}
                                 <div class="card shadow-sm">
                                     <div class="card-header">
@@ -74,50 +74,54 @@
                                         <div class="mb-4">
                                             <label for="WitelText" class="form-label">Witel <span class="text-danger">*</span></label>
                                             <select name="witel" class="form-select form-select-solid" data-control="select2" data-dropdown-css-class="w-200px" data-placeholder="Pilih witel" data-hide-search="true">
-                                                <option value="" disabled selected>Pilih witel</option>  <!-- Pilihan default -->
+                                                <option value="" disabled selected>Pilih witel</option> <!-- Pilihan default -->
                                                 {% for value, label in witel_choices %}
-                                                    <option value="{{ value }}">{{ label }}</option>
-                                                {% endfor %}
+                                                <option value="{{ value }}">{{ label }}</option>
+                                            {% endfor %}
                                             </select>
                                         </div>
+                                        
                                         <div class="mb-4">
                                             <label for="STOText" class="form-label">STO <span class="text-danger">*</span></label>
                                             <select name="sto" class="form-select form-select-solid" data-control="select2" data-dropdown-css-class="w-200px" data-placeholder="Pilih sto" data-hide-search="false">
-                                                <option value="" disabled selected>Pilih STO</option>  <!-- Pilihan default -->
+                                                <option value="" disabled selected>Pilih STO</option>
                                                 {% for sto_item in sto %}
                                                     <option value="{{ sto_item.id }}">{{ sto_item.nama_sto }}</option>
                                                 {% endfor %}
                                             </select>
                                         </div>
+                                        
                                         <div class="mb-4">
                                             <label for="PosisiText" class="form-label">Posisi <span class="text-danger">*</span></label>
                                             <select name="posisi" class="form-select form-select-solid" data-control="select2" data-dropdown-css-class="w-200px" data-placeholder="Pilih posisi" data-hide-search="false">
-                                                <option value="" disabled selected>Pilih posisi</option>  <!-- Pilihan default -->
+                                                <option value="" disabled selected>Pilih posisi</option>
                                                 {% for posisi_item in posisi %}
                                                     <option value="{{ posisi_item.id }}">{{ posisi_item.nama_posisi }}</option>
                                                 {% endfor %}
                                             </select>
                                         </div>
+                                        
                                         <div class="mb-4">
                                             <label for="UnitText" class="form-label">Unit<span class="text-danger">*</span></label>
                                             <select name="unit" class="form-select form-select-solid" data-control="select2" data-dropdown-css-class="w-200px" data-placeholder="Pilih unit" data-hide-search="false">
-                                                <option value="" disabled selected>Pilih unit</option>  <!-- Pilihan default -->
+                                                <option value="" disabled selected>Pilih unit</option>
                                                 {% for unit_item in unit %}
                                                     <option value="{{ unit_item.id }}">{{ unit_item.nama_unit }}</option>
                                                 {% endfor %}
                                             </select>
                                         </div>
+                                        
                                         <div class="mb-4">
                                             <label for="RoleText" class="form-label">Role<span class="text-danger">*</span></label>
                                             <select name="role" class="form-select form-select-solid" data-control="select2" data-dropdown-css-class="w-200px" data-placeholder="Pilih role" data-hide-search="true">
-                                                <option value="" disabled selected>Pilih role</option>  <!-- Pilihan default -->
+                                                <option value="" disabled selected>Pilih role</option>
                                                 {% for role_item in role %}
                                                     <option value="{{ role_item.id }}">{{ role_item.nama_role }}</option>
                                                 {% endfor %}
                                             </select>
-                                        </div> 
+                                        </div>                                        
                                         <!--end::Card header-->
-                                    <div class="card-footer d-flex justify-content-end">
+                                    {% comment %} <div class="card-footer d-flex justify-content-end">
                                         <!--begin::Button-->
                                         <button type="reset" id="kt_modal_edit_item_cancel" class="btn btn-light me-3">Cancel</button>
                                         <!--end::Button-->
@@ -128,12 +132,18 @@
                                             <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
                                         </button>
                                         <!--end::Button-->
+                                    </div> {% endcomment %}
+                                        <!-- Card Footer -->
+                                        <div class="card-footer d-flex justify-content-end">
+                                            <button type="reset" class="btn btn-light me-3">Cancel</button>
+                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                        </div>
                                     </div>
                                 </div>
                             </form>
                         </div>
 
-                        <script>
+                        {% comment %} <script>
 
                             const submitButton = document.getElementById('kt_modal_edit_item_submit');
 
@@ -182,6 +192,6 @@
                                     }
                                 });
                             });
-</script>
+</script> {% endcomment %}
 
 {% endblock %}
