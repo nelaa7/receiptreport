@@ -53,7 +53,8 @@
 						<!--begin::Wrapper-->
 						<div class="w-lg-500px p-10">
 							<!--begin::Form-->
-							<form class="form w-100" novalidate="novalidate" id="kt_sign_in_form" action="#">
+							<form class="form w-100" novalidate="novalidate" id="kt_sign_in_form" action={% url 'login'%}>
+								{% csrf_token %}
 								<!--begin::Heading-->
 								<div class="text-center mb-11">
 									<!--begin::Title-->
@@ -81,7 +82,8 @@
 								<div class="d-flex flex-stack flex-wrap gap-3 fs-base fw-semibold mb-8">
 									<div></div>
 									<!--begin::Link-->
-									<a href="reset-password" class="link-primary">Forget Password ?</a>
+									<a href=  class="link-primary">Forget Password ?</a>
+									{% comment %} {% url'forgot-password'%} {% endcomment %}
 									<!--end::Link-->
 								</div>
 								<!--end::Wrapper-->
@@ -100,7 +102,7 @@
 								<!--end::Submit button-->
 								<!--begin::Sign up-->
 								<div class="text-gray-500 text-center fw-semibold fs-6">Don't have an account?
-								<a href="signup" class="link-primary">Sign up</a></div>
+								<a href={% url 'register' %} class="link-primary">Sign up</a></div>
 								<!--end::Sign up-->
 							</form>
 							<!--end::Form-->
@@ -111,15 +113,15 @@
 				</div>
 				<!--end::Body-->
 				<!--begin::Aside-->
-                <div class="d-flex flex-lg-row-fluid w-lg-50 bgi-size-cover bgi-position-center order-1 order-lg-1" style="background-image: url(assets/media/misc/)">
+                <div class="d-flex flex-lg-row-fluid w-lg-50 bgi-size-cover bgi-position-center order-1 order-lg-1" >
                     <!--begin::Content-->
                     <div class="d-flex flex-column flex-center py-7 py-lg-15 px-5 px-md-15 w-100">
                         <!--begin::Logo-->
-                            <img alt="Logo" src="assets/media/misc/bg-login.png" class="h-200px h-lg-250px" />
+						<img alt="Logo" src="{% static 'media/misc/bg-login.png' %}" class="h-200px h-lg-250px" />
                       
                         <!--end::Logo-->
                         <!--begin::Image-->
-                        <img class="d-none d-lg-block mx-auto w-275px w-md-50 w-xl-500px mb-10 mb-lg-20" src="assets/media/misc/" alt="" />
+                        <img class="d-none d-lg-block mx-auto w-275px w-md-50 w-xl-500px mb-10 mb-lg-20" alt="" />
                         <!--end::Image-->
                         <!--begin::Title-->
                         <h1 class="d-none d-lg-block text-black fs-2qx fw-bolder text-center mb-7">Finance Report Performance</h1>
@@ -134,13 +136,13 @@
 		<!--end::Root-->
 		<!--end::Main-->
 		<!--begin::Javascript-->
-		<script>var hostUrl = "assets/";</script>
+		{% comment %} <script>var hostUrl = "{% static  %}";</script> {% endcomment %}
 		<!--begin::Global Javascript Bundle(mandatory for all pages)-->
-		<script src="assets/plugins/global/plugins.bundle.js"></script>
-		<script src="assets/js/scripts.bundle.js"></script>
+		<script src="{% static 'plugins/global/plugins.bundle.js' %}"></script>
+		<script src="{% static 'js/scripts.bundle.js' %}"></script>
 		<!--end::Global Javascript Bundle-->
 		<!--begin::Custom Javascript(used for this page only)-->
-		<script src="assets/js/custom/authentication/sign-in/general.js"></script>
+		{% comment %} <script src="{% static 'js/custom/authentication/sign-in/general.js' %}"></script> {% endcomment %}
 		<!--end::Custom Javascript-->
 		<!--end::Javascript-->
 	</body>

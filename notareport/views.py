@@ -3,7 +3,13 @@ from .models import Kendaraan, Naker, MyUser, Sto, Posisi, Unit, Role
 from .forms import form_kendaraan, PasswordResetForm, RegistrationForm, form_add_naker
 from django.contrib import messages
 from django.contrib.auth import authenticate
+from django.http import JsonResponse
+from django.db import close_old_connections, connections
+from django.views.decorators.csrf import ensure_csrf_cookie
+from django.db.utils import OperationalError
+
 import logging
+
 
 # View Finance
 def dashboard_admin(request):
@@ -117,9 +123,41 @@ def add__data_naker(request):
 #     return render(request, 'leader/kendaraan/add-kendaraan.html', context)
 
 
+def check_database_connection(request):
+    try:
+        # Mencoba mendapatkan cursor dari koneksi default
+        with connections['default'].cursor() as cursor:
+            # Mencoba menjalankan query sederhana
+            cursor.execute("SELECT 1")
+            one = cursor.fetchone()[0]
+            if one == 1:
+                logger.info("Database connection successful")
+                return JsonResponse({
+                    'status': 'success',
+                    'message': 'Database connection is working properly'
+                })
+            else:
+                logger.error("Unexpected result from database query")
+                return JsonResponse({
+                    'status': 'error',
+                    'message': 'Unexpected result from database'
+                }, status=500)
+    except OperationalError as e:
+        logger.error(f"Database connection failed: {str(e)}")
+        return JsonResponse({
+            'status': 'error',
+            'message': 'Unable to connect to the database',
+            'error': str(e)
+        }, status=500)
+    except Exception as e:
+        logger.exception(f"Unexpected error during database check: {str(e)}")
+        return JsonResponse({
+            'status': 'error',
+            'message': 'An unexpected error occurred',
+            'error': str(e)
+        }, status=500)
 
-
-def register(request):
+def register_view(request):
     if request.method == 'POST': 
         form = RegistrationForm(request.POST)
         if form.is_valid():
@@ -134,21 +172,40 @@ def register(request):
 
     return render(request, 'auth/signup.html', {'form': form})
 
-def login(request):
+@ensure_csrf_cookie
+def login_view(request):
+    close_old_connections()
+    
     if request.method == "POST":
         nik = request.POST.get("nik")
         password = request.POST.get("password")
         
-        MyUser = authenticate(request, nik=nik, password=password)  
+        if not nik or not password:
+            logger.warning("Login attempt with missing credentials")
+            return JsonResponse({'success': False, 'error': 'NIK and password are required'}, status=400)
         
-        if MyUser is not None:
-            login(request, MyUser )
-            return redirect('dashboard-admin')
-        else:
-            messages.error(request, "Invalid login credentials")
-            return redirect('login')
+        try:
+            user = authenticate(request, nik=nik, password=password)
+            
+            if user is not None:
+                login_view(request, user)
+                logger.info(f"User {nik} logged in successfully")
+                return JsonResponse({'success': True})
+            else:
+                logger.warning(f"Failed login attempt for NIK: {nik}")
+                return JsonResponse({'success': False, 'error': 'Invalid credentials'}, status=401)
         
+        except Exception as e:
+            logger.exception(f"Error during login process: {str(e)}")
+            return JsonResponse({'success': False, 'error': 'An error occurred during login'}, status=500)
+        
+        finally:
+            close_old_connections()
+    
     return render(request, 'auth/signin.html')
+
+
+
 
 
 
