@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Kendaraan, Naker, MyUser, Sto, Posisi, Unit, Role, JenisNota, Project
-from .forms import form_kendaraan, PasswordResetForm, RegistrationForm, FormAddNaker
+from .forms import form_kendaraan, PasswordResetForm, RegistrationForm, FormAddNaker, FormAddNatura, FormAddNota, FormAddPosisi
 from django.contrib import messages 
 from django.contrib.auth import authenticate
 from django.http import JsonResponse
