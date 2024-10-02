@@ -75,12 +75,33 @@ class JenisNota(models.Model):
     def __str__(self):
         return self.nama_nota
     
+    
+class Role(models.Model):
+    nama_role = models.CharField(max_length=255)
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        verbose_name = 'Role'
+        verbose_name_plural = 'Role'
+
+    def __str__(self):
+        return self.nama_role
+    
 
 class Naker(models.Model):
+    WITEL_CHOICES = [
+        ('Malang', 'Malang'),
+        ('Kediri', 'Kediri'),
+        ('Madiun', 'Madiun'),
+    ]
+    
     nik = models.CharField(max_length=255, primary_key=True)
     sto = models.ForeignKey('Sto', on_delete=models.CASCADE)
     posisi = models.ForeignKey('Posisi', on_delete=models.CASCADE)
     unit = models.ForeignKey('Unit', on_delete=models.CASCADE)
+    role = models.ForeignKey('Role', on_delete=models.CASCADE)
     nama = models.CharField(max_length=255)
     witel = models.CharField(max_length=50, choices=[('Malang', 'Malang'), ('Kediri', 'Kediri'), ('Madiun', 'Madiun')])
     
@@ -92,7 +113,7 @@ class Naker(models.Model):
         verbose_name_plural = 'Naker'
 
     def __str__(self): 
-        return f'{self.nik} ({self.sto}) ({self.posisi}) ({self.unit}) ({self.nama}) ({self.witel})'
+        return f'{self.nik} ({self.sto}) ({self.posisi}) ({self.unit}) ({self.role}) ({self.nama}) ({self.witel})'
     
 class MyUserManager(BaseUserManager):
     def create_user(self, Naker, password=None):

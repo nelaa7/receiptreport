@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Kendaraan, Naker, MyUser, Sto
+from .models import Kendaraan, Naker, MyUser, Sto, Posisi, Unit, Role
 from .forms import form_kendaraan, PasswordResetForm, RegistrationForm
 from django.contrib import messages
 import logging
@@ -23,8 +23,12 @@ def data_naker(request):
     return render(request, 'finance/management/naker.html') 
 
 def add_naker(request):
-    sto_list = Sto.objects.all()  # Ambil semua data STO
-    return render(request, 'finance/management/add-naker.html', {'sto': sto_list}) 
+    witel_choices = Naker._meta.get_field('witel').choices
+    sto_list = Sto.objects.all()  # ambil semua data STO
+    posisi_list = Posisi.objects.all() # ambil semua data Posisi
+    unit_list = Unit.objects.all() # ambil semua data Posisi
+    role_list = Role.objects.all() # ambil semua data Posisi
+    return render(request, 'finance/management/add-naker.html', {'witel_choices': witel_choices, 'sto': sto_list, 'posisi': posisi_list, 'unit': unit_list, 'role': role_list}) 
 
 
 
