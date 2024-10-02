@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
-from .models import Kendaraan, Naker, MyUser, Sto, Posisi, Unit, Role
+from .models import Kendaraan, Naker, MyUser, Sto, Posisi, Unit, Role, JenisNota, Project
 from .forms import form_kendaraan, PasswordResetForm, RegistrationForm, FormAddNaker
-from django.contrib import messages
+from django.contrib import messages 
 from django.contrib.auth import authenticate
 from django.http import JsonResponse
 from django.db import close_old_connections, connections
@@ -88,6 +88,106 @@ def data_naker(request):
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+def sto_list(request):
+    sto_list = Sto.objects.all()
+    context= {
+        'sto_list':sto_list
+    }
+    return render(request, "finance/management/sto.html", context)
+
+def jenisNota_list(request):
+    jenisNota_list = JenisNota.objects.all()
+    context={
+        'jenisNota_list':jenisNota_list
+    }
+    return render(request, "finance/management/nota.html", context)
+
+def posisi_list(request):
+    posisi_list = Posisi.objects.all()
+    context={
+        'posisi_list':posisi_list
+    }
+    return render(request, "finance/management/posisi.html", context)
+def project(request):
+    project = Project.objects.all()
+    context={
+        'project':project
+    }
+    return render(request, "finance/management/project.html", context)
+    
 
 
 

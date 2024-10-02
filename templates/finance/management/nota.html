@@ -125,22 +125,24 @@
                                         <!--end::Table head-->
                                         <!--begin::Table body-->
                                         <tbody class="fw-semibold text-gray-600">
+                                            {% for nota in jenisNota_list%}
                                             <tr>
                                                 <!--begin::No=-->
                                                 <td>
-                                                    <span class="text-gray-600 text-hover-primary mb-1">1</span>
+                                                    <span class="text-gray-600 text-hover-primary mb-1">{{forloop.counter}}</span>
                                                 </td>
                                                 <!--end::No=-->
                                                 <!--begin::Jenis Nota=-->
                                                 <td>
-                                                    <span class="text-gray-800 text-hover-primary mb-1">Non BBM</span>
+                                                    <span class="text-gray-800 text-hover-primary mb-1">{{nota.jenis_nota}}</span>
                                                 </td>
                                                 <!--end::Jenis Nota=-->
                                                 <!--begin::Nama Nota=-->
                                                 <td>
-                                                    <span class="text-gray-800 text-hover-primary mb-1">Nota ATK</span>
+                                                    <span class="text-gray-800 text-hover-primary mb-1">{{nota.nama_nota}}</span>
                                                 </td>
                                                 <!--end::Nama Nota=-->
+                                                
                                                 <!--begin::Action=-->
                                                 <td class="text-end">
                                                     <a href="#" class="btn btn-icon btn-sm btn-light btn-active-light-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_edit_item">
@@ -156,6 +158,7 @@
                                                 </td>
                                                 <!--end::Action=-->
                                             </tr>
+                                            {% endfor %}
                                         </tbody>
                                         <!--end::Table body-->
                                     </table>

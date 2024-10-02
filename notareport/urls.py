@@ -23,6 +23,14 @@ urlpatterns = [
     path('register/', views.register_view, name='register'),
     path('login/', views.login_view, name='login'),
     path('check-db/', views.check_database_connection, name='check_database_connection'),
+    path('sto-list/', views.sto_list, name='sto_list'),
+    path('jenisnota-list/', views.jenisNota_list, name='jenisNota_list'),
+    path('posisi-list/', views.posisi_list, name='posisi_list'),
+    path('project/', views.project, name='project'),
+
+
+
+
 
     # path('forgot-password/', views.password_reset, name='forgot-password'),
 

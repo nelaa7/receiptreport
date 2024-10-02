@@ -109,8 +109,7 @@
                                 <!--end::Card header-->
                                 <div class="card-body pt-0" style="max-height: 400px; overflow-y: auto;">
                                     <!--begin::Table-->
-                                    <table class="table align-middle table-row-dashed fs-6 gy-5"
-                                        id="kt_customers_table">
+                                    <table class="table align-middle table-row-dashed fs-6 gy-5" id="kt_customers_table">
                                         <!--begin::Table head-->
                                         <thead>
                                             <!--begin::Table row-->
@@ -124,15 +123,16 @@
                                         <!--end::Table head-->
                                         <!--begin::Table body-->
                                         <tbody class="fw-semibold text-gray-600">
+                                            {% for sto  in sto_list%}
                                             <tr>
                                                 <!--begin::No=-->
                                                 <td>
-                                                    <span class="text-gray-600 text-hover-primary mb-1">1</span>
+                                                    <span class="text-gray-600 text-hover-primary mb-1">{{forloop.counter}}</span>
                                                 </td>
                                                 <!--end::No=-->
                                                 <!--begin::Nama STO=-->
                                                 <td>
-                                                    <span class="text-gray-800 text-hover-primary mb-1">WITEL</span>
+                                                    <span class="text-gray-800 text-hover-primary mb-1">{{sto.nama_sto}}</span>
                                                 </td>
                                                 <!--end::Nama STO=-->
                                                 <!--begin::Action=-->
@@ -150,6 +150,7 @@
                                                 </td>
                                                 <!--end::Action=-->
                                             </tr>
+                                            {% endfor %}
                                         </tbody>
                                         <!--end::Table body-->
                                     </table>
