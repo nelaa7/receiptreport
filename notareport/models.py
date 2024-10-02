@@ -77,7 +77,7 @@ class JenisNota(models.Model):
     
     
 class Role(models.Model):
-    nama_role = models.CharField(max_length=255)
+    nama_role = models.CharField(max_length=255, )
     
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -101,7 +101,7 @@ class Naker(models.Model):
     sto = models.ForeignKey('Sto', on_delete=models.CASCADE)
     posisi = models.ForeignKey('Posisi', on_delete=models.CASCADE)
     unit = models.ForeignKey('Unit', on_delete=models.CASCADE)
-    role = models.ForeignKey('Role', on_delete=models.CASCADE)
+    role = models.ForeignKey('Role', on_delete=models.CASCADE, default='default_value')
     nama = models.CharField(max_length=255)
     witel = models.CharField(max_length=50, choices=[('Malang', 'Malang'), ('Kediri', 'Kediri'), ('Madiun', 'Madiun')])
     
@@ -118,7 +118,7 @@ class Naker(models.Model):
 class MyUserManager(BaseUserManager):
     def create_user(self, Naker, password=None):
         if not Naker:
-            raise ValueError('Users must have a Karyawan')
+            raise ValueError('Users must have a NIK')
         if not password:
             raise ValueError('Users must have a password')
 
