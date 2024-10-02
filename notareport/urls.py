@@ -8,5 +8,11 @@ urlpatterns = [
     path('list-kendaraan/', views.list_kendaraan, name='list-kendaraan')
 
 
+
+
+
+
+
+
 ]
 
