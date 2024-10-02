@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Kendaraan, Naker, MyUser, Sto, Posisi, Unit, Role
-from .forms import form_kendaraan, PasswordResetForm, RegistrationForm
+from .forms import form_kendaraan, PasswordResetForm, RegistrationForm, form_add_naker
 from django.contrib import messages
 from django.contrib.auth import authenticate
 import logging
@@ -33,12 +33,12 @@ def add_naker(request):
 
 def add__data_naker(request):
     if request.method == 'POST':
-        form = YourModelForm(request.POST)
+        form = form_add_naker(request.POST)
         if form.is_valid():
             form.save()  # Simpan data ke database
             return redirect('success_page')  # Ganti dengan URL tujuan setelah berhasil
     else:
-        form = YourModelForm()
+        form = form_add_naker()
     
     return render(request, 'your_template.html', {'form': form})
 

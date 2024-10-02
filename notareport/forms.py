@@ -104,7 +104,7 @@ class PasswordResetForm(forms.Form):
   
   
   
-class form_naker(forms.ModelForm):
+class form_add_naker(forms.ModelForm):
     class Meta:
         model = Naker
         fields = ['nik', 'nama', 'witel', 'sto', 'posisi', 'unit', 'role']  
