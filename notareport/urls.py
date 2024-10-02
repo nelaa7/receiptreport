@@ -8,8 +8,9 @@ urlpatterns = [
     path('list-kendaraan/', views.list_kendaraan, name='list-kendaraan'),
     path('dashboard-teknisi/', views.dashboard_teknisi, name='dashboard-teknisi'),
     path('progress-teknisi/', views.progress_teknisi, name='dashboard-teknisi'),
-    path('management-naker/', views.data_naker, name='management-naker'),
+    path('management-naker/', views.management_naker, name='management-naker'),
     path('add-naker/', views.add_naker, name='add-naker'),
+    path('data-naker/', views.data_naker, name='data-naker'),
 
 
 

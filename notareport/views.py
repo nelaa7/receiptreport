@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
 from .models import Kendaraan, Naker, MyUser, Sto, Posisi, Unit, Role
-from .forms import form_kendaraan, PasswordResetForm, RegistrationForm, form_add_naker
+from .forms import form_kendaraan, PasswordResetForm, RegistrationForm, FormAddNaker
 from django.contrib import messages
 from django.contrib.auth import authenticate
 import logging
+from django.http import JsonResponse
 
 # View Finance
 def dashboard_admin(request):
@@ -20,31 +21,24 @@ def dashboard_teknisi(request):
 def progress_teknisi(request):
     return render(request, 'teknisi/progress.html')  
 
-def data_naker(request):
+def management_naker(request):
     return render(request, 'finance/management/naker.html') 
 
 def add_naker(request):
-    witel_choices = Naker._meta.get_field('witel').choices
-    sto_list = Sto.objects.all()  # ambil semua data STO
-    posisi_list = Posisi.objects.all() # ambil semua data Posisi
-    unit_list = Unit.objects.all() # ambil semua data Posisi
-    role_list = Role.objects.all() # ambil semua data Posisi
-    return render(request, 'finance/management/add-naker.html', {'witel_choices': witel_choices, 'sto': sto_list, 'posisi': posisi_list, 'unit': unit_list, 'role': role_list}) 
-
-def add__data_naker(request):
     if request.method == 'POST':
-        form = form_add_naker(request.POST)
+        form = FormAddNaker(request.POST)
         if form.is_valid():
-            form.save()  # Simpan data ke database
-            return redirect('success_page')  # Ganti dengan URL tujuan setelah berhasil
+            form.save()
+            return redirect('management_naker')
+        else:
+            return render(request, 'finance/management/add-naker.html', {'form': form})
     else:
-        form = form_add_naker()
-    
-    return render(request, 'your_template.html', {'form': form})
+        form = FormAddNaker()
+    return render(request, 'finance/management/add-naker.html', {'form': form})
 
-
-
-
+def data_naker(request):
+    nakers = Naker.objects.all()
+    return render(request, 'finance/management/naker.html', {'nakers': nakers})
 
 
 
