@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate
 from django.http import JsonResponse
 from django.db import close_old_connections, connections
 from django.views.decorators.csrf import ensure_csrf_cookie
-from django.db.utils import OperationalError
+from django.db.utils import OperationalError 
 
 import logging
 from django.http import JsonResponse
