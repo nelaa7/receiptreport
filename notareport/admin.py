@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models  import Sto, Posisi, Project, Unit, JenisNota, Naker,Kendaraan, Natura, TransaksiBBM, TransaksiNonBBM
+from .models  import Sto, Posisi, Project, Unit, JenisNota, Naker,Kendaraan, Natura, TransaksiBBM, TransaksiNonBBM, Role, MyUser
 
 # Register your models here.
 admin.site.register(Sto)
