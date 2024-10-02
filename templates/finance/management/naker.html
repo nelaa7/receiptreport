@@ -117,11 +117,11 @@
                                             <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
                                                 <th class="min-w-50px">No</th>
                                                 <th class="min-w-125px">NIK</th>
-                                                <th class="min-w-125px">Nama</th>
                                                 <th class="min-w-125px">Witel</th>
                                                 <th class="min-w-125px">STO</th>
                                                 <th class="min-w-125px">Posisi</th>
                                                 <th class="min-w-125px">Unit</th>
+                                                <th class="min-w-125px">Nama</th>
                                                 <th class="min-w-125px">Role</th> 
                                                 <th class="text-end min-w-50px">Actions</th>
                                             </tr>
@@ -132,12 +132,17 @@
                                         <tbody class="fw-semibold text-gray-600">
                                             {% for naker in nakers %}
                                             <tr>
+                                                <!--begin::No=-->
+                                                <td>
+                                                    <span class="text-gray-600 text-hover-primary mb-1">{{forloop.counter}}</span>
+                                                </td>
+                                                <!--end::No=-->
                                                 <td>{{ naker.nik }}</td>
-                                                <td>{{ naker.nama }}</td>
                                                 <td>{{ naker.witel }}</td>
                                                 <td>{{ naker.sto.nama_sto }}</td>
                                                 <td>{{ naker.posisi.nama_posisi }}</td>
                                                 <td>{{ naker.unit.nama_unit }}</td>
+                                                <td>{{ naker.nama }}</td>
                                                 <td>{{ naker.role.nama_role }}</td>
                                                 <!--begin::Action=-->
                                                 <td class="text-end">

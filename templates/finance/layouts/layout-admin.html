@@ -589,20 +589,20 @@
                 {% block extra_scripts %}
                 <script>var hostUrl = "static/";</script>
                 <!--begin::Global Javascript Bundle(mandatory for all pages)-->
-                <script src="{% static 'static/plugins/global/plugins.bundle.js' %}"></script>
-                <script src="{% static 'static/js/scripts.bundle.js' %}"></script>
+                <script src="{% static 'plugins/global/plugins.bundle.js' %}"></script>
+                <script src="{% static 'js/scripts.bundle.js' %}"></script>
                 <!--end::Global Javascript Bundle-->
                 <!--begin::Vendors Javascript(used for this page only)-->
-                <script src="{% static 'static/plugins/custom/datatables/datatables.bundle.js' %}"></script>
-                <script src="{% static 'static/plugins/custom/vis-timeline/vis-timeline.bundle.js' %}"></script>
+                <script src="{% static 'plugins/custom/datatables/datatables.bundle.js' %}"></script>
+                <script src="{% static 'plugins/custom/vis-timeline/vis-timeline.bundle.js' %}"></script>
                 <!--end::Vendors Javascript-->
                 <!--begin::Custom Javascript(used for this page only)-->
-                <script src="{% static 'static/js/widgets.bundle.js' %}"></script>
-                <script src="{% static 'static/js/custom/widgets.js' %}"></script>
-                <script src="{% static 'static/js/custom/apps/chat/chat.js' %}"></script>
-                <script src="{% static 'static/js/custom/utilities/modals/upgrade-plan.js' %}"></script>
-                <script src="{% static 'static/js/custom/utilities/modals/create-campaign.js' %}"></script>
-                <script src="{% static 'static/js/custom/utilities/modals/create-app.js' %}"></script>
-                <script src="{% static 'static/js/custom/utilities/modals/users-search.js' %}"></script>
+                <script src="{% static 'js/widgets.bundle.js' %}"></script>
+                <script src="{% static 'js/custom/widgets.js' %}"></script>
+                <script src="{% static 'js/custom/apps/chat/chat.js' %}"></script>
+                <script src="{% static 'js/custom/utilities/modals/upgrade-plan.js' %}"></script>
+                <script src="{% static 'js/custom/utilities/modals/create-campaign.js' %}"></script>
+                <script src="{% static 'js/custom/utilities/modals/create-app.js' %}"></script>
+                <script src="{% static 'js/custom/utilities/modals/users-search.js' %}"></script>
                 <!--end::Custom Javascript-->
                 {% endblock %}
