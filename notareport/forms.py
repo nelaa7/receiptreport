@@ -5,7 +5,7 @@ from .models import Kendaraan, MyUser, Naker
 class form_kendaraan(ModelForm):
     class Meta:
         model = Kendaraan
-        fields = ['nik', 'witel', 'jenis_KBM', 'merk_type_KBM', 'NIK_pengguna_KBM', 'no_polisi', 'odometer', 
+        fields = ['nik', 'witel', 'jenis_KBM', 'merk_type_KBM', 'nik_pengguna_kbm', 'no_polisi', 'odometer', 
                   'foto_speedometer', 'foto_tampak_depan', 'foto_tampak_samping', 'tgl_tempo_STNK_5thn', 
                   'tgl_service_terakhir', 'kondisi_kendaraan', 'foto_kondisi_kendaraan']
         
