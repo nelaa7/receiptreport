@@ -130,45 +130,46 @@
                                         <!--end::Table head-->
                                         <!--begin::Table body-->
                                         <tbody class="fw-semibold text-gray-600">
+                                            {% for natura in natura_list%}
                                             <tr>
                                                 <!--begin::No=-->
                                                 <td>
-                                                    <span class="text-gray-600 text-hover-primary mb-1">1</span>
+                                                    <span class="text-gray-600 text-hover-primary mb-1">{{forloop.counter}}</span>
                                                 </td>
                                                 <!--end::No=-->
                                                 <!--begin::NIK=-->
                                                 <td>
-                                                    <span class="text-gray-800 text-hover-primary mb-1">815819</span>
+                                                    <span class="text-gray-800 text-hover-primary mb-1">{{natura.nik}}</span>
                                                 </td>
                                                 <!--end::NIK=-->
                                                 <!--begin::Nama=-->
                                                 <td>
-                                                    <span class="text-gray-800 text-hover-primary mb-1">RUDI HARTANTO</span>
+                                                    <span class="text-gray-800 text-hover-primary mb-1">{{natura.nama}}</span>
                                                 </td>
                                                 <!--end::Nama=-->
                                                 <!--begin::Posisi=-->
                                                 <td>
-                                                    <span class="text-gray-800 text-hover-primary mb-1">Supervisor Service Delivery Kediri</span>
+                                                    <span class="text-gray-800 text-hover-primary mb-1">{{natura.posisi}}</span>
                                                 </td>
                                                 <!--end::Posisi=-->
                                                 <!--begin::Witel=-->
                                                 <td>
-                                                    <span class="text-gray-800 text-hover-primary mb-1">WITEL KEDIRI</span>
+                                                    <span class="text-gray-800 text-hover-primary mb-1">{{natura.witel}}</span>
                                                 </td>
                                                 <!--end::Witel=-->
                                                 <!--begin::KM Referensi=-->
                                                 <td>
-                                                    <span class="text-gray-800 text-hover-primary mb-1">1046</span>
+                                                    <span class="text-gray-800 text-hover-primary mb-1">{{natura.km_referensi}}</span>
                                                 </td>
                                                 <!--end::KM Referensi=-->
                                                 <!--begin::KM/Liter=-->
                                                 <td>
-                                                    <span class="text-gray-800 text-hover-primary mb-1">45<span>
+                                                    <span class="text-gray-800 text-hover-primary mb-1">{{natura.km_liter}}<span>
                                                 </td>
                                                 <!--end::KM/Liter=-->
                                                 <!--begin::Harga Bensin=-->
                                                 <td>
-                                                    <span class="text-gray-800 text-hover-primary mb-1">10.000<span>
+                                                    <span class="text-gray-800 text-hover-primary mb-1">{{harga_bensin}}<span>
                                                 </td>
                                                 <!--end::Harga Bensin=-->
                                                 <!--begin::Action=-->
@@ -186,6 +187,11 @@
                                                 </td>
                                                 <!--end::Action=-->
                                             </tr>
+                                            {% empty %}
+                                            <tr>
+                                                <td colspan="8">Tidak ada data natura. Silahkan tambah data Natura</td>
+                                            </tr>
+                                            {% endfor %}
                                         </tbody>
                                         <!--end::Table body-->
                                     </table>

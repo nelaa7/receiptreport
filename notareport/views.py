@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Kendaraan, Naker, MyUser, Sto, Posisi, Unit, Role, JenisNota, Project
+from .models import Kendaraan, Naker, MyUser, Sto, Posisi, Unit, Role, JenisNota, Project, Natura, TransaksiBBM, TransaksiNonBBM
 from .forms import form_kendaraan, PasswordResetForm, RegistrationForm, FormAddNaker, FormAddNatura, FormAddNota, FormAddPosisi
 from django.contrib import messages 
 from django.contrib.auth import authenticate
@@ -235,6 +235,49 @@ def project(request):
         'project':project
     }
     return render(request, "finance/management/project.html", context)
+
+# def naker_list(request):
+#     naker_list=Naker.objects.all()
+#     context={
+#         'naker_list':naker_list
+#     }
+#     return render(request, "finance/management/naker.html", context)
+
+def natura_list(request):
+    natura_list=Natura.objects.all()
+    context={
+        'natura_list':natura_list
+    }
+    return render(request, "finance/management/natura.html", context)
+
+def kendaraan_list(request):
+    kendaraan_list=Kendaraan.objects.all()
+    context={
+        'kendaraan_list':kendaraan_list
+    }
+    return render(request, "finance/management/kendaraan.html", context)
+
+
+def transaksiBBM_list(request):
+    # Ambil role pengguna saat ini
+    if hasattr(request.MyUser,'role'):
+        nama_role = request.user.role.nama_role
+
+    transaksi_list = TransaksiBBM.objects.all()
+    
+    if nama_role == 'Admin':
+        template = 'finance/transaction/bbm.html'
+    elif nama_role == 'Leader':
+        template = 'finance/report/bbm.html'
+    # elif nama_role = 'Teknisi':
+    #     template = ''
+    else:
+        template = '' #yg ga ada role 
+ 
+    context = {
+        'transaksi_list': transaksi_list,
+    }
+    return render(request, template, context)
     
 
 

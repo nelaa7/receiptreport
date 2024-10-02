@@ -149,3 +149,5 @@ DEFAULT_FROM_EMAIL = 'myemail@gmail.com'
 
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+
+# AUTH_USER_MODEL = 'notareport.MyUser'

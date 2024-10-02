@@ -27,6 +27,10 @@ urlpatterns = [
     path('jenisnota-list/', views.jenisNota_list, name='jenisNota_list'),
     path('posisi-list/', views.posisi_list, name='posisi_list'),
     path('project/', views.project, name='project'),
+    path('natura-list/', views.natura_list, name='natura_list'),
+    path('kendaraan-list/', views.kendaraan_list, name='kendaraan_list'),
+    path('bbm-list/', views.transaksiBBM_list, name='bbm_list')
+
 
 
 

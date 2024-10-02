@@ -210,6 +210,7 @@
                                         <!--end::Table head-->
                                         <!--begin::Table body-->
                                         <tbody class="fw-semibold text-gray-600">
+                                            {% for bbm in bbm_liat%}
                                             <tr>
                                                 <!--begin::Checkbox-->
                                                 <td>
@@ -221,54 +222,54 @@
                                                 <!--end::Checkbox-->
                                                 <!--begin::No=-->
                                                 <td>
-                                                    <span class="text-gray-800 text-hover-primary mb-1">1</span>
+                                                    <span class="text-gray-800 text-hover-primary mb-1">{{forloop.counter}}</span>
                                                 </td>
                                                 <!--end::No=-->
                                                 <!--begin::Input Date=-->
                                                 <td>
-                                                    <span class="text-gray-800 text-hover-primary mb-1">17 Sep 2024, 8:43 am</span>
+                                                    <span class="text-gray-800 text-hover-primary mb-1">{{bbm.create_at}}</span>
                                                 </td>
                                                 <!--end::Input Date=-->
                                                 <!--begin::Nota Date=-->
                                                 <td>
-                                                    <span class="text-gray-800 text-hover-primary mb-1">13 Sep 2024</span>
+                                                    <span class="text-gray-800 text-hover-primary mb-1">{{bbm.tgl_nota}}</span>
                                                 </td>
                                                 <!--end::Nota Date=-->
                                                 <!--begin::NIK=-->
                                                 <td>
-                                                    <span class="text-gray-800 text-hover-primary mb-1">04528698</span>
+                                                    <span class="text-gray-800 text-hover-primary mb-1">{{bbm.nik}}</span>
                                                 </td>
                                                 <!--end::NIK=-->
                                                 <!--begin::Nopol=-->
                                                 <td>
-                                                    <span class="text-gray-800 text-hover-primary mb-1">N 1259 GH</span>
+                                                    <span class="text-gray-800 text-hover-primary mb-1">{{bbm.no_polisi}}</span>
                                                 </td>
                                                 <!--end::Nopol=-->
                                                 <!--begin::KM=-->
                                                 <td>
-                                                    <span class="text-gray-800 text-hover-primary mb-1">2560</span>
+                                                    <span class="text-gray-800 text-hover-primary mb-1">{{bbm.km}}</span>
                                                 </td>
                                                 <!--end::KM=-->
                                                 <!--begin::Nominal=-->
                                                 <td>
-                                                    <span class="text-gray-800 text-hover-primary mb-1">Rp.44.000,00</span>
+                                                    <span class="text-gray-800 text-hover-primary mb-1">{{bbm.nominal}}</span>
                                                 </td>
                                                 <!--end::Nominal=-->
                                                 <!--begin::Nota=-->
                                                 <!--begin::Nota=-->
                                                 <td>
-                                                    <img src="" alt="Gambar" id="outputImage" class="img-fluid" style="max-width: 100px; max-height: 100px;">
+                                                    <img src="{{bbm.foto_nota}}" alt="Gambar" id="outputImage" class="img-fluid" style="max-width: 100px; max-height: 100px;">
                                                 </td>
                                                 <!--end::Nota=-->
                                                 <!--begin::Evidence=-->
                                                 <td>
-                                                    <img src="" alt="Gambar" id="outputImage" class="img-fluid" style="max-width: 100px; max-height: 100px;">
+                                                    <img src="{{bbm.foto_odo}}" alt="Gambar" id="outputImage" class="img-fluid" style="max-width: 100px; max-height: 100px;">
                                                 </td>
                                                 <!--end::Evidence=-->
                                                 
                                                 <!--begin::Verifikasi=-->
                                                 <td>
-                                                    <span class="badge badge-light-primary">Verified</span>
+                                                    <span class="badge badge-light-primary">{{bbm.status}}</span>
                                                 </td>
                                                 <!--end::Verifikasi=-->
                                                 <!--begin::Action=-->
@@ -286,6 +287,11 @@
                                                 </td>
                                                 <!--end::Action=-->
                                             </tr>
+                                            {% empty %}
+                                            <tr>
+                                                <td colspan="8">Tidak ada data bbm. Silahkan tambah data bbm</td>
+                                            </tr>
+                                            {% endfor %}
                                         </tbody>
                                         <!--end::Table body-->
                                     </table>

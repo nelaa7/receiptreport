@@ -151,12 +151,12 @@ class MyUserManager(BaseUserManager):
         return user
 
 class MyUser(AbstractBaseUser):
-    nik = models.ForeignKey(Naker, on_delete=models.CASCADE, related_name='users', null=True, blank=True)
+    nik = models.OneToOneField(Naker, on_delete=models.CASCADE, related_name='users', null=True, blank=True, unique=True)
     # Email hanya akan diisi saat lupa password
     email = models.EmailField(max_length=255, unique=True, null=True, blank=True)
     
     objects = MyUserManager()
-    USERNAME_FIELD = 'Naker'
+    USERNAME_FIELD = 'nik'
     REQUIRED_FIELDS = []
 
     def __str__(self):
@@ -216,7 +216,7 @@ class Natura(models.Model):
 
     id = models.AutoField(primary_key=True)
     nik = models.ForeignKey(Naker, on_delete=models.CASCADE)
-    nama = models.CharField(max_length=255)
+    nama = models.CharField(max_length=255, default='Isi nama')
     posisi = models.ForeignKey('Posisi', on_delete=models.CASCADE)
     witel = models.CharField(max_length=10, choices=WITEL_CHOICES)
     km_referensi = models.CharField(max_length=20)
