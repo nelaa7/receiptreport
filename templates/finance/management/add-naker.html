@@ -51,7 +51,8 @@
                     <div class="post d-flex flex-column-fluid" id="kt_post">
                         <!--begin::Container-->
                         <div class="container mt-5">
-                            <form id="kt_ecommerce_add_product_form" class="needs-validation" novalidate>
+                            <form action="{% url 'add-naker' %}" method="POST" enctype="multipart/form-data" id="kt_ecommerce_add_product_form" class="needs-validation" novalidate >
+                                {% csrf_token %}
                                 <div class="card shadow-sm">
                                     <div class="card-header">
                                         <h2 class="card-title">Add Data Naker</h2>
@@ -72,8 +73,12 @@
                                         </div>
                                         <div class="mb-4">
                                             <label for="WitelText" class="form-label">Witel <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="WitelText" name="WitelText" required inputmode="text">
-                                            <div class="form-text">Isi dengan teliti</div>
+                                            <select name="witel" class="form-select form-select-solid" data-control="select2" data-dropdown-css-class="w-200px" data-placeholder="Pilih area" data-hide-search="true">
+                                                <option></option>
+                                                {% for value, label in witel_choices %}
+                                                <option value="{{ value }}">{{ label }}</option>
+                                            {% endfor %}
+                                            </select>
                                         </div>
                                         <div class="mb-4">
                                             <label for="STOText" class="form-label">STO <span class="text-danger">*</span></label>
@@ -89,6 +94,11 @@
                                             <label for="UnitText" class="form-label">Unit<span class="text-danger">*</span></label>
                                             <input type="UnitText" class="form-control" id="UnitText" name="UnitText" required inputmode="text">
                                             <div class="form-text">Isi dengan teliti</div>
+                                        </div>
+                                        <div class="mb-4">
+                                            <label for="RoleText" class="form-label">Role<span class="text-danger">*</span></label>
+                                            <input type="RoleText" class="form-control" id="UnitText" name="RoleText" required inputmode="text">
+                                            <div class="form-text">Isi dengan benar</div>
                                         </div>
 
                                         <!--end::Card header-->

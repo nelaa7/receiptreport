@@ -12,11 +12,18 @@ def report_admin_bbm(request):
     return render(request, 'finance/report/bbm.html')
 
 
+# View Teknisi
+def dashboard_teknisi(request):
+    return render(request, 'teknisi/dashboard-teknisi.html')  
 
+def progress_teknisi(request):
+    return render(request, 'teknisi/progress.html')  
 
+def data_naker(request):
+    return render(request, 'finance/management/naker.html') 
 
-
-
+def add_naker(request):
+    return render(request, 'finance/management/add-naker.html') 
 
 
 
@@ -177,3 +184,5 @@ def list_kendaraan(request):
 
         
 #     }
+
+
