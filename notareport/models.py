@@ -216,13 +216,14 @@ class Natura(models.Model):
 
     id = models.AutoField(primary_key=True)
     nik = models.ForeignKey(Naker, on_delete=models.CASCADE)
-    id_posisi = models.ForeignKey(Posisi, on_delete=models.CASCADE)
+    nama = models.CharField(max_length=255)
+    posisi = models.ForeignKey('Posisi', on_delete=models.CASCADE)
     witel = models.CharField(max_length=10, choices=WITEL_CHOICES)
     km_referensi = models.CharField(max_length=20)
     km_liter = models.CharField(max_length=20)
     harga_bensin = models.CharField(max_length=20)
     created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(auto_now=True) 
 
     class Meta:
         verbose_name = 'Natura'
