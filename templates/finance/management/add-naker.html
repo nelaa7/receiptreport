@@ -82,8 +82,12 @@
                                         </div>
                                         <div class="mb-4">
                                             <label for="STOText" class="form-label">STO <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="STOText" name="STOText" required inputmode="text">
-                                            <div class="form-text">Jangan menggunakan singkatan</div>
+                                            <select name="sto" class="form-select form-select-solid" data-control="select2" data-dropdown-css-class="w-200px" data-placeholder="Pilih sto" data-hide-search="false">
+                                                <option value="" disabled selected>Pilih area</option>  <!-- Pilihan default -->
+                                                {% for sto_item in sto %}
+                                                    <option value="{{ sto_item.id }}">{{ sto_item.nama_sto }}</option>
+                                                {% endfor %}
+                                            </select>
                                         </div>
                                         <div class="mb-4">
                                             <label for="PosisiText" class="form-label">Posisi<span class="text-danger">*</span></label>

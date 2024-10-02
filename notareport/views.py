@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Kendaraan, Naker, MyUser
+from .models import Kendaraan, Naker, MyUser, Sto
 from .forms import form_kendaraan, PasswordResetForm, RegistrationForm
 from django.contrib import messages
 import logging
@@ -23,7 +23,8 @@ def data_naker(request):
     return render(request, 'finance/management/naker.html') 
 
 def add_naker(request):
-    return render(request, 'finance/management/add-naker.html') 
+    sto_list = Sto.objects.all()  # Ambil semua data STO
+    return render(request, 'finance/management/add-naker.html', {'sto': sto_list}) 
 
 
 
