@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from .models import Kendaraan, Naker
-# from .forms import form_kendaraan
+from .models import Kendaraan, Naker, MyUser
+from .forms import form_kendaraan, PasswordResetForm, RegistrationForm
 from django.contrib import messages
 import logging
 
@@ -58,6 +58,32 @@ def add_naker(request):
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # def add_kendaraan(request):
 #     if request.method == 'POST':
 #         form = form_kendaraan(request.POST, request.FILES)
@@ -75,6 +101,45 @@ def add_naker(request):
     
 #     context = {'form': form}
 #     return render(request, 'leader/kendaraan/add-kendaraan.html', context)
+
+
+
+
+def register(request):
+    if request.method == 'POST':
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login')  # Ganti dengan URL login yang sesuai
+    else:
+        form = RegistrationForm()
+
+    return render(request, 'registration/register.html', {'form': form})
+
+
+
+# def password_reset(request):
+#     if request.method == 'POST':
+#         form = PasswordResetForm(request.POST)
+#         if form.is_valid():
+#             email = form.cleaned_data['email']
+#             user = MyUser.objects.get(email=email)
+
+#             # Buat token atau URL pemulihan di sini
+#             # Misal, token bisa menggunakan `django.utils.crypto.get_random_string()`
+
+#             # Kirim email pemulihan
+#             send_mail(
+#                 'Pemulihan Password',
+#                 'Klik link berikut untuk mereset password: <link>',  # Tambahkan link yang sesuai
+#                 settings.DEFAULT_FROM_EMAIL,
+#                 [email],
+#                 fail_silently=False,
+#             )
+#             return redirect('password_reset_done')  # Ganti dengan URL yang sesuai
+#     else:
+#         form = PasswordResetForm()
+#     return render(request, 'password_reset.html', {'form': form})
 
 
 

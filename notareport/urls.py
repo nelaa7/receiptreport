@@ -11,5 +11,11 @@ urlpatterns = [
     path('management-naker/', views.data_naker, name='management-naker'),
     path('add-naker/', views.add_naker, name='add-naker'),
 
+
+
+
+
+
+
 ]
 

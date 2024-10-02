@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
 # Create your models here.
 
@@ -92,6 +93,30 @@ class Naker(models.Model):
 
     def __str__(self): 
         return f'{self.nik} ({self.sto}) ({self.posisi}) ({self.unit}) ({self.nama}) ({self.witel})'
+    
+class MyUserManager(BaseUserManager):
+    def create_user(self, Naker, password=None):
+        if not Naker:
+            raise ValueError('Users must have a Karyawan')
+        if not password:
+            raise ValueError('Users must have a password')
+
+        user = self.model(Naker=Naker)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+class MyUser(AbstractBaseUser):
+    nik = models.OneToOneField('Naker', on_delete=models.CASCADE)
+    # Email hanya akan diisi saat lupa password
+    email = models.EmailField(max_length=255, unique=True, null=True, blank=True)
+    
+    objects = MyUserManager()
+    USERNAME_FIELD = 'Naker'
+    REQUIRED_FIELDS = []
+
+    def __str__(self):
+        return str(self.Naker.nik)
     
 
 class Kendaraan(models.Model):
