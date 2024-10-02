@@ -19,7 +19,26 @@ class Sto (models.Model):
     
     
 class Posisi (models.Model):
+    POSISI_CHOICES = [
+        ('Manager', 'Manager'),
+        ('AssMAN','AssMAN'),
+        ('Supervisor', 'Supervisor'),
+        ('Team Leader', 'Team Leader'),
+        ('Staff', 'Staff'),
+        ('Helpdesk', 'Helpdesk'),
+        ('Teknisi', 'Teknisi'),
+    ]
+    
     id = models.AutoField(primary_key=True)
+    jenis_posisi = models.CharField(max_length=225, choices=[
+        ('Manager', 'Manager'),
+        ('AssMAN','AssMAN'),
+        ('Supervisor', 'Supervisor'),
+        ('Team Leader', 'Team Leader'),
+        ('Staff', 'Staff'),
+        ('Helpdesk', 'Helpdesk'),
+        ('Teknisi', 'Teknisi'),
+    ], default='Pilih Posisi')
     nama_posisi = models.CharField(max_length=225)
 
     create_at = models.DateTimeField( auto_now_add=True)
@@ -63,8 +82,12 @@ class Unit(models.Model):
 
 
 class JenisNota(models.Model):
+    NOTA_CHOICES = [
+        ('BBM', 'BBM'),
+        ('Non-BBM', 'Non-BBM'),
+    ]
+    jenis_nota = models.CharField(max_length=255, choices=[('BBM', 'BBM'),('Non-BBM', 'Non-BBM')], default='default_value' )
     nama_nota = models.CharField(max_length=255)
-    
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     

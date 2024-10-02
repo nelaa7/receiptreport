@@ -115,6 +115,7 @@
                                             <!--begin::Table row-->
                                             <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
                                                 <th class="min-w-50px">No</th>
+                                                <th class="min-w-125px">Jenis Posisi</th>
                                                 <th class="min-w-125px">Nama Posisi</th>
                                                 <th class="text-end min-w-50px">Actions</th>
                                             </tr>
@@ -123,15 +124,21 @@
                                         <!--end::Table head-->
                                         <!--begin::Table body-->
                                         <tbody class="fw-semibold text-gray-600">
+                                            {% for posisi in posisi_list%}
                                             <tr>
                                                 <!--begin::No=-->
                                                 <td>
-                                                    <span class="text-gray-600 text-hover-primary mb-1">1</span>
+                                                    <span class="text-gray-600 text-hover-primary mb-1">{{forloop.counter}}</span>
                                                 </td>
                                                 <!--end::No=-->
+                                                <!--begin::Jenis Posisi=-->
+                                                <td>
+                                                    <span class="text-gray-800 text-hover-primary mb-1">{{posisi.jenis_posisi}}</span>
+                                                </td>
+                                                <!--end::Jenis Posisi=-->
                                                 <!--begin::Nama Posisi=-->
                                                 <td>
-                                                    <span class="text-gray-800 text-hover-primary mb-1">Helpdesk IOAN</span>
+                                                    <span class="text-gray-800 text-hover-primary mb-1">{{posisi.nama_posisi}}</span>
                                                 </td>
                                                 <!--end::Nama Posisi=-->
                                                 <!--begin::Action=-->
@@ -149,6 +156,7 @@
                                                 </td>
                                                 <!--end::Action=-->
                                             </tr>
+                                            {% endfor %}
                                         </tbody>
                                         <!--end::Table body-->
                                     </table>
