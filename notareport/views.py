@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .models import Kendaraan, Naker, MyUser
 from .forms import form_kendaraan, PasswordResetForm, RegistrationForm
 from django.contrib import messages
+from django.contrib.auth import authenticate
 import logging
 
 # View Finance
@@ -106,15 +107,35 @@ def add_naker(request):
 
 
 def register(request):
-    if request.method == 'POST':
+    if request.method == 'POST': 
         form = RegistrationForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Registrasi berhasil! Silakan login.')
             return redirect('login')  # Ganti dengan URL login yang sesuai
+        else:
+            messages.error(request, 'Registrasi gagal. Silakan periksa form Anda.')
+
     else:
         form = RegistrationForm()
 
     return render(request, 'auth/signup.html', {'form': form})
+
+def login(request):
+    if request.method == "POST":
+        nik = request.POST.get("nik")
+        password = request.POST.get("password")
+        
+        MyUser = authenticate(request, nik=nik, password=password)  
+        
+        if MyUser is not None:
+            login(request, MyUser )
+            return redirect('dashboard-admin')
+        else:
+            messages.error(request, "Invalid login credentials")
+            return redirect('login')
+        
+    return render(request, 'auth/signin.html')
 
 
 

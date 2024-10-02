@@ -82,7 +82,7 @@ var KTSignupGeneral = function () {
                 s.preventDefault(), a.revalidateField("password"), a.validate().then((function (a) {
                     "Valid" == a ? (t.setAttribute("data-kt-indicator", "on"), t.disabled = !0, setTimeout((function () {
                         t.removeAttribute("data-kt-indicator"), t.disabled = !1, Swal.fire({
-                            text: "You have successfully reset your password!",
+                            text: "You have successfully registered!",
                             icon: "success",
                             buttonsStyling: !1,
                             confirmButtonText: "Ok, got it!",

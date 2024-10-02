@@ -50,7 +50,7 @@
 						<!--begin::Wrapper-->
 						<div class="w-lg-500px p-10">
 							<!--begin::Form-->
-							<form class="form w-100" novalidate="novalidate" id="kt_sign_up_form" data-kt-redirect-url="../../demo10/dist/authentication/layouts/corporate/sign-in.html" action="/simpanuser" method="POST">
+							<form class="form w-100" novalidate="novalidate" id="kt_sign_up_form" method="POST" action="{% url 'register' %}">
 								<!--begin::Heading-->
 								{% csrf_token %}
 								<div class="text-center mb-11">
@@ -65,8 +65,14 @@
 								<!--begin::Input group=-->
 								<div class="fv-row mb-8">
 									<!--begin::NIK-->
-									
-									<input type="text" placeholder="NIK" name="nik" autocomplete="on" class="form-control bg-transparent" required />
+									<input type="text" placeholder="NIK" name="nik" autocomplete="on" value="{{ form.nik.value|default_if_none:'' }}" class="form-control bg-transparent" required />
+									<!-- Error message for NIK -->
+									{% if form.nik.errors %}
+										<div class="error text-danger">
+											{{ form.nik.errors.0 }}
+										</div>
+									{% endif %}
+									<!--end::NIK-->
 									<!--end::NIK-->
 								</div>
 								<!--begin::Input group-->
@@ -138,7 +144,7 @@
 					<!--begin::Content-->
 					<div class="d-flex flex-column flex-center py-7 py-lg-15 px-5 px-md-15 w-100">
 						<!--begin::Logo-->
-							<img alt="Logo" src="assets/media/misc/bg-login.png" class="h-200px h-lg-250px" />
+						<img alt="Logo" src="{% static 'media/misc/bg-login.png' %}" class="h-200px h-lg-250px" />
 						<!--end::Logo-->
 						<!--begin::Image-->
 						<img class="d-none d-lg-block mx-auto w-275px w-md-50 w-xl-500px mb-10 mb-lg-20" src="assets/media/misc/" alt="" />
@@ -156,15 +162,16 @@
 		<!--end::Root-->
 		<!--end::Main-->
 		<!--begin::Javascript-->
-		<script>var hostUrl = "assets/";</script>
+		<script>var hostUrl = "{% static '' %}";</script>
 		<!--begin::Global Javascript Bundle(mandatory for all pages)-->
-		<script src="assets/plugins/global/plugins.bundle.js"></script>
-		<script src="assets/js/scripts.bundle.js"></script>
+		<script src="{% static 'plugins/global/plugins.bundle.js' %}"></script>
+		<script src="{% static 'js/scripts.bundle.js' %}"></script>
 		<!--end::Global Javascript Bundle-->
 		<!--begin::Custom Javascript(used for this page only)-->
-		<script src="assets/js/custom/authentication/sign-up/general.js"></script>
+		<script src="{% static 'js/custom/authentication/sign-up/general.js' %}"></script>
 		<!--end::Custom Javascript-->
 		<!--end::Javascript-->
+		
 	</body>
 	<!--end::Body-->
 </html>

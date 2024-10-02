@@ -107,7 +107,7 @@ class MyUserManager(BaseUserManager):
         return user
 
 class MyUser(AbstractBaseUser):
-    nik = models.OneToOneField('Naker', on_delete=models.CASCADE)
+    nik = models.ForeignKey(Naker, on_delete=models.CASCADE, related_name='users', null=True, blank=True)
     # Email hanya akan diisi saat lupa password
     email = models.EmailField(max_length=255, unique=True, null=True, blank=True)
     
