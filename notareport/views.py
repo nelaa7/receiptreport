@@ -31,8 +31,16 @@ def add_naker(request):
     role_list = Role.objects.all() # ambil semua data Posisi
     return render(request, 'finance/management/add-naker.html', {'witel_choices': witel_choices, 'sto': sto_list, 'posisi': posisi_list, 'unit': unit_list, 'role': role_list}) 
 
-
-
+def add__data_naker(request):
+    if request.method == 'POST':
+        form = YourModelForm(request.POST)
+        if form.is_valid():
+            form.save()  # Simpan data ke database
+            return redirect('success_page')  # Ganti dengan URL tujuan setelah berhasil
+    else:
+        form = YourModelForm()
+    
+    return render(request, 'your_template.html', {'form': form})
 
 
 

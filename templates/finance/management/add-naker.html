@@ -109,7 +109,7 @@
                                         </div>
                                         <div class="mb-4">
                                             <label for="RoleText" class="form-label">Role<span class="text-danger">*</span></label>
-                                            <select name="role" class="form-select form-select-solid" data-control="select2" data-dropdown-css-class="w-200px" data-placeholder="Pilih role" data-hide-search="false">
+                                            <select name="role" class="form-select form-select-solid" data-control="select2" data-dropdown-css-class="w-200px" data-placeholder="Pilih role" data-hide-search="true">
                                                 <option value="" disabled selected>Pilih role</option>  <!-- Pilihan default -->
                                                 {% for role_item in role %}
                                                     <option value="{{ role_item.id }}">{{ role_item.nama_role }}</option>

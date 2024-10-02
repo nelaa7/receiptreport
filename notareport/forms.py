@@ -43,3 +43,79 @@ class PasswordResetForm(forms.Form):
         if not MyUser.objects.filter(email=email).exists():
             raise forms.ValidationError("Email tidak terdaftar.")
         return email
+    
+    
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+class form_naker(forms.ModelForm):
+    class Meta:
+        model = Naker
+        fields = ['nik', 'nama', 'witel', 'sto', 'posisi', 'unit', 'role']  
+    
+
+
+
+
+
+
+
+
+
+
