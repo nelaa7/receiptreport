@@ -73,33 +73,49 @@
                                         </div>
                                         <div class="mb-4">
                                             <label for="WitelText" class="form-label">Witel <span class="text-danger">*</span></label>
-                                            <select name="witel" class="form-select form-select-solid" data-control="select2" data-dropdown-css-class="w-200px" data-placeholder="Pilih area" data-hide-search="true">
-                                                <option></option>
+                                            <select name="witel" class="form-select form-select-solid" data-control="select2" data-dropdown-css-class="w-200px" data-placeholder="Pilih witel" data-hide-search="true">
+                                                <option value="" disabled selected>Pilih witel</option>  <!-- Pilihan default -->
                                                 {% for value, label in witel_choices %}
-                                                <option value="{{ value }}">{{ label }}</option>
-                                            {% endfor %}
+                                                    <option value="{{ value }}">{{ label }}</option>
+                                                {% endfor %}
                                             </select>
                                         </div>
                                         <div class="mb-4">
                                             <label for="STOText" class="form-label">STO <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="STOText" name="STOText" required inputmode="text">
-                                            <div class="form-text">Jangan menggunakan singkatan</div>
+                                            <select name="sto" class="form-select form-select-solid" data-control="select2" data-dropdown-css-class="w-200px" data-placeholder="Pilih sto" data-hide-search="false">
+                                                <option value="" disabled selected>Pilih STO</option>  <!-- Pilihan default -->
+                                                {% for sto_item in sto %}
+                                                    <option value="{{ sto_item.id }}">{{ sto_item.nama_sto }}</option>
+                                                {% endfor %}
+                                            </select>
                                         </div>
                                         <div class="mb-4">
-                                            <label for="PosisiText" class="form-label">Posisi<span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="PosisiText" name="PosisiText" required inputmode="text">
-                                            <div class="form-text">Isi dengan teliti</div>
+                                            <label for="PosisiText" class="form-label">Posisi <span class="text-danger">*</span></label>
+                                            <select name="posisi" class="form-select form-select-solid" data-control="select2" data-dropdown-css-class="w-200px" data-placeholder="Pilih posisi" data-hide-search="false">
+                                                <option value="" disabled selected>Pilih posisi</option>  <!-- Pilihan default -->
+                                                {% for posisi_item in posisi %}
+                                                    <option value="{{ posisi_item.id }}">{{ posisi_item.nama_posisi }}</option>
+                                                {% endfor %}
+                                            </select>
                                         </div>
                                         <div class="mb-4">
                                             <label for="UnitText" class="form-label">Unit<span class="text-danger">*</span></label>
-                                            <input type="UnitText" class="form-control" id="UnitText" name="UnitText" required inputmode="text">
-                                            <div class="form-text">Isi dengan teliti</div>
+                                            <select name="unit" class="form-select form-select-solid" data-control="select2" data-dropdown-css-class="w-200px" data-placeholder="Pilih unit" data-hide-search="false">
+                                                <option value="" disabled selected>Pilih unit</option>  <!-- Pilihan default -->
+                                                {% for unit_item in unit %}
+                                                    <option value="{{ unit_item.id }}">{{ unit_item.nama_unit }}</option>
+                                                {% endfor %}
+                                            </select>
                                         </div>
                                         <div class="mb-4">
                                             <label for="RoleText" class="form-label">Role<span class="text-danger">*</span></label>
-                                            <input type="RoleText" class="form-control" id="UnitText" name="RoleText" required inputmode="text">
-                                            <div class="form-text">Isi dengan benar</div>
-                                        </div>
+                                            <select name="role" class="form-select form-select-solid" data-control="select2" data-dropdown-css-class="w-200px" data-placeholder="Pilih role" data-hide-search="false">
+                                                <option value="" disabled selected>Pilih role</option>  <!-- Pilihan default -->
+                                                {% for role_item in role %}
+                                                    <option value="{{ role_item.id }}">{{ role_item.nama_role }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div> 
 
                                         <!--end::Card header-->
                                     <div class="card-footer d-flex justify-content-end">
