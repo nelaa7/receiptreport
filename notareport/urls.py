@@ -20,8 +20,12 @@ urlpatterns = [
 
 
 
-    path('register/', views.register, name='register'),
-    path('login/', views.login, name='login'),
+    path('register/', views.register_view, name='register'),
+    path('login/', views.login_view, name='login'),
+    path('check-db/', views.check_database_connection, name='check_database_connection'),
+
+    # path('forgot-password/', views.password_reset, name='forgot-password'),
+
 
 
 
