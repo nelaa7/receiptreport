@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+from msilib.schema import Environment
 from pathlib import Path
 import os
 
@@ -23,13 +24,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-4d=$$8z$-b#dwg2qfnp@k(h37n1vobt@6-0mw$=2u6g-c7jwvc'
 DATABASE_URL = os.environ.get('DATABASE_URL')
-SECRET_KEY = os.environ.get('SECRET_KEY')
+# SECRET_KEY = os.environ.get('SECRET_KEY')
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['testing-receipt.vercel.app']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost','testing-receipt.vercel.app']
 
 
 # Application definition
@@ -92,6 +93,10 @@ DATABASES = {
         
     }
 }
+
+# POSTGRES_LOCALLY = False
+# if Environment == 'production' or POSTGRES_LOCALLY == True:
+#     DATABASES['default'] = dj_database_url.parse(env('DATABASE_URL'))
 
 
 # Password validation

@@ -1,4 +1,5 @@
-from django.shortcuts import render, redirect
+import json
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Kendaraan, Naker, MyUser, Sto, Posisi, Unit, Role, JenisNota, Project, Natura, TransaksiBBM, TransaksiNonBBM
 from .forms import form_kendaraan, PasswordResetForm, RegistrationForm, FormAddNaker, FormAddNatura, FormAddNota, FormAddPosisi
 from django.contrib import messages 
@@ -7,6 +8,7 @@ from django.http import JsonResponse
 from django.db import close_old_connections, connections
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.db.utils import OperationalError 
+from django.template.loader import render_to_string 
 
 import logging
 from django.http import JsonResponse
@@ -198,7 +200,21 @@ def add_posisi(request):
 
 
 
-
+def naker_edit(request, pk):
+    naker = get_object_or_404(Naker, id=pk)
+    
+    if request.method == 'POST':
+        form = FormAddNaker(request.POST, instance=naker)
+        if form.is_valid():
+            form.save()
+            return JsonResponse({'success': True}) #sukses
+        else:
+            return JsonResponse({'success': False, 'errors': form.errors}, status=400) #form ga valid
+    else:
+        form = FormAddNaker(instance=naker)    
+    
+    html = render_to_string (request, 'finance/management/naker.html' ,{'form':form} )
+    return JsonResponse({'html': html})
 
 
 
@@ -214,6 +230,25 @@ def sto_list(request):
     context= {
         'sto_list':sto_list
     }
+    return render(request, "finance/management/sto.html", context)
+
+def sto_edit(request, id):
+    sto_edit = get_object_or_404(Sto, id=id)
+    if request.method == "POST":
+        try:
+            # nama_sto = json.loads(request.body) 
+            sto_edit.id = request.POST.get('id', sto_edit.id) 
+            sto_edit.nama_sto = request.POST.get('nama_sto', sto_edit.nama_sto)  
+            sto_edit.save()  # Simpan perubahan ke database
+            return JsonResponse({'message': 'Data updated successfully'}, status=200)
+        except Exception as e:
+            print(f'Error updating STO: {e}')  # Tambahkan logging untuk error
+            return JsonResponse({'message': 'There was an error updating the data!'}, status=500)
+
+    context = {
+        'sto_edit': sto_edit
+    }
+    
     return render(request, "finance/management/sto.html", context)
 
 def jenisNota_list(request):

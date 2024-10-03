@@ -137,7 +137,7 @@
                                                 <!--end::Nama STO=-->
                                                 <!--begin::Action=-->
                                                 <td class="text-end">
-                                                    <a href="#" class="btn btn-icon btn-sm btn-light btn-active-light-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_edit_item">
+                                                    <a href="{% url 'sto_edit' sto.id %}" class="btn btn-icon btn-sm btn-light btn-active-light-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_edit_item">
                                                         <!--begin::Svg Icon | path: icons/duotune/art/art005.svg-->
                                                         <span class="svg-icon svg-icon-2">
                                                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -177,11 +177,18 @@
                                         </div>
                                         <div class="modal-body py-10 px-lg-17">
                                             <div class="scroll-y me-n7 pe-7" id="kt_modal_edit_item_scroll" data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_edit_item_header" data-kt-scroll-wrappers="#kt_modal_edit_item_scroll" data-kt-scroll-offset="300px">
-
+                                                {% if sto_edit.id %}
+                                                <form action="{% url 'sto_edit' sto_edit.id %}" method="post">
+                                                    {% else %}
+                                                    <p>ID tidak ditemukan</p>
+                                                {% endif %}
+                                                    {% csrf_token %}
+                                                    <input type="hidden" id="sto-id" value="{{ sto_edit.id }}">
                                                 <div class="fv-row mb-7">
-                                                    <label class="required fs-6 fw-semibold mb-2">Nama STO</label>
+                                                    <label for="nama_sto"class="required fs-6 fw-semibold mb-2">Nama STO</label>
                                                     <!--begin::Input-->
-													<input type="text" name="namasto" class="form-control mb-2" placeholder="Nama STO" value="WITEL" />
+													<input type="text" name="nama_sto" id="nama_sto"class="form-control mb-2" placeholder="Nama STO" value="{{sto_edit.nama_sto}}" />
+
 													<!--end::Input-->
                                                 </div>
                                             </div>
@@ -204,67 +211,99 @@
                             <!-- End::Modal Edit -->
 
                             <script>
-
                                 document.addEventListener('DOMContentLoaded', () => {
-                                            const closeButton = document.getElementById('close');
-
-                                            closeButton.addEventListener('click', e => {
-                                                e.preventDefault();
-
-                                                window.location.href = 'management-sto'
+                                    // Tombol submit
+                                    const submitButton = document.getElementById('kt_modal_edit_item_submit');
+                                    submitButton.addEventListener('click', e => {
+                                        e.preventDefault(); // Mencegah form submit secara default
+                            
+                                        // Ambil data dari input
+                                        const stoId = document.getElementById('sto-id').value; // ID dari objek yang diedit
+                                        const stoName = document.getElementById('nama_sto').value; // Nama STO
+                            
+                                        // Lakukan permintaan AJAX untuk mengupdate data
+                                        fetch(`/edit-sto/${stoId}/`, {
+                                            method: 'POST',
+                                            headers: {
+                                                'Content-Type': 'application/json',
+                                                'X-CSRFToken': getCookie('csrftoken') // Ambil token CSRF
+                                            },
+                                            body: JSON.stringify({
+                                                nama_sto: nama_sto 
+                                            })
+                                        })
+                                        .then(response => {
+                                            if (response.ok) {
+                                                return response.json();
+                                            }
+                                            throw new Error('Network response was not ok.');
+                                        })
+                                        .then(data => {
+                                            Swal.fire({
+                                                text: "Data has been successfully updated!",
+                                                icon: "success",
+                                                buttonsStyling: false,
+                                                confirmButtonText: "Oke",
+                                                customClass: {
+                                                    confirmButton: "btn btn-primary"
+                                                }
+                                            }).then(() => {
+                                                window.location.href = ''; // Redirect setelah sukses
                                             });
-
-                                });
-
-
-
-                                const submitButton = document.getElementById('kt_modal_edit_item_submit');
-
-                                submitButton.addEventListener('click', e =>{
-                                    e.preventDefault();
-
-                                    Swal.fire({
-                                        text: "Form has been successfully submitted!",
-                                        icon: "success",
-                                        buttonsStyling: false,
-                                        confirmButtonText: "Oke",
-                                        customClass: {
-                                            confirmButton: "btn btn-primary"
-                                        }
-                                    }).then(() => {
-                                        //ganti halaman
-                                        window.location.href = 'management-sto'
+                                        })
+                                        .catch(error => {
+                                            console.error('There was a problem with the fetch operation:', error);
+                                            Swal.fire({
+                                                text: " ",
+                                                icon: "error",
+                                                buttonsStyling: false,
+                                                confirmButtonText: "Oke",
+                                                customClass: {
+                                                    confirmButton: "btn btn-danger"
+                                                }
+                                            });
+                                        });
+                                    });
+                            
+                                    // Tombol discard
+                                    const discardButton = document.getElementById('kt_modal_edit_item_cancel');
+                                    discardButton.addEventListener('click', e => {
+                                        e.preventDefault();
+                                        Swal.fire({
+                                            title: 'Discard Changes?',
+                                            text: "Are you sure you want to discard the changes?",
+                                            icon: 'warning',
+                                            showCancelButton: true,
+                                            confirmButtonText: 'Yes, discard it!',
+                                            cancelButtonText: 'No, keep it',
+                                            customClass: {
+                                                confirmButton: 'btn btn-danger',
+                                                cancelButton: 'btn btn-light'
+                                            }
+                                        }).then((result) => {
+                                            if (result.isConfirmed) {
+                                                window.location.href = ''; // Redirect jika dibatalkan
+                                            }
+                                        });
                                     });
                                 });
-
-                                const discardButton = document.getElementById('kt_modal_edit_item_cancel');
-
-                                discardButton.addEventListener('click', e => {
-                                    e.preventDefault();
-
-                                    Swal.fire({
-                                        title: 'Discard Changes?',
-                                        text: "Are you sure you want to discard the changes?",
-                                        icon: 'warning',
-                                        showCancelButton: true,
-                                        confirmButtonText: 'Yes, discard it!',
-                                        cancelButtonText: 'No, keep it',
-                                        customClass: {
-                                            confirmButton: 'btn btn-danger',
-                                            cancelButton: 'btn btn-light'
+                            
+                                // Fungsi untuk mengambil CSRF token dari cookie
+                                function getCookie(name) {
+                                    let cookieValue = null;
+                                    if (document.cookie && document.cookie !== '') {
+                                        const cookies = document.cookie.split(';');
+                                        for (let i = 0; i < cookies.length; i++) {
+                                            const cookie = cookies[i].trim();
+                                            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                                                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                                                break;
+                                            }
                                         }
-                                    }).then((result) => {
-                                        if (result.isConfirmed) {
-                                            // Jika pengguna mengkonfirmasi, lakukan aksi yang diinginkan
-                                            console.log('Changes discarded.');
-                                             window.location.href = 'management-sto'
-                                            // Anda bisa melakukan reset atau tindakan lain di sini
-                                            // document.getElementById('yourFormId').reset(); // jika ada form
-                                        } else {
-                                            console.log('Discard action cancelled.');
-                                        }
-                                    });
-                                });
-    </script>
+                                    }
+                                    return cookieValue;
+                                }
+                            </script>
+                            
 
     {% endblock %} 

@@ -29,7 +29,7 @@ class Posisi (models.Model):
         ('Teknisi', 'Teknisi'),
     ]
     
-    id = models.AutoField(primary_key=True)
+    # id = models.AutoField(primary_key=True)
     jenis_posisi = models.CharField(max_length=225, choices=[
         ('Manager', 'Manager'),
         ('AssMAN','AssMAN'),
@@ -39,7 +39,7 @@ class Posisi (models.Model):
         ('Helpdesk', 'Helpdesk'),
         ('Teknisi', 'Teknisi'),
     ], default='Pilih Posisi')
-    nama_posisi = models.CharField(max_length=225)
+    nama_posisi = models.CharField(max_length=225, unique=True)
 
     create_at = models.DateTimeField( auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
@@ -100,7 +100,7 @@ class JenisNota(models.Model):
     
     
 class Role(models.Model):
-    nama_role = models.CharField(max_length=255, )
+    nama_role = models.CharField(max_length=255,unique=True )
     
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -124,7 +124,7 @@ class Naker(models.Model):
     sto = models.ForeignKey('Sto', on_delete=models.CASCADE)
     posisi = models.ForeignKey('Posisi', on_delete=models.CASCADE)
     unit = models.ForeignKey('Unit', on_delete=models.CASCADE)
-    role = models.ForeignKey('Role', on_delete=models.CASCADE, default='default_value')
+    role = models.ForeignKey(Role, to_field='nama_role', on_delete=models.CASCADE, default='default_value')
     nama = models.CharField(max_length=255)
     witel = models.CharField(max_length=50, choices=[('Malang', 'Malang'), ('Kediri', 'Kediri'), ('Madiun', 'Madiun')])
     
@@ -217,7 +217,7 @@ class Natura(models.Model):
     id = models.AutoField(primary_key=True)
     nik = models.ForeignKey(Naker, to_field='nik', on_delete=models.CASCADE)
     nama = models.CharField(max_length=255, default='Isi nama')
-    posisi = models.ForeignKey('Posisi', on_delete=models.CASCADE)
+    posisi = models.ForeignKey(Posisi,to_field='nama_posisi', on_delete=models.CASCADE)
     witel = models.CharField(max_length=10, choices=WITEL_CHOICES)
     km_referensi = models.CharField(max_length=20)
     km_liter = models.CharField(max_length=20)

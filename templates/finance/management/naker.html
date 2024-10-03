@@ -190,6 +190,7 @@
                                         <div class="modal-body py-10 px-lg-17">
                                             <div class="scroll-y me-n7 pe-7" id="kt_modal_edit_item_scroll" data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_edit_item_header" data-kt-scroll-wrappers="#kt_modal_edit_item_scroll" data-kt-scroll-offset="300px">
                                                 <div class="fv-row mb-7">
+                                                    <form id="nakerEdit" method="POST">
                                                     <label class="required fs-6 fw-semibold mb-2">NIK</label>
                                                     <!--begin::Input-->
 													<input type="text" name="nik" class="form-control mb-2" placeholder="NIK" value="22000243" />
@@ -249,11 +250,25 @@
                                         </div>
                                     </div>
                                 </div>
+                            </form>
                             </div>
                             <!-- End::Modal Edit -->
 
 
                             <script>
+
+                                function openModal(pk) {
+                                    fetch(`/edit-naker/${pk}/`)  // URL ke view naker_edit
+                                        .then(response => response.json())
+                                        .then(data => {
+                                            document.getElementById('kt_modal_edit_item').innerHTML = data.html;
+                                            document.getElementById('kt_modal_edit_item').style.display = "block";
+                                        });
+                                }
+                                
+                                function closeModal() {
+                                    document.getElementById('kt_modal_edit_item').style.display = "none";
+                                }
 
                                 document.addEventListener('DOMContentLoaded', () => {
                                             const closeButton = document.getElementById('close');
@@ -273,6 +288,24 @@
                                 submitButton.addEventListener('click', e =>{
                                     e.preventDefault();
 
+                                    const form =document.getElementById('nakerEdit');
+                                    const formData = new formData(form);
+
+                                    fetch(form.action, {
+                                        method:'POST',
+                                        body:formData,
+                                        header:{
+                                            'X-Requested-With': 'XMLHttpRequest'
+                                        }
+                                    })
+                                    .then (response => {
+                                        if (response.ok) {
+                                            return response.json();
+                                        }
+                                        throw new Error('Network response was not ok');
+                                    })
+                                    .then(data => {
+
                                     Swal.fire({
                                         text: "Form has been successfully submitted!",
                                         icon: "success",
@@ -285,7 +318,31 @@
                                         //ganti halaman
                                         window.location.href = 'management-naker'
                                     });
+                                } else {
+                                    Swal.fire({
+                                        text: "There was an error submitting the form.",
+                                        icon: "error",
+                                        buttonsStyling: false,
+                                        confirmButtonText: "Oke",
+                                        customClass: {
+                                            confirmButton: "btn btn-danger"
+                                }
                                 });
+                            }
+                            })
+                            .catch(error =>{
+                                console.error('Error', error);
+                                Swal.fire({
+                                    text: "There was a network error.",
+                                    icon: "error",
+                                    buttonsStyling: false,
+                                    confirmButtonText: "Oke",
+                                    customClass: {
+                                    confirmButton: "btn btn-danger"
+                                    }
+                                })
+                            })
+
 
                                 const discardButton = document.getElementById('kt_modal_edit_item_cancel');
 
