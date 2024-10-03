@@ -8,6 +8,8 @@ from django.http import JsonResponse
 from django.db import close_old_connections, connections
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.db.utils import OperationalError 
+from django.views.decorators.http import require_http_methods
+from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string 
 
 import logging
@@ -53,36 +55,47 @@ def add_naker(request):
         'unit': Unit.objects.all(),
         'role': Role.objects.all(),
     })
-    
+
+def get_naker_data(request):
+    nik = request.GET.get('nik')
+    if nik is None:
+        return JsonResponse({'error': 'NIK parameter is required'}, status=400)
+    naker = get_object_or_404(Naker, nik=nik)
+    data = {
+        'nama': naker.nama,
+        'posisi': naker.posisi,
+        'witel': naker.witel,
+    }
+    return JsonResponse(data)
+
 def add_natura(request):
     if request.method == 'POST':
         form = FormAddNatura(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('management-natura')
+            return redirect('natura_list')
     else:
         form = FormAddNatura()
+        nakers = Naker.objects.all()
+        form.fields['nik'].choices = [(naker.nik, naker.nik) for naker in nakers]
+        # Tambahkan kode berikut untuk mengisi field-field nama, posisi, dan witel
+        for naker in nakers:
+            form.fields['nama'].initial = naker.nama
+            form.fields['posisi'].initial = naker.posisi  # Asumsi bahwa model Posisi memiliki field nama
+            form.fields['witel'].initial = naker.witel
+        return render(request, 'finance/management/add-natura.html', {'form': form})
         
-    # Ambil witel_choices dari model
-    witel_choices = Naker.WITEL_CHOICES
-
-    return render(request, 'finance/management/add-natura.html', {
-        'form': form,
-        'posisi': Posisi.objects.all(),
-        'witel_choices': witel_choices,
-    })
-    
 
 def add_nota(request):
     if request.method == 'POST':
         form = FormAddNota(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('management-nota')
+            return redirect('nota_list')
     else:
         form = FormAddNota()
 
-    return render(request, 'finance/management/add-nota.html')
+    return render(request, 'finance/management/add-nota.html', {'form': form})
     
     
 def add_posisi(request):
@@ -90,11 +103,23 @@ def add_posisi(request):
         form = FormAddPosisi(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('management-posisi')
+            return redirect('posisi_list')
     else:
         form = FormAddPosisi()
 
-    return render(request, 'finance/management/add-posisi.html')
+    return render(request, 'finance/management/add-posisi.html', {'form': form})
+    
+    
+def add_project(request):
+    if request.method == 'POST':
+        form = FormAddPosisi(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('posisi_list')
+    else:
+        form = FormAddPosisi()
+
+    return render(request, 'finance/management/add-posisi.html', {'form': form})
     
 
 
@@ -264,10 +289,11 @@ def posisi_list(request):
         'posisi_list':posisi_list
     }
     return render(request, "finance/management/posisi.html", context)
-def project(request):
-    project = Project.objects.all()
+
+def project_list(request):
+    project_list = Project.objects.all()
     context={
-        'project':project
+        'project_list':project_list
     }
     return render(request, "finance/management/project.html", context)
 

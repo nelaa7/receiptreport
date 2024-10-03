@@ -48,86 +48,56 @@
                     <!--end::Toolbar-->
 
                     <!--begin::Post-->
-                    <div class="post d-flex flex-column-fluid" id="kt_post">
-                        <!--begin::Container-->
-                        <div class="container mt-5">
-                            <form action="{% url 'add_natura' %}" method="POST" enctype="multipart/form-data" id="kt_form_natura" class="needs-validation" novalidate >
-                                <div class="card shadow-sm">
-                                    <div class="card-header">
-                                        <h2 class="card-title">Add Data Natura</h2>
+                    <div class="container mt-5">
+                        <form action="{% url 'add_natura' %}" method="POST" id="kt_form_natura">
+                            <div class="card shadow-sm">
+                                <div class="card-header">
+                                    <h2 class="card-title">Add Data Natura</h2>
+                                </div>
+                                <div class="card-body">
+                                    <div class="mb-4">
+                                        <label for="id_nik">NIK:</label>
+                                        {{ form.nik }}
+                                        <div class="form-text">Isi NIK dengan teliti dan benar</div>
                                     </div>
-                                    <div class="card-body">
-                                        <div class="mb-4">
-                                            <label for="NIKNumber" class="required form-label">NIK</label>
-                                            <input type="text" class="form-control" id="NIKNumber" name="NIKNumber" required minlength="8" maxlength="8" pattern="\d{8}" inputmode="numeric">
-                                            <div class="form-text">Isi NIK dengan teliti dan benar</div>
-                                            <div class="invalid-feedback">
-                                                Mohon masukkan NIK yang valid
-                                            </div>
-                                        </div>
-                                        <div class="mb-4">
-                                            <label for="NamaText" class="required form-label">Nama</label>
-                                            <input type="text" class="form-control" id="NamaText" name="NamaText" required inputmode="text">
-                                            <div class="form-text">Isi nama lengkap</div>
-                                        </div>
-                                        <!--begin::Posisi Selection-->
-                                        <div class="mb-4">
-                                        <!--begin::Label-->
-                                            <label class=" required fs-6 fw-semibold mb-2">Posisi</label>
-                                            <!--End::Label-->
-                                            <select name="posisi" class="form-select form-select-solid" data-control="select2" data-dropdown-css-class="w-200px" data-placeholder="Pilih posisi" data-hide-search="false">
-                                                <option value="" disabled selected>Pilih posisi</option>
-                                                {% for posisi_item in posisi %}
-                                                    <option value="{{ posisi_item.id }}">{{ posisi_item.nama_posisi }}</option>
-                                                {% endfor %}
-                                            </select>
-                                        </div>
-                                        <!--end::Posisi Selection-->
-                                        <!--begin::WITEL-->
-                                        <div class="mb-4">
-                                            <!--begin::Label-->
-                                            <label class="fs-6 fw-semibold mb-2">Witel<span class="text-danger">*</span></label>
-                                            <!--End::Label-->
-                                            <select name="witel" class="form-select form-select-solid" data-control="select2" data-dropdown-css-class="w-200px" data-placeholder="Pilih witel" data-hide-search="true">
-                                                <option value="" disabled selected>Pilih witel</option> <!-- Pilihan default -->
-                                                {% for value, label in witel_choices %}
-                                                <option value="{{ value }}">{{ label }}</option>
-                                            {% endfor %}
-                                            </select>
-                                        </div>
-                                        <div class="mb-4">
-                                            <label for="KMREFText" class="required form-label">KM Referensi</label>
-                                            <input type="text" class="form-control" id="KMREFText" name="KMREFText" required inputmode="text">
-                                            <div class="form-text">Isi hanya menggunakan angka</div>
-                                        </div>
-                                        <div class="mb-4">
-                                            <label for="KMLText" class="required form-label">KM/Liter</label>
-                                            <input type="text" class="form-control" id="KMLText" name="KMLText" required inputmode="text">
-                                            <div class="form-text">Isi hanya menggunakan angka</div>
-                                        </div>
-                                        <div class="mb-4">
-                                            <label for="BensinText" class="required form-label">Harga Bensin</label>
-                                            <input type="text" class="form-control" id="BensinText" name="BensinText" required inputmode="text">
-                                            <div class="form-text">Isi harga bensin perliter</div>
-                                        </div>
-
-
-                                        <!--end::Card header-->
+                                    <div class="mb-4">
+                                        <label for="id_nama">Nama:</label>
+                                        {{ form.nama }}
+                                        <div class="form-text">Nama akan diisi otomatis</div>
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="id_posisi">Posisi:</label>
+                                        {{ form.posisi }}
+                                        <div class="form-text">Posisi akan diisi otomatis</div>
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="id_witel">Witel:</label>
+                                        {{ form.witel }}
+                                        <div class="form-text">Witel akan diisi otomatis</div>
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="id_km_referensi" class="required form-label">KM Referensi</label>
+                                        {{ form.km_referensi }}
+                                        <div class="form-text">Isi hanya menggunakan angka</div>
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="id_km_liter" class="required form-label">KM/Liter</label>
+                                        {{ form.km_liter }}
+                                        <div class="form-text">Isi hanya menggunakan angka</div>
+                                    </div>
+                                    <div class="mb-4">
+                                        <label for="id_harga_bensin" class="required form-label">Harga Bensin</label>
+                                        {{ form.harga_bensin }}
+                                        <div class="form-text">Isi hanya menggunakan angka</div>
+                                    </div>
                                     <div class="card-footer d-flex justify-content-end">
-                                        <!--begin::Button-->
                                         <button type="reset" id="kt_modal_edit_item_cancel" class="btn btn-light me-3">Cancel</button>
-                                        <!--end::Button-->
-                                        <!--begin::Button-->
-                                        <button type="submit" id="kt_modal_edit_item_submit" class="btn btn-primary">
-                                            <span class="indicator-label">Submit</span>
-                                            <span class="indicator-progress">Please wait...
-                                            <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
-                                        </button>
-                                        <!--end::Button-->
+                                        <button type="submit" class="btn btn-primary">Submit</button>
                                     </div>
                                 </div>
-                            </form>
-                        </div>
+                            </div>
+                        </form>
+                    </div>
 
                         <script>
 
@@ -180,6 +150,25 @@
                             });
 
 
+</script>
+
+
+<script>
+    $(document).ready(function() {
+        $('#nik').on('change', function() {
+            var nik = $(this).val();
+            $.ajax({
+                type: 'GET',
+                url: '{% url 'get_naker_data' %}',
+                data: {'nik': nik},
+                success: function(data) {
+                    $('#id_nama').val(data.nama);
+                    $('#id_posisi').val(data.posisi);
+                    $('#id_witel').val(data.witel);
+                }
+            });
+        });
+    });
 </script>
 
 {% endblock %}

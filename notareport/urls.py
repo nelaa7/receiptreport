@@ -12,8 +12,9 @@ urlpatterns = [
     path('add-naker/', views.add_naker, name='add_naker'),
     path('add-natura/', views.add_natura, name='add_natura'),
     path('add-nota/', views.add_nota, name='add_nota'),    
-    path('add-posisi/', views.add_posisi, name='add_posisi'),  
-
+    path('add-posisi/', views.add_posisi, name='add_posisi'), 
+    path('get-naker-data/', views.get_naker_data, name='get_naker_data'), 
+    path('add-project/', views.add_project, name='add_project'),
 
 
 
@@ -25,9 +26,9 @@ urlpatterns = [
     path('login/', views.login_view, name='login'),
     path('check-db/', views.check_database_connection, name='check_database_connection'),
     path('sto-list/', views.sto_list, name='sto_list'),
-    path('jenisnota-list/', views.jenisNota_list, name='jenisNota_list'),
+    path('management-nota', views.jenisNota_list, name='nota_list'),
     path('posisi-list/', views.posisi_list, name='posisi_list'),
-    path('project/', views.project, name='project'),
+    path('project-list/', views.project_list, name='project_list'),
     path('natura-list/', views.natura_list, name='natura_list'),
     path('kendaraan-list/', views.kendaraan_list, name='kendaraan_list'),
     path('bbm-list/', views.transaksiBBM_list, name='bbm_list')

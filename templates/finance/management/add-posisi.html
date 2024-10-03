@@ -49,9 +49,9 @@
 
                     <!--begin::Post-->
                     <div class="post d-flex flex-column-fluid" id="kt_post">
-                        <!--begin::Container-->
                         <div class="container mt-5">
-                            <form action="{% url 'add_posisi' %}" method="POST" enctype="multipart/form-data" id="kt_form_posisi" class="needs-validation" novalidate >
+                            <form action="{% url 'add_posisi' %}" method="POST" id="kt_form_posisi">
+                                {% csrf_token %}
                                 <div class="card shadow-sm">
                                     <div class="card-header">
                                         <h2 class="card-title">Add Data Posisi</h2>
@@ -59,9 +59,10 @@
                                     <div class="card-body">
                                         <!--begin::Nama Posisi-->
                                         <div class="mb-4">
-                                            <label for="NamaPosisi" class="form-label">Nama Posisi <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="NamaPosisi" name="NamaPosisi" required inputmode="text">
-                                            <div class="form-text">Isi dengan teliti</div>
+                                            <label for="id_nama_posisi" class="required form-label">Nama Posisi</label>
+                                            <div class="col-sm-10">
+                                                {{ form.nama_posisi }}
+                                            </div>
                                         </div>
                                         <!--end::Nama Posisi-->
 
@@ -82,34 +83,42 @@
                         </div>
 
                         <script>
-
                             const submitButton = document.getElementById('kt_modal_edit_item_submit');
-
+                        
                             submitButton.addEventListener('click', e =>{
-                                e.preventDefault();
-
+                                e.preventDefault(); // prevent default form submission
+                        
                                 Swal.fire({
-                                    text: "Form has been successfully submitted!",
-                                    icon: "success",
-                                    buttonsStyling: false,
-                                    confirmButtonText: "Oke",
+                                    title: "Confirm Submit",
+                                    text: "Are you sure you want to submit the form?",
+                                    icon: "question",
+                                    showCancelButton: true,
+                                    confirmButtonText: "Submit",
+                                    cancelButtonText: "Cancel",
                                     customClass: {
-                                        confirmButton: "btn btn-primary"
+                                        confirmButton: "btn btn-primary",
+                                        cancelButton: "btn btn-secondary"
                                     }
-                                }).then(() => {
-                                    //ganti halaman
-                                    window.location.href = 'management-posisi'
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        const form = document.getElementById('kt_form_posisi');
+                                        form.submit();
+                        
+                                        Swal.fire({
+                                            text: "Form has been successfully submitted!",
+                                            icon: "success",
+                                            buttonsStyling: false,
+                                            confirmButtonText: "Oke",
+                                            customClass: {
+                                                confirmButton: "btn btn-primary"
+                                            }
+                                        }).then(() => {
+                                            //ganti halaman
+                                            window.location.href = 'posisi_list'
+                                        });
+                                    }
                                 });
                             });
-
-                            const discardButton = document.getElementById('kt_modal_edit_item_cancel');
-
-                            discardButton.addEventListener('click', e => {
-                                e.preventDefault();
-                                window.location.href = 'management-posisi'
-
-
-                                });
-</script>
-
+                        </script>
+                        
 {% endblock %} 

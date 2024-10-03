@@ -49,9 +49,9 @@
 
                     <!--begin::Post-->
                     <div class="post d-flex flex-column-fluid" id="kt_post">
-                        <!--begin::Container-->
                         <div class="container mt-5">
-                            <form id="kt_ecommerce_add_product_form" class="needs-validation" novalidate>
+                            <form action="{% url 'add_project' %}" method="POST" id="kt_form_project">
+                                {% csrf_token %}
                                 <div class="card shadow-sm">
                                     <div class="card-header">
                                         <h2 class="card-title">Add Data Project</h2>
@@ -59,9 +59,10 @@
                                     <div class="card-body">
                                         <!--begin::Id Project-->
                                         <div class="mb-4">
-                                            <label for="IdProject" class="form-label">Id Project <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="IdProject" name="IdProject" required inputmode="text">
-                                            <div class="form-text">Isi dengan teliti</div>
+                                            <label for="id_nama_posisi" class="required form-label">Id Project</label>
+                                            <div class="col-sm-10">
+                                                {{ form.id_project }}
+                                            </div>
                                         </div>
                                         <!--end::Id Project-->
 

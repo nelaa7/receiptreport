@@ -86,7 +86,7 @@
 
                                             <!--begin::Add Project-->
                                             <div class="d-flex">
-                                                <a href="/management-add-project" class="btn btn-primary">
+                                                <a href="{% url 'add_project' %}" class="btn btn-primary">
                                                     Add Project
                                                 </a>
                                             </div>
@@ -125,7 +125,7 @@
                                         <!--end::Table head-->
                                         <!--begin::Table body-->
                                         <tbody class="fw-semibold text-gray-600">
-                                            {% for project in project%}
+                                            {% for project in project_li%}
                                             <tr>
                                                 <!--begin::No=-->
                                                 <td>
@@ -212,7 +212,7 @@
                                             closeButton.addEventListener('click', e => {
                                                 e.preventDefault();
 
-                                                window.location.href = 'management-project'
+                                                window.location.href = 'project_list'
                                             });
 
                                 });
@@ -234,7 +234,7 @@
                                         }
                                     }).then(() => {
                                         //ganti halaman
-                                        window.location.href = 'management-project'
+                                        window.location.href = 'project_list'
                                     });
                                 });
 
@@ -258,7 +258,7 @@
                                         if (result.isConfirmed) {
                                             // Jika pengguna mengkonfirmasi, lakukan aksi yang diinginkan
                                             console.log('Changes discarded.');
-                                             window.location.href = 'management-project'
+                                             window.location.href = 'project_list'
                                             // Anda bisa melakukan reset atau tindakan lain di sini
                                             // document.getElementById('yourFormId').reset(); // jika ada form
                                         } else {
