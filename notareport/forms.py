@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 from django import forms
-from .models import Kendaraan, MyUser, Naker, Sto, Posisi, Unit, Role, Natura, JenisNota
+from .models import Kendaraan, MyUser, Naker, Sto, Posisi, Unit, Role, Natura, JenisNota, Project
 
 class form_kendaraan(ModelForm):
     class Meta:
@@ -170,31 +170,100 @@ class FormAddNaker(forms.ModelForm):
         self.fields['role'].queryset = Role.objects.all()
         
         
-        
-        
 class FormAddNatura(forms.ModelForm):
-    witel = forms.ChoiceField(choices=Natura.WITEL_CHOICES)
-    
     class Meta:
         model = Natura
-        fields = ['nik', 'nama', 'posisi', 'witel', 'km_referensi', 'km_liter', 'harga_bensin']
- 
- 
+        fields = ('nik', 'nama', 'posisi', 'witel', 'km_referensi', 'km_liter', 'harga_bensin')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['nama'].widget.attrs['readonly'] = True
+        self.fields['posisi'].widget.attrs['readonly'] = True
+        self.fields['witel'].widget.attrs['readonly'] = True
+    # class Meta:
+    #     model = Natura
+    #     fields = ['nik', 'nama', 'posisi', 'witel', 'km_referensi', 'km_liter', 'harga_bensin']
+    
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     self.fields['nik'].widget = forms.TextInput(attrs={'class': 'form-control', 'id': 'NIKNumber', 'name': 'NIKNumber'})  
+    #     self.fields['nama'].widget = forms.TextInput(attrs={'class': 'form-control', 'id': 'TextNama', 'name': 'TextNama'})  
+        
+    #     self.fields['posisi'].widget = forms.Select(attrs={
+    #         'class': 'form-select form-select-solid',
+    #         'id': 'PosisiSelect',
+    #         'data-control': 'select2',
+    #         'data-dropdown-css-class': 'w-200px',
+    #         'data-placeholder': 'Pilih posisi',
+    #         'data-hide-search': 'false'
+    #     })
+    #     self.fields['posisi'].empty_label = 'Pilih Posisi'
+    #     self.fields['posisi'].queryset = Posisi.objects.all()
+        
+    #     self.fields['witel'].widget = forms.Select(attrs={
+    #         'class': 'form-select form-select-solid',
+    #         'id': 'WITELSelect',
+    #         'data-control': 'select2',
+    #         'data-dropdown-css-class': 'w-200px',
+    #         'data-placeholder': 'Pilih witel',
+    #         'data-hide-search': 'true'
+    #     })
+    #     self.fields['witel'].initial = 'Pilih WITEL'
+    #     self.fields['witel'].choices = [('', 'Pilih WITEL')] + Naker.WITEL_CHOICES
+        
+    #     self.fields['km_referensi'].widget = forms.TextInput(attrs={'class': 'form-control', 'id': 'KMNumber', 'name': 'KMNumber'})
+    #     self.fields['km_liter'].widget = forms.TextInput(attrs={'class': 'form-control', 'id': 'KMLNumber', 'name': 'KMLNumber'})
+    #     self.fields['harga_bensin'].widget = forms.TextInput(attrs={'class': 'form-control', 'id': 'BensinNumber', 'name': 'BensinNumber'})
+
  
 class FormAddNota(forms.ModelForm):
 
     class Meta:
         model = JenisNota
-        fields = ['nama_nota']
-  
+        fields = ('jenis_nota', 'nama_nota')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['jenis_nota'].widget = forms.Select(attrs={
+            'class': 'form-select form-select-solid',
+            'id': 'NOTASelect',
+            'data-control': 'select2',
+            'data-dropdown-css-class': 'w-200px',
+            'data-placeholder': 'Pilih jenis nota',
+            'data-hide-search': 'true'
+        })
+        self.fields['jenis_nota'].empty_label = 'Pilih Jenis Nota'
+        self.fields['jenis_nota'].choices = [('', 'Pilih Jenis Nota')] + JenisNota.NOTA_CHOICES
+        self.fields['nama_nota'].widget = forms.TextInput(attrs={'class': 'form-control', 'id': 'TextNota', 'name': 'TextNota'})
+        
   
 class FormAddPosisi(forms.ModelForm):
 
     class Meta:
         model = Posisi
         fields = ['nama_posisi']
-      
         
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields['nama_posisi'].widget = forms.TextInput(attrs={'class': 'form-control', 'id': 'TextPosisi', 'name': 'TextPosisi'})
+
+
+class FormAddProject(forms.ModelForm):
+    
+    class Meta:
+        model = Project
+        fields = ['id_project']
+        
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields['id_project'].widget = forms.TextInput(attrs={'class': 'form-control', 'id': 'TextProject', 'name': 'TextProject'})
+
+
+        
+
+          
 
 
 
