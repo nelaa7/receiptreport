@@ -36,7 +36,7 @@ def add_naker(request):
         form = FormAddNaker(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('management-naker')
+            return redirect('management_naker')
     else:
         form = FormAddNaker()
 
