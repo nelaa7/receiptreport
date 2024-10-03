@@ -181,7 +181,7 @@ class Kendaraan(models.Model):
     ]
 
     id = models.AutoField(primary_key=True)
-    nik = models.ForeignKey(Naker, on_delete=models.CASCADE, related_name='kendaraan_nik')
+    nik = models.ForeignKey(Naker,to_field='nik' ,on_delete=models.CASCADE, related_name='kendaraan_nik')
     tgl_pendataan = models.DateTimeField(auto_now_add=True)
     witel = models.CharField(max_length=10, choices=WITEL_CHOICES)
     jenis_KBM = models.CharField(max_length=2, choices=JENIS_KBM_CHOICES)
@@ -215,7 +215,7 @@ class Natura(models.Model):
     ]
 
     id = models.AutoField(primary_key=True)
-    nik = models.ForeignKey(Naker, on_delete=models.CASCADE)
+    nik = models.ForeignKey(Naker, to_field='nik', on_delete=models.CASCADE)
     nama = models.CharField(max_length=255, default='Isi nama')
     posisi = models.ForeignKey('Posisi', on_delete=models.CASCADE)
     witel = models.CharField(max_length=10, choices=WITEL_CHOICES)
@@ -247,7 +247,7 @@ class TransaksiBBM(models.Model):
     ]
 
     id = models.AutoField(primary_key=True)
-    nik = models.ForeignKey(Naker, on_delete=models.CASCADE)
+    nik = models.ForeignKey(Naker, to_field='nik', on_delete=models.CASCADE)
     id_sto = models.ForeignKey(Sto, on_delete=models.CASCADE)
     id_jenis_nota = models.ForeignKey(JenisNota, on_delete=models.CASCADE)
     tgl_nota = models.DateField()
@@ -280,7 +280,7 @@ class TransaksiNonBBM(models.Model):
     ]
 
     id = models.AutoField(primary_key=True)
-    nik = models.ForeignKey(Naker, on_delete=models.CASCADE)
+    nik = models.ForeignKey(Naker, to_field='nik', on_delete=models.CASCADE)
     sto = models.ForeignKey(Sto, on_delete=models.CASCADE)
     jenis_nota = models.ForeignKey(JenisNota, on_delete=models.CASCADE)
     tgl_nota = models.DateField(null=True, blank=True)
