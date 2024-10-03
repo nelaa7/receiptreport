@@ -49,9 +49,8 @@
 
                     <!--begin::Post-->
                     <div class="post d-flex flex-column-fluid" id="kt_post">
-                        <!--begin::Container-->
                         <div class="container mt-5">
-                            <form action="{% url 'add-naker' %}" method="POST" enctype="multipart/form-data" id="kt_form_naker" class="needs-validation" novalidate >
+                            <form action="{% url 'add_naker' %}" method="POST" id="kt_form_naker">
                                 {% csrf_token %}
                                 <div class="card shadow-sm">
                                     <div class="card-header">
@@ -59,67 +58,64 @@
                                     </div>
                                     <div class="card-body">
                                         <div class="mb-4">
-                                            <label for="NIKNumber" class="form-label">NIK <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="NIKNumber" name="NIKNumber" required minlength="8" maxlength="8" pattern="\d{8}" inputmode="numeric">
+                                            <label for="NIKNumber" class="required form-label">NIK</label>
+                                            <input type="text" class="form-control" id="NIKNumber" name="NIKNumber">
                                             <div class="form-text">Isi NIK dengan teliti dan benar</div>
                                             <div class="invalid-feedback">
                                                 Mohon masukkan NIK yang valid
                                             </div>
                                         </div>
                                         <div class="mb-4">
-                                            <label for="NamaText" class="form-label">Nama <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="NamaText" name="NamaText" required inputmode="text">
+                                            <label for="NamaText" class="required form-label">Nama</label>
+                                            <input type="text" class="form-control" id="NamaText" name="NamaText">
                                             <div class="form-text">Isi nama lengkap</div>
                                         </div>
                                         <div class="mb-4">
-                                            <label for="WitelText" class="form-label">Witel <span class="text-danger">*</span></label>
-                                            <select name="witel" class="form-select form-select-solid" data-control="select2" data-dropdown-css-class="w-200px" data-placeholder="Pilih witel" data-hide-search="true">
-                                                <option value="" disabled selected>Pilih witel</option> <!-- Pilihan default -->
+                                            <label for="WitelSelect" class="required form-label">Witel</label>
+                                            <select id="WitelSelect" name="witel" class="form-select form-select-solid" data-control="select2" data-dropdown-css-class="w-200px" data-placeholder="Pilih witel" data-hide-search="true">
+                                                <option value="" disabled selected>Pilih witel</option>
                                                 {% for value, label in witel_choices %}
                                                 <option value="{{ value }}">{{ label }}</option>
-                                            {% endfor %}
+                                                {% endfor %}
                                             </select>
                                         </div>
-                                        
                                         <div class="mb-4">
-                                            <label for="STOText" class="form-label">STO <span class="text-danger">*</span></label>
-                                            <select name="sto" class="form-select form-select-solid" data-control="select2" data-dropdown-css-class="w-200px" data-placeholder="Pilih sto" data-hide-search="false">
+                                            <label for="STOSelect" class="required form-label">STO</label>
+                                            <select id="STOSelect" name="sto" class="form-select form-select-solid" data-control="select2" data-dropdown-css-class="w-200px" data-placeholder="Pilih sto" data-hide-search="false">
                                                 <option value="" disabled selected>Pilih STO</option>
                                                 {% for sto_item in sto %}
                                                     <option value="{{ sto_item.id }}">{{ sto_item.nama_sto }}</option>
                                                 {% endfor %}
                                             </select>
                                         </div>
-                                        
                                         <div class="mb-4">
-                                            <label for="PosisiText" class="form-label">Posisi <span class="text-danger">*</span></label>
-                                            <select name="posisi" class="form-select form-select-solid" data-control="select2" data-dropdown-css-class="w-200px" data-placeholder="Pilih posisi" data-hide-search="false">
+                                            <label for="PosisiSelect" class="required form-label">Posisi</label>
+                                            <select id="PosisiSelect" name="posisi" class="form-select form-select-solid" data-control="select2" data-dropdown-css-class="w-200px" data-placeholder="Pilih posisi" data-hide-search="false">
                                                 <option value="" disabled selected>Pilih posisi</option>
                                                 {% for posisi_item in posisi %}
                                                     <option value="{{ posisi_item.id }}">{{ posisi_item.nama_posisi }}</option>
                                                 {% endfor %}
                                             </select>
                                         </div>
-                                        
                                         <div class="mb-4">
-                                            <label for="UnitText" class="form-label">Unit<span class="text-danger">*</span></label>
-                                            <select name="unit" class="form-select form-select-solid" data-control="select2" data-dropdown-css-class="w-200px" data-placeholder="Pilih unit" data-hide-search="false">
+                                            <label for="UnitSelect" class="required form-label">Unit</label>
+                                            <select id="UnitSelect" name="unit" class="form-select form-select-solid" data-control="select2" data-dropdown-css-class="w-200px" data-placeholder="Pilih unit" data-hide-search="false">
                                                 <option value="" disabled selected>Pilih unit</option>
                                                 {% for unit_item in unit %}
                                                     <option value="{{ unit_item.id }}">{{ unit_item.nama_unit }}</option>
                                                 {% endfor %}
                                             </select>
                                         </div>
-                                        
                                         <div class="mb-4">
-                                            <label for="RoleText" class="form-label">Role<span class="text-danger">*</span></label>
-                                            <select name="role" class="form-select form-select-solid" data-control="select2" data-dropdown-css-class="w-200px" data-placeholder="Pilih role" data-hide-search="true">
+                                            <label for="RoleSelect" class="required form-label">Role</label>
+                                            <select id="RoleSelect" name="role" class="form-select form-select-solid" data-control="select2" data-dropdown-css-class="w-200px" data-placeholder="Pilih role" data-hide-search="true">
                                                 <option value="" disabled selected>Pilih role</option>
                                                 {% for role_item in role %}
                                                     <option value="{{ role_item.id }}">{{ role_item.nama_role }}</option>
                                                 {% endfor %}
                                             </select>
-                                        </div>                                        
+                                        </div>
+                                    </div>                                 
                                         <!--end::Card header-->
                                     {% comment %} <div class="card-footer d-flex justify-content-end">
                                         <!--begin::Button-->
@@ -193,5 +189,6 @@
                                 });
                             });
 </script> {% endcomment %}
+
 
 {% endblock %}

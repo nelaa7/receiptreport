@@ -11,6 +11,7 @@ admin.site.register(Role)
 admin.site.register(Naker)
 admin.site.register(MyUser)
 admin.site.register(Kendaraan)
+admin.site.register(Natura)
 admin.site.register(TransaksiBBM)
 admin.site.register(TransaksiNonBBM)
 
