@@ -68,7 +68,9 @@
 
                                     <div class="card-footer d-flex justify-content-end">
                                         <!--begin::Button-->
-                                        <button type="reset" id="kt_modal_edit_item_cancel" class="btn btn-light me-3">Cancel</button>
+                                        <a href="{% url 'posisi_list' %}">
+                                            <button type="reset" id="kt_modal_edit_item_cancel" class="btn btn-light me-3">Cancel</button>
+                                        </a>
                                         <!--end::Button-->
                                         <!--begin::Button-->
                                         <button type="submit" id="kt_modal_edit_item_submit" class="btn btn-primary">
@@ -91,7 +93,7 @@
                                 Swal.fire({
                                     title: "Confirm Submit",
                                     text: "Are you sure you want to submit the form?",
-                                    icon: "question",
+                                    icon: "warning",
                                     showCancelButton: true,
                                     confirmButtonText: "Submit",
                                     cancelButtonText: "Cancel",
@@ -118,7 +120,28 @@
                                         });
                                     }
                                 });
+
+                                const discardButton = document.getElementById('kt_modal_edit_item_cancel');
+                                    discardButton.addEventListener('click', e => {
+                                        e.preventDefault();
+                                        Swal.fire({
+                                            title: 'Discard Changes?',
+                                            text: "Are you sure you want to discard the changes?",
+                                            icon: 'warning',
+                                            showCancelButton: true,
+                                            confirmButtonText: 'Yes, discard it!',
+                                            cancelButtonText: 'No, keep it',
+                                            customClass: {
+                                                confirmButton: 'btn btn-danger',
+                                                cancelButton: 'btn btn-light'
+                                            }
+                                        }).then((result) => {
+                                            if (result.isConfirmed) {
+                                                window.location.href = ''; // Redirect jika dibatalkan
+                                            }
+                                        });
+                                    });
                             });
                         </script>
-                        
+
 {% endblock %} 

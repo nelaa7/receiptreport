@@ -261,7 +261,18 @@ class FormAddProject(forms.ModelForm):
         self.fields['id_project'].widget = forms.TextInput(attrs={'class': 'form-control', 'id': 'TextProject', 'name': 'TextProject'})
 
 
+class FormAddSto(forms.ModelForm):
+    
+    class Meta:
+        model = Sto
+        fields = ['nama_sto']
         
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.fields['nama_sto'].widget = forms.TextInput(attrs={'class': 'form-control', 'id': 'TextSTO', 'name': 'TextSTO'})
+
+     
 
           
 

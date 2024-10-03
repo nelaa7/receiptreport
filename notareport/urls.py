@@ -15,7 +15,7 @@ urlpatterns = [
     path('add-posisi/', views.add_posisi, name='add_posisi'), 
     path('get-naker-data/', views.get_naker_data, name='get_naker_data'), 
     path('add-project/', views.add_project, name='add_project'),
-
+    path('add-sto/', views.add_sto, name='add_sto'), 
 
 
 

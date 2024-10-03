@@ -1,7 +1,7 @@
 import json
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Kendaraan, Naker, MyUser, Sto, Posisi, Unit, Role, JenisNota, Project, Natura, TransaksiBBM, TransaksiNonBBM
-from .forms import form_kendaraan, PasswordResetForm, RegistrationForm, FormAddNaker, FormAddNatura, FormAddNota, FormAddPosisi
+from .forms import form_kendaraan, PasswordResetForm, RegistrationForm, FormAddNaker, FormAddNatura, FormAddNota, FormAddPosisi, FormAddProject, FormAddSto
 from django.contrib import messages 
 from django.contrib.auth import authenticate
 from django.http import JsonResponse
@@ -112,14 +112,26 @@ def add_posisi(request):
     
 def add_project(request):
     if request.method == 'POST':
-        form = FormAddPosisi(request.POST)
+        form = FormAddProject(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('posisi_list')
+            return redirect('project_list')
     else:
-        form = FormAddPosisi()
+        form = FormAddProject()
 
-    return render(request, 'finance/management/add-posisi.html', {'form': form})
+    return render(request, 'finance/management/add-project.html', {'form': form})
+
+
+def add_sto(request):
+    if request.method == 'POST':
+        form = FormAddSto(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('sto_list')
+    else:
+        form = FormAddSto()
+
+    return render(request, 'finance/management/add-sto.html', {'form': form})
     
 
 
