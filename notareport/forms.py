@@ -122,8 +122,9 @@ class FormAddNaker(forms.ModelForm):
             'data-placeholder': 'Pilih witel',
             'data-hide-search': 'true'
         })
-        self.fields['witel'].empty_label = 'Pilih WITEL'
-        self.fields['witel'].choices = Naker.WITEL_CHOICES
+        self.fields['witel'].initial = 'Pilih WITEL'
+        self.fields['witel'].choices = [('', 'Pilih WITEL')] + Naker.WITEL_CHOICES
+        
         self.fields['sto'].widget = forms.Select(attrs={
             'class': 'form-select form-select-solid',
             'id': 'STOSelect',
@@ -134,6 +135,7 @@ class FormAddNaker(forms.ModelForm):
         })
         self.fields['sto'].empty_label = 'Pilih STO'
         self.fields['sto'].queryset = Sto.objects.all()
+        
         self.fields['posisi'].widget = forms.Select(attrs={
             'class': 'form-select form-select-solid',
             'id': 'PosisiSelect',
@@ -144,6 +146,7 @@ class FormAddNaker(forms.ModelForm):
         })
         self.fields['posisi'].empty_label = 'Pilih Posisi'
         self.fields['posisi'].queryset = Posisi.objects.all()
+        
         self.fields['unit'].widget = forms.Select(attrs={
             'class': 'form-select form-select-solid',
             'id': 'UnitSelect',
@@ -152,15 +155,16 @@ class FormAddNaker(forms.ModelForm):
             'data-placeholder': 'Pilih unit',
             'data-hide-search': 'false'
         })
-        self.fields['role'].empty_label = 'Pilih Role'
-        self.fields['role'].queryset = Unit.objects.all()
+        self.fields['unit'].empty_label = 'Pilih Unit'
+        self.fields['unit'].queryset = Unit.objects.all()
+        
         self.fields['role'].widget = forms.Select(attrs={
             'class': 'form-select form-select-solid',
-            'id': 'UnitSelect',
+            'id': 'RoleSelect',
             'data-control': 'select2',
             'data-dropdown-css-class': 'w-200px',
-            'data-placeholder': 'Pilih unit',
-            'data-hide-search': 'false'
+            'data-placeholder': 'Pilih role',
+            'data-hide-search': 'true'
         })
         self.fields['role'].empty_label = 'Pilih Role'
         self.fields['role'].queryset = Role.objects.all()

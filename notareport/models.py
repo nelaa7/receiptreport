@@ -136,7 +136,7 @@ class Naker(models.Model):
         verbose_name_plural = 'Naker'
 
     def __str__(self): 
-        return f'{self.nik} ({self.sto}) ({self.posisi}) ({self.unit}) ({self.role}) ({self.nama}) ({self.witel})'
+        return self.nik
     
 class MyUserManager(BaseUserManager):
     def create_user(self, Naker, password=None):
