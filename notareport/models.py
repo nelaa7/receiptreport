@@ -139,16 +139,18 @@ class Naker(models.Model):
         return self.nik
     
 class MyUserManager(BaseUserManager):
-    def create_user(self, Naker, password=None):
-        if not Naker:
+    def create_user(self, nik, password=None):
+        if not nik:
             raise ValueError('Users must have a NIK')
         if not password:
             raise ValueError('Users must have a password')
 
-        user = self.model(Naker=Naker)
+        naker = Naker.objects.get(nik=nik)
+        user = self.model(nik=naker)
         user.set_password(password)
         user.save(using=self._db)
         return user
+
 
 class MyUser(AbstractBaseUser):
     nik = models.OneToOneField(Naker, on_delete=models.CASCADE, related_name='users', null=True, blank=True, unique=True)
