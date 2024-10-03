@@ -2,14 +2,14 @@
     "version": 2,
     "builds": [
       {
-        "src": "notareport.wsgi",
+        "src": "receiptreport.wsgi",
         "use": "@vercel/python"
       }
     ],
     "routes": [
       {
         "src": "/(.*)",
-        "dest": "notareport.wsgi"
+        "dest": "receiptreport.wsgi"
       }
     ]
   }
