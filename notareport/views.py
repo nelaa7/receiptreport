@@ -272,28 +272,28 @@ def sto_list(request):
     return render(request, "finance/management/sto.html", context)
 
 
-def sto_edit(request, sto_id):
-    sto = get_object_or_404(Sto, id=sto_id)
+# def sto_edit(request, sto_id):
+#     sto = get_object_or_404(Sto, id=sto_id)
 
-    if request.method == 'POST':
-        sto.nama_sto = request.POST.get('nama_sto')
-        sto.save()
-        return JsonResponse({'success': True})
+#     if request.method == 'POST':
+#         sto.nama_sto = request.POST.get('nama_sto')
+#         sto.save()
+#         return JsonResponse({'success': True})
 
-    return JsonResponse({'success': False}, status=400)
+#     return JsonResponse({'success': False}, status=400)
 
-# def sto_edit(request, id):
-#     sto_edit = get_object_or_404(Sto, id=id)
-#     url = reverse('sto_edit', args=[Sto.id])
-#     if request.method == "POST":
-#         try:
-#             sto_edit.nama_sto = request.POST.get('nama_sto', sto_edit.nama_sto)
-#             sto_edit.save()
-#             return JsonResponse({'message': 'Data updated successfully'}, status=200)
-#         except Exception as e:
-#             print(f'Error updating STO: {e}')
-#             return JsonResponse({'message': str(e)}, status=500)
-#     return render(request, "finance/management/sto.html", {'sto_edit':sto_edit})    
+def sto_edit(request, id):
+    sto_edit = get_object_or_404(Sto, id=id)
+    # url = reverse('sto_edit', args=[Sto.id])
+    if request.method == "POST":
+        try:
+            sto_edit.nama_sto = request.POST.get('nama_sto', sto_edit.nama_sto)
+            sto_edit.save()
+            return JsonResponse({'message': 'Data updated successfully'}, status=200)
+        except Exception as e:
+            print(f'Error updating STO: {e}')
+            return JsonResponse({'message': str(e)}, status=500)
+    return render(request, "finance/management/sto.html", {'sto_edit':sto_edit})    
 
     # Jika method GET, kembalikan data STO dalam format JSON
     # return JsonResponse({

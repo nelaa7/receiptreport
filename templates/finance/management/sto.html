@@ -72,9 +72,7 @@
                                                 </svg>
                                             </span>
                                             <!--end::Svg Icon-->
-                                            <input type="text" data-kt-customer-table-filter="search"
-                                                class="form-control form-control-solid w-250px ps-15"
-                                                placeholder="Search" />
+                                            <input type="text" data-kt-customer-table-filter="search"class="form-control form-control-solid w-250px ps-15"placeholder="Search" />
                                         </div>
                                         <!--end::Search-->
                                     </div>
@@ -137,7 +135,7 @@
                                                 <!--end::Nama STO=-->
                                                 <!--begin::Action=-->
                                                 <td class="text-end">
-                                                    <a href="#" class="btn btn-icon btn-sm btn-light btn-active-light-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_edit_item" 
+                                                    <a href="{% url 'sto_edit' sto_edit.id}" class="btn btn-icon btn-sm btn-light btn-active-light-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_edit_item" 
                                                     data-id="{{ sto.id }}"
                                                     data-nama="{{ sto.nama_sto }}">
                                                         <!--begin::Svg Icon | path: icons/duotune/art/art005.svg-->
@@ -210,106 +208,119 @@
                                 </div>
                             </div>
                             <!-- End::Modal Edit -->
+
+                            <script src="{% static 'js/custom/apps/customers/list/list.js' %}"></script>
+
                              <script>
 
-                                // Menggunakan jQuery AJAX
-$('#kt_modal_edit_item').on('show.bs.modal', function(event) {
-    const button = $(event.relatedTarget);
-    const id = button.data('id');
-    
-    // Ambil data dari database menggunakan AJAX
-    $.ajax({
-        url: `/sto/${id}`,
-        method: 'GET',
-        success: function(response) {
-            // Isi form dengan data dari database
-            const modal = $('#kt_modal_edit_item');
-            modal.find('input[name="nama_sto"]').val(response.nama_sto);
-            // Isi field lainnya sesuai kebutuhan
-        },
-        error: function(xhr) {
-            console.error('Error:', xhr);
-        }
-    });
-});
+                                 // Menggunakan jQuery AJAX
+                                 $('#kt_modal_edit_item').on('show.bs.modal', function (event) {
+                                     const button = $(event.relatedTarget);
+                                     const id = button.data('id');
 
-// Atau menggunakan Fetch API (JavaScript modern)
-{% comment %} document.querySelector('#kt_modal_edit_item').addEventListener('show.bs.modal', function(event) {
-    const button = event.relatedTarget;
-    const id = button.dataset.id;
-    
-    fetch(`/sto/${id}`)
-        .then(response => response.json())
-        .then(data => {
-            // Isi form dengan data
-            document.querySelector('input[name="nama_sto"]').value = data.nama_sto;
-            // Isi field lainnya
-        })
-        .catch(error => console.error('Error:', error));
-}); {% endcomment %}
+                                     // Ambil data dari database menggunakan AJAX
+                                     $.ajax({
+                                         url: `/sto/${id}`,
+                                         method: 'GET',
+                                         success: function (response) {
+                                             // Isi form dengan data dari database
+                                             const modal = $('#kt_modal_edit_item');
+                                             modal.find('input[name="nama_sto"]').val(response.nama_sto);
+                                             // Isi field lainnya sesuai kebutuhan
+                                         },
+                                         error: function (xhr) {
+                                             console.error('Error:', xhr);
+                                         }
+                                     });
+                                 });
 
-                            // Handle klik tombol edit
-                            {% comment %} document.querySelectorAll('.edit-btn').forEach(button => {
-                                button.addEventListener('click', function () {
-                                    const id = this.dataset.id;
-                                    const nama = this.dataset.nama_sto;
-                            
-                                    document.getElementById('edit_id').value = id;
-                                    document.getElementById('edit_nama_sto').value = nama;
-                                });
-                            }); {% endcomment %}
-                            
-                            // Tombol submit
-                            const submitButton = document.getElementById('kt_modal_edit_item_submit');
-                            submitButton.addEventListener('click', e => {
-                                e.preventDefault(); // Mencegah form submit secara default
-                            
-                                const id = document.getElementById('edit_id').value;
-                                const nama_sto = document.getElementById('edit_nama_sto').value;
-                                const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-                            
-                                fetch(`/finance/management/sto/${id}/edit/`, {
-                                    method: 'POST',
-                                    headers: {
-                                        'Content-Type': 'application/x-www-form-urlencoded',
-                                        'X-CSRFToken': csrfToken
-                                    },
-                                    body: `nama_sto=${encodeURIComponent(nama_sto)}`
-                                })
-                                .then(response => {
-                                    if (response.ok) {
-                                        return response.json();
-                                    }
-                                    throw new Error('Network response was not ok.');
-                                })
-                                .then(data => {
-                                    Swal.fire({
-                                        text: "Data has been successfully updated!",
-                                        icon: "success",
-                                        buttonsStyling: false,
-                                        confirmButtonText: "Oke",
-                                        customClass: {
-                                            confirmButton: "btn btn-primary"
-                                        }
-                                    }).then(() => {
-                                        const modal = bootstrap.Modal.getInstance(document.getElementById('kt_modal_edit_item'));
-                                        modal.hide(); // Tutup modal
-                                        window.location.reload(); // Refresh halaman
-                                    });
-                                })
-                                .catch(error => {
-                                    console.error('There was a problem with the fetch operation:', error);
-                                    Swal.fire({
-                                        text: "Terjadi kesalahan saat memperbarui data.",
-                                        icon: "error",
-                                        buttonsStyling: false,
-                                        confirmButtonText: "Oke",
-                                        customClass: {
-                                            confirmButton: "btn btn-danger"
-                                        }
-                                    });
-                                });
-                            });
-                                          
+                             // Atau menggunakan Fetch API (JavaScript modern)
+                             {
+                                 % comment %
+                             }
+                             document.querySelector('#kt_modal_edit_item').addEventListener('show.bs.modal', function (event) {
+                                 const button = event.relatedTarget;
+                                 const id = button.dataset.id;
+
+                                 fetch(`/sto/${id}`)
+                                     .then(response => response.json())
+                                     .then(data => {
+                                         // Isi form dengan data
+                                         document.querySelector('input[name="nama_sto"]').value = data.nama_sto;
+                                         // Isi field lainnya
+                                     })
+                                     .catch(error => console.error('Error:', error));
+                             }); {
+                                 % endcomment %
+                             }
+
+                             // Handle klik tombol edit
+                             {
+                                 % comment %
+                             }
+                             document.querySelectorAll('.edit-btn').forEach(button => {
+                                 button.addEventListener('click', function () {
+                                     const id = this.dataset.id;
+                                     const nama = this.dataset.nama_sto;
+
+                                     document.getElementById('edit_id').value = id;
+                                     document.getElementById('edit_nama_sto').value = nama;
+                                 });
+                             }); {
+                                 % endcomment %
+                             }
+
+                             // Tombol submit
+                             const submitButton = document.getElementById('kt_modal_edit_item_submit');
+                             submitButton.addEventListener('click', e => {
+                                 e.preventDefault(); // Mencegah form submit secara default
+
+                                 const id = document.getElementById('edit_id').value;
+                                 const nama_sto = document.getElementById('edit_nama_sto').value;
+                                 const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+                                 fetch(`/finance/management/sto/${id}/edit/`, {
+                                         method: 'POST',
+                                         headers: {
+                                             'Content-Type': 'application/x-www-form-urlencoded',
+                                             'X-CSRFToken': csrfToken
+                                         },
+                                         body: `nama_sto=${encodeURIComponent(nama_sto)}`
+                                     })
+                                     .then(response => {
+                                         if (response.ok) {
+                                             return response.json();
+                                         }
+                                         throw new Error('Network response was not ok.');
+                                     })
+                                     .then(data => {
+                                         Swal.fire({
+                                             text: "Data has been successfully updated!",
+                                             icon: "success",
+                                             buttonsStyling: false,
+                                             confirmButtonText: "Oke",
+                                             customClass: {
+                                                 confirmButton: "btn btn-primary"
+                                             }
+                                         }).then(() => {
+                                             const modal = bootstrap.Modal.getInstance(document.getElementById('kt_modal_edit_item'));
+                                             modal.hide(); // Tutup modal
+                                             window.location.reload(); // Refresh halaman
+                                         });
+                                     })
+                                     .catch(error => {
+                                         console.error('There was a problem with the fetch operation:', error);
+                                         Swal.fire({
+                                             text: "Terjadi kesalahan saat memperbarui data.",
+                                             icon: "error",
+                                             buttonsStyling: false,
+                                             confirmButtonText: "Oke",
+                                             customClass: {
+                                                 confirmButton: "btn btn-danger"
+                                             }
+                                         });
+                                     });
+                             });
+                            </script>
 
     {% endblock %} 
