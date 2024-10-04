@@ -139,16 +139,18 @@ class Naker(models.Model):
         return self.nik
     
 class MyUserManager(BaseUserManager):
-    def create_user(self, Naker, password=None):
-        if not Naker:
+    def create_user(self, nik, password=None):
+        if not nik:
             raise ValueError('Users must have a NIK')
         if not password:
             raise ValueError('Users must have a password')
 
-        user = self.model(Naker=Naker)
+        naker = Naker.objects.get(nik=nik)
+        user = self.model(nik=naker)
         user.set_password(password)
         user.save(using=self._db)
         return user
+
 
 class MyUser(AbstractBaseUser):
     nik = models.OneToOneField(Naker, on_delete=models.CASCADE, related_name='users', null=True, blank=True, unique=True)
@@ -255,8 +257,8 @@ class TransaksiBBM(models.Model):
     no_polisi = models.CharField(max_length=20)
     km = models.CharField(max_length=20)
     nominal = models.IntegerField()
-    foto_nota = models.ImageField(upload_to='notas/')
-    foto_odo = models.ImageField(upload_to='odos/')
+    foto_nota = models.ImageField(upload_to='bbm/notas/')
+    foto_odo = models.ImageField(upload_to='bbm/odos/')
     uraian_kegiatan = models.TextField()
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='Proccessed')
     status_changed_at = models.DateTimeField(null=True, blank=True)
@@ -285,8 +287,8 @@ class TransaksiNonBBM(models.Model):
     jenis_nota = models.ForeignKey(JenisNota, on_delete=models.CASCADE)
     tgl_nota = models.DateField(null=True, blank=True)
     nominal = models.IntegerField()
-    foto_nota = models.ImageField(upload_to='notas/')
-    foto_evidence = models.ImageField(upload_to='evidences/')
+    foto_nota = models.ImageField(upload_to='nonbbmnotas/')
+    foto_evidence = models.ImageField(upload_to='nonbbm/evidences/')
     uraian_kegiatan = models.TextField()
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='Proccessed')
     status_changed_at = models.DateTimeField(null=True, blank=True)

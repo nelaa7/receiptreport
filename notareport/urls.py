@@ -20,7 +20,10 @@ urlpatterns = [
 
 
 
-    path('edit-sto/<int:id>/', views.sto_edit, name='sto_edit'),    
+
+
+    path('finance/management/sto/<int:id>/edit/', views.sto_edit, name='sto_edit'),
+    # path('edit-sto/<int:id>/', views.sto_edit, name='sto_edit'),    
     path('register/', views.register_view, name='register'),
     path('login/', views.login_view, name='login'),
     path('check-db/', views.check_database_connection, name='check_database_connection'),
