@@ -109,7 +109,20 @@ def add_posisi(request):
 
     return render(request, 'finance/management/add-posisi.html', {'form': form})
     
-    
+def posisi_update(request, pk):
+    posisi = get_object_or_404(Posisi, id=pk)
+    if request.method == 'POST':
+        form = FormAddPosisi(request.POST, instance=posisi)
+        if form.is_valid():
+            form.save()
+            return JsonResponse({'status': 'success'})
+        else:
+            return JsonResponse({'status': 'error', 'errors': form.errors})
+    else:
+        form = FormAddPosisi(instance=posisi)
+    return render(request, 'finance/management/posisi.html', {'form': form, 'posisi': posisi})
+
+
 def add_project(request):
     if request.method == 'POST':
         form = FormAddProject(request.POST)
@@ -132,7 +145,11 @@ def add_sto(request):
         form = FormAddSto()
 
     return render(request, 'finance/management/add-sto.html', {'form': form})
-    
+ 
+
+
+
+   
 
 
 
@@ -297,10 +314,13 @@ def jenisNota_list(request):
 
 def posisi_list(request):
     posisi_list = Posisi.objects.all()
-    context={
-        'posisi_list':posisi_list
-    }
-    return render(request, "finance/management/posisi.html", context)
+    return render(request, 'finance/management/posisi.html', {'posisi_list': posisi_list})
+# def posisi_list(request):
+#     posisi_list = Posisi.objects.all()
+#     context={
+#         'posisi_list':posisi_list
+#     }
+#     return render(request, "finance/management/posisi.html", context)
 
 def project_list(request):
     project_list = Project.objects.all()

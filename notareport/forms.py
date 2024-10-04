@@ -241,13 +241,21 @@ class FormAddPosisi(forms.ModelForm):
 
     class Meta:
         model = Posisi
-        fields = ['nama_posisi']
+        fields = ('jenis_posisi', 'nama_posisi')
         
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
+        self.fields['jenis_posisi'].widget = forms.Select(attrs={
+            'class': 'form-select form-select-solid',
+            'id': 'PosisiSelect',
+            'data-control': 'select2',
+            'data-dropdown-css-class': 'w-200px',
+            'data-placeholder': 'Pilih jenis posisi',
+            'data-hide-search': 'false'
+        })
+        self.fields['jenis_posisi'].empty_label = 'Pilih Jenis Posisi'
+        self.fields['jenis_posisi'].choices = [('', 'Pilih Jenis Posisi')] + Posisi.POSISI_CHOICES
         self.fields['nama_posisi'].widget = forms.TextInput(attrs={'class': 'form-control', 'id': 'TextPosisi', 'name': 'TextPosisi'})
-
 
 class FormAddProject(forms.ModelForm):
     
@@ -272,7 +280,7 @@ class FormAddSto(forms.ModelForm):
 
         self.fields['nama_sto'].widget = forms.TextInput(attrs={'class': 'form-control', 'id': 'TextSTO', 'name': 'TextSTO'})
 
-     
+
 
           
 

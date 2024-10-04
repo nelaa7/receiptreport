@@ -29,7 +29,7 @@ class Posisi (models.Model):
         ('Teknisi', 'Teknisi'),
     ]
     
-    # id = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     jenis_posisi = models.CharField(max_length=225, choices=[
         ('Manager', 'Manager'),
         ('AssMAN','AssMAN'),
