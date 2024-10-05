@@ -1,4 +1,4 @@
-"use strict";
+    "use strict";
 var KTSigninGeneral = function () {
     var e, t, i;
     return {
