@@ -252,7 +252,7 @@ class FormAddPosisi(forms.ModelForm):
             'data-control': 'select2',
             'data-dropdown-css-class': 'w-200px',
             'data-placeholder': 'Pilih jenis posisi',
-            'data-hide-search': 'false'
+            'data-hide-search': 'true'
         })
         self.fields['jenis_posisi'].empty_label = 'Pilih Jenis Posisi'
         self.fields['jenis_posisi'].choices = [('', 'Pilih Jenis Posisi')] + Posisi.POSISI_CHOICES
