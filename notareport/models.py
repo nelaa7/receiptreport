@@ -45,6 +45,7 @@ class Posisi (models.Model):
     update_at = models.DateTimeField(auto_now=True)
        
     class Meta:
+        ordering = ['id']
         verbose_name = 'Posisi'
         verbose_name_plural = 'Posisi'
 

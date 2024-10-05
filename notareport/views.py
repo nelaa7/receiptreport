@@ -1,6 +1,6 @@
 import json
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Kendaraan, Naker, MyUser, Sto, Posisi, Unit, Role, JenisNota, Project, Natura, TransaksiBBM, TransaksiNonBBM
+from .models import Kendaraan, Naker, MyUser, Sto, Posisi, Unit, JenisNota, Project, Natura, TransaksiBBM, TransaksiNonBBM, Role
 from .forms import form_kendaraan, PasswordResetForm, RegistrationForm, FormAddNaker, FormAddNatura, FormAddNota, FormAddPosisi, FormAddProject, FormAddSto
 from django.contrib import messages 
 from django.contrib.auth import authenticate
@@ -111,20 +111,28 @@ def add_posisi(request):
 
     return render(request, 'finance/management/add-posisi.html', {'form': form})
     
-def posisi_update(request, pk):
-    posisi = get_object_or_404(Posisi, id=pk)
+def posisi_edit(request, pk):
+    posisi = get_object_or_404(Posisi, pk=pk)
+    
     if request.method == 'POST':
         form = FormAddPosisi(request.POST, instance=posisi)
         if form.is_valid():
             form.save()
-            return JsonResponse({'status': 'success'})
+            # Ambil data terbaru dan urutkan berdasarkan ID
+            updated_posisi_list = Posisi.objects.all().order_by('id')
+            return JsonResponse({
+                'status': 'success',
+                'posisi_list': list(updated_posisi_list.values('id', 'jenis_posisi', 'nama_posisi'))
+            })
         else:
             return JsonResponse({'status': 'error', 'errors': form.errors})
     else:
         form = FormAddPosisi(instance=posisi)
-    return render(request, 'finance/management/posisi.html', {'form': form, 'posisi': posisi})
-
-
+    
+    # Pastikan posisi_list selalu diurutkan berdasarkan ID
+    posisi_list = Posisi.objects.all().order_by('id')
+    return render(request, 'finance/management/posisi-list.html', {'form': form, 'posisi_list': posisi_list})
+    
 def add_project(request):
     if request.method == 'POST':
         form = FormAddProject(request.POST)

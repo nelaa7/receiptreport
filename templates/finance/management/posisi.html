@@ -87,6 +87,7 @@
                 </div>
             </div>
 
+            <!--begin::Edit Posisi-->
             {% for posisi in posisi_list %}
             <div class="modal fade" id="kt_modal_edit_item_{{ posisi.id }}" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered mw-650px">
@@ -103,75 +104,94 @@
                             </div>
                         </div>
                         <div class="modal-body py-10 px-lg-17">
-                            <div class="scroll-y me-n7 pe-7" id="kt_modal_edit_item_scroll" data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_edit_item_header" data-kt-scroll-wrappers="#kt_modal_edit_item_scroll" data-kt-scroll-offset="300px">
-                                <form id="edit-form-{{ posisi.id }}" action="{% url 'posisi_update' posisi.id %}" method="post">
-                                    {% csrf_token %} 
-                                    <div class="fv-row mb-7">
-                                        <label class="required fs-6 fw-semibold mb-2">Jenis Posisi</label>
-                                        <input type="text" name="jenis_posisi" class="form-control mb-2" placeholder="Jenis Posisi" value="{{ posisi.jenis_posisi }}">
+                            <!-- Form -->
+                            <form id="edit-form-{{ posisi.id }}">
+                                {% csrf_token %}
+                                <input type="hidden" name="posisi_id" value="{{ posisi.id }}">
+                                <div class="fv-row mb-7">
+                                    <label for="jenis_posisi_{{ posisi.id }}" class="required form-label">Jenis Posisi</label>
+                                    <div class="col-sm-10">
+                                        <select name="jenis_posisi" id="jenis_posisi_{{ posisi.id }}" class= "form-select form-select-solid" data-control= "select2" data-hide-search= "true">
+                                            {% for choice in posisi.POSISI_CHOICES %}
+                                                <option value="{{ choice.0 }}" {% if posisi.jenis_posisi == choice.0 %}selected{% endif %}>{{ choice.1 }}</option>
+                                            {% endfor %}
+                                        </select>
                                     </div>
-                                    <div class="fv-row mb-7">
-                                        <label class="required fs-6 fw-semibold mb-2">Nama Posisi</label>
-                                        <input type="text" name="nama_posisi" class="form-control mb-2" placeholder="Nama Posisi" value="{{ posisi.nama_posisi }}">
+                                </div>
+                                <div class="fv-row mb-7">
+                                    <label for="nama_posisi_{{ posisi.id }}" class="required form-label">Nama Posisi</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" name="nama_posisi" id="nama_posisi_{{ posisi.id }}" class="form-control" value="{{ posisi.nama_posisi }}" required>
                                     </div>
-                                    <button type="submit" class="btn btn-primary">
-                                        <span class="indicator-label">Submit</span>
-                                        <span class="indicator-progress">Please wait...
-                                        <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
-                                    </button>
-                                </form>
-                            </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary">
+                                    <span class="indicator-label">Submit</span>
+                                    <span class="indicator-progress">Please wait...
+                                        <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                                    </span>
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
             {% endfor %}
-        </div>
-    </div>
-</div>
+            <!--end::Edit Posisi-->
 
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-    const searchInput = document.getElementById('search-input');
-    const tableRows = document.querySelectorAll('#kt_customers_table tbody tr');
+            <script>
 
-    searchInput.addEventListener('input', (e) => {
-        const searchValue = e.target.value.toLowerCase();
+                const csrfToken = '{% csrf_token %}';
 
-        tableRows.forEach((row) => {
-            const jenisPosisi = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
-            const namaPosisi = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
+                document.addEventListener('DOMContentLoaded', () => {
+                    const editForms = document.querySelectorAll('form[id^="edit-form-"]');
+                    editForms.forEach(form => {
+                        form.addEventListener('submit', (e) => {
+                            e.preventDefault();
+                            const formData = new FormData(form);
+                            const posisiId = form.querySelector('input[name="posisi_id"]').value;
+                
+                            fetch(`/finance/management/posisi-list/${posisiId}/`, {
+                                method: 'POST',
+                                body: formData,
+                                headers: {
+                                    'X-CSRFToken': csrfToken
+                                }
+                            }).then(response => response.json())
+                            .then(data => {
+                                if (data.status === 'success') {
+                                    // Close the modal
+                                    const modal = form.closest('.modal');
+                                    const modalInstance = bootstrap.Modal.getInstance(modal);
+                                    modalInstance.hide();
+                
+                                    // Store the current scroll position
+                                    const scrollPosition = window.pageYOffset;
+                
+                                    // Refresh the page and restore scroll position
+                                    window.location.reload();
+                                    window.addEventListener('load', function() {
+                                        window.scrollTo(0, scrollPosition);
+                                    });
+                                } else {
+                                    // Display error messages in the form itself
+                                    const errorMessages = data.errors;
+                                    Object.keys(errorMessages).forEach(key => {
+                                        const errorMessage = errorMessages[key];
+                                        const formField = form.querySelector(`[name="${key}"]`);
+                                        formField.classList.add('is-invalid');
+                                        const errorElement = formField.nextElementSibling || document.createElement('div');
+                                        errorElement.textContent = errorMessage;
+                                        errorElement.classList.add('invalid-feedback');
+                                        if (!formField.nextElementSibling) {
+                                            formField.parentNode.appendChild(errorElement);
+                                        }
+                                    });
+                                }
+                            });
+                        });
+                    });
+                });
+            
+            </script>
 
-            if (jenisPosisi.includes(searchValue) || namaPosisi.includes(searchValue)) {
-                row.style.display = '';
-            } else {
-                row.style.display = 'none';
-            }
-        });
-    });
-
-    {% for posisi in posisi_list %}
-    const editForm{{ posisi.id }} = document.getElementById('edit-form-{{ posisi.id }}');
-    editForm{{ posisi.id }}.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const formData = new FormData(editForm{{ posisi.id }});
-
-        fetch('{% url "posisi_update" posisi.id %}', {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-CSRFToken': '{{ csrf_token }}'
-            }
-        }).then(response => response.json())
-          .then(data => {
-              if (data.status === 'success') {
-                  location.reload();
-              } else {
-                  alert('Error updating posisi');
-              }
-          });
-    });
-    {% endfor %}
-});
-</script>
-{% endblock %}
+{% endblock %} 

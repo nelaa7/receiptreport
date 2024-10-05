@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 from django import forms
-from .models import Kendaraan, MyUser, Naker, Sto, Posisi, Unit, Role, Natura, JenisNota, Project
+from .models import Kendaraan, MyUser, Naker, Sto, Posisi, Unit, Natura, JenisNota, Project, Role
 
 class form_kendaraan(ModelForm):
     class Meta:
@@ -109,6 +109,7 @@ class FormAddNaker(forms.ModelForm):
     class Meta:
         model = Naker
         fields = ('nik', 'sto', 'posisi', 'unit', 'role', 'nama', 'witel')
+
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
