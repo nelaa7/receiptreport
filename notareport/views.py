@@ -132,6 +132,50 @@ def posisi_edit(request, pk):
     # Pastikan posisi_list selalu diurutkan berdasarkan ID
     posisi_list = Posisi.objects.all().order_by('id')
     return render(request, 'finance/management/posisi-list.html', {'form': form, 'posisi_list': posisi_list})
+
+def nota_edit(request, pk):
+    nota = get_object_or_404(JenisNota, pk=pk)
+    
+    if request.method == 'POST':
+        form = FormAddNota(request.POST, instance=nota)
+        if form.is_valid():
+            form.save()
+            # Ambil data terbaru dan urutkan berdasarkan ID
+            updated_nota_list = Posisi.objects.all().order_by('id')
+            return JsonResponse({
+                'status': 'success',
+                'nota_list': list(updated_nota_list.values('id', 'jenis_nota', 'nama_nota'))
+            })
+        else:
+            return JsonResponse({'status': 'error', 'errors': form.errors})
+    else:
+        form = FormAddNota(instance=nota)
+    
+    # Pastikan Jenisnota selalu diurutkan berdasarkan ID
+    nota_list = JenisNota.objects.all().order_by('id')
+    return render(request, 'finance/management/nota-list.html', {'form': form, 'nota_list': nota_list})
+
+def sto_edit(request, pk):
+    sto = get_object_or_404(Sto, pk=pk)
+    
+    if request.method == 'POST':
+        form = FormAddSto(request.POST, instance=sto)
+        if form.is_valid():
+            form.save()
+            # Ambil data terbaru dan urutkan berdasarkan ID
+            updated_sto_list = Sto.objects.all().order_by('id')
+            return JsonResponse({
+                'status': 'success',
+                'sto_list': list(updated_sto_list.values('id', 'nama_sto'))
+            })
+        else:
+            return JsonResponse({'status': 'error', 'errors': form.errors})
+    else:
+        form = FormAddSto(instance=sto)
+    
+    # Pastikan sto selalu diurutkan berdasarkan ID
+    sto_list = Sto.objects.all().order_by('id')
+    return render(request, 'finance/management/sto-list.html', {'form': form, 'sto_list': sto_list})
     
 def add_project(request):
     if request.method == 'POST':

@@ -135,9 +135,7 @@
                                                 <!--end::Nama STO=-->
                                                 <!--begin::Action=-->
                                                 <td class="text-end">
-                                                    <a href="{% url 'sto_edit' sto_edit.id}" class="btn btn-icon btn-sm btn-light btn-active-light-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_edit_item" 
-                                                    data-id="{{ sto.id }}"
-                                                    data-nama="{{ sto.nama_sto }}">
+                                                    <a href="#" class="btn btn-icon btn-sm btn-light btn-active-light-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_edit_item_{{ sto.id }}">
                                                         <!--begin::Svg Icon | path: icons/duotune/art/art005.svg-->
                                                         <span class="svg-icon svg-icon-2" name="edit-btn">
                                                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -161,7 +159,8 @@
                             <!--end::Card-->
 
                             <!--begin::Modal Edit-->
-                            <div class="modal fade" id="kt_modal_edit_item" tabindex="-1" aria-hidden="true">
+                            {% for sto in sto_list %}
+                            <div class="modal fade" id="kt_modal_edit_item_{{ sto.id }}" tabindex="-1" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered mw-650px">
                                     <div class="modal-content">
                                         <div class="modal-header" id="kt_modal_edit_item_header">
@@ -177,15 +176,13 @@
                                         </div>
                                         <div class="modal-body py-10 px-lg-17">
                                             <div class="scroll-y me-n7 pe-7" id="kt_modal_edit_item_scroll" data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_edit_item_header" data-kt-scroll-wrappers="#kt_modal_edit_item_scroll" data-kt-scroll-offset="300px">
-                                                <form action="#" id="editForm" method="post">
-                                                    
+                                                <form action="#" id="edit-form-{{ sto.id }}" method="post">
                                                     {% csrf_token %}
-
-                                                    <input type="hidden" id="edit_id" value="{{ sto_edit.id }}">
+                                                    <input type="hidden" id="edit_id" value="{{ sto.id }}">
                                                 <div class="fv-row mb-7">
-                                                    <label for="nama_sto"class="required fs-6 fw-semibold mb-2">Nama STO</label>
+                                                    <label for="nama_sto_{{ sto.id }}"class="required fs-6 fw-semibold mb-2">Nama STO</label>
                                                     <!--begin::Input-->
-													<input type="text" name="nama_sto" id="edit_nama_sto"class="form-control mb-2" placeholder="Nama STO" value="{{sto_edit.nama_sto}}" />
+													<input type="text" name="nama_sto" id="edit_nama_sto_{{ sto.id }}"class="form-control mb-2" placeholder="Nama STO" value="{{ sto.nama_sto }}" />
 
 													<!--end::Input-->
                                                 </div>
@@ -193,13 +190,11 @@
                                         </div>
                                         <div class="modal-footer flex-center">
                                             <!--begin::Button-->
-                                            <button type="reset" id="kt_modal_edit_item_cancel" class="btn btn-light me-3">Discard</button>
-                                            <!--end::Button-->
-                                            <!--begin::Button-->
-                                            <button type="submit" id="kt_modal_edit_item_submit" class="btn btn-primary">
+                                            <button type="submit" class="btn btn-primary">
                                                 <span class="indicator-label">Submit</span>
                                                 <span class="indicator-progress">Please wait...
-                                                <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
+                                                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                                                </span>
                                             </button>
                                             <!--end::Button-->
                                         </div>
@@ -207,120 +202,66 @@
                                 </form>
                                 </div>
                             </div>
+                            {% endfor %}
                             <!-- End::Modal Edit -->
 
-                            <script src="{% static 'js/custom/apps/customers/list/list.js' %}"></script>
+                            {% comment %} <script src="{% static 'js/custom/apps/customers/list/list.js' %}"></script> {% endcomment %}
 
-                             <script>
+                            <script>
 
-                                 // Menggunakan jQuery AJAX
-                                 $('#kt_modal_edit_item').on('show.bs.modal', function (event) {
-                                     const button = $(event.relatedTarget);
-                                     const id = button.data('id');
-
-                                     // Ambil data dari database menggunakan AJAX
-                                     $.ajax({
-                                         url: `/sto/${id}`,
-                                         method: 'GET',
-                                         success: function (response) {
-                                             // Isi form dengan data dari database
-                                             const modal = $('#kt_modal_edit_item');
-                                             modal.find('input[name="nama_sto"]').val(response.nama_sto);
-                                             // Isi field lainnya sesuai kebutuhan
-                                         },
-                                         error: function (xhr) {
-                                             console.error('Error:', xhr);
-                                         }
-                                     });
-                                 });
-
-                             // Atau menggunakan Fetch API (JavaScript modern)
-                             {
-                                 % comment %
-                             }
-                             document.querySelector('#kt_modal_edit_item').addEventListener('show.bs.modal', function (event) {
-                                 const button = event.relatedTarget;
-                                 const id = button.dataset.id;
-
-                                 fetch(`/sto/${id}`)
-                                     .then(response => response.json())
-                                     .then(data => {
-                                         // Isi form dengan data
-                                         document.querySelector('input[name="nama_sto"]').value = data.nama_sto;
-                                         // Isi field lainnya
-                                     })
-                                     .catch(error => console.error('Error:', error));
-                             }); {
-                                 % endcomment %
-                             }
-
-                             // Handle klik tombol edit
-                             {
-                                 % comment %
-                             }
-                             document.querySelectorAll('.edit-btn').forEach(button => {
-                                 button.addEventListener('click', function () {
-                                     const id = this.dataset.id;
-                                     const nama = this.dataset.nama_sto;
-
-                                     document.getElementById('edit_id').value = id;
-                                     document.getElementById('edit_nama_sto').value = nama;
-                                 });
-                             }); {
-                                 % endcomment %
-                             }
-
-                             // Tombol submit
-                             const submitButton = document.getElementById('kt_modal_edit_item_submit');
-                             submitButton.addEventListener('click', e => {
-                                 e.preventDefault(); // Mencegah form submit secara default
-
-                                 const id = document.getElementById('edit_id').value;
-                                 const nama_sto = document.getElementById('edit_nama_sto').value;
-                                 const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-
-                                 fetch(`/finance/management/sto/${id}/edit/`, {
-                                         method: 'POST',
-                                         headers: {
-                                             'Content-Type': 'application/x-www-form-urlencoded',
-                                             'X-CSRFToken': csrfToken
-                                         },
-                                         body: `nama_sto=${encodeURIComponent(nama_sto)}`
-                                     })
-                                     .then(response => {
-                                         if (response.ok) {
-                                             return response.json();
-                                         }
-                                         throw new Error('Network response was not ok.');
-                                     })
-                                     .then(data => {
-                                         Swal.fire({
-                                             text: "Data has been successfully updated!",
-                                             icon: "success",
-                                             buttonsStyling: false,
-                                             confirmButtonText: "Oke",
-                                             customClass: {
-                                                 confirmButton: "btn btn-primary"
-                                             }
-                                         }).then(() => {
-                                             const modal = bootstrap.Modal.getInstance(document.getElementById('kt_modal_edit_item'));
-                                             modal.hide(); // Tutup modal
-                                             window.location.reload(); // Refresh halaman
-                                         });
-                                     })
-                                     .catch(error => {
-                                         console.error('There was a problem with the fetch operation:', error);
-                                         Swal.fire({
-                                             text: "Terjadi kesalahan saat memperbarui data.",
-                                             icon: "error",
-                                             buttonsStyling: false,
-                                             confirmButtonText: "Oke",
-                                             customClass: {
-                                                 confirmButton: "btn btn-danger"
-                                             }
-                                         });
-                                     });
-                             });
+                                const csrfToken = '{% csrf_token %}';
+                
+                                document.addEventListener('DOMContentLoaded', () => {
+                                    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value; // Pastikan CSRF token terdefinisi
+                                    const editForms = document.querySelectorAll('form[id^="edit-form-"]');
+                                    editForms.forEach(form => {
+                                        form.addEventListener('submit', (e) => {
+                                            e.preventDefault();
+                                            const formData = new FormData(form);
+                                            const stoId = form.querySelector('input[name="sto_id"]').value;
+                                
+                                            fetch(`/finance/management/sto-list/${stoId}/`, {
+                                                method: 'POST',
+                                                body: formData,
+                                                headers: {
+                                                    'X-CSRFToken': csrfToken
+                                                }
+                                            }).then(response => response.json())
+                                            .then(data => {
+                                                if (data.status === 'success') {
+                                                    // Close the modal
+                                                    const modal = form.closest('.modal');
+                                                    const modalInstance = bootstrap.Modal.getInstance(modal);
+                                                    modalInstance.hide();
+                                
+                                                    // Store the current scroll position
+                                                    const scrollPosition = window.pageYOffset;
+                                
+                                                    // Refresh the page and restore scroll position
+                                                    window.location.reload();
+                                                    window.addEventListener('load', function() {
+                                                        window.scrollTo(0, scrollPosition);
+                                                    });
+                                                } else {
+                                                    // Display error messages in the form itself
+                                                    const errorMessages = data.errors;
+                                                    Object.keys(errorMessages).forEach(key => {
+                                                        const errorMessage = errorMessages[key];
+                                                        const formField = form.querySelector(`[name="${key}"]`);
+                                                        formField.classList.add('is-invalid');
+                                                        const errorElement = formField.nextElementSibling || document.createElement('div');
+                                                        errorElement.textContent = errorMessage;
+                                                        errorElement.classList.add('invalid-feedback');
+                                                        if (!formField.nextElementSibling) {
+                                                            formField.parentNode.appendChild(errorElement);
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        });
+                                    });
+                                });
+                            
                             </script>
 
     {% endblock %} 

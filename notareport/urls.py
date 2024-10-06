@@ -20,7 +20,8 @@ urlpatterns = [
 
 
 
-    path('finance/management/sto/<int:id>/edit/', views.sto_edit, name='sto_edit'),
+    path('finance/management/nota-list/<int:pk>/', views.nota_edit, name='nota_edit'),
+    path('finance/management/sto-list/<int:pk>/', views.sto_edit, name='sto_edit'),
     # path('edit-sto/<int:id>/', views.sto_edit, name='sto_edit'),    
     path('register/', views.register_view, name='register'),
     path('login/', views.login_view, name='login'),
