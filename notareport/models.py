@@ -247,7 +247,7 @@ class TransaksiBBM(models.Model):
 
     STATUS_CHOICES = [
         ('rejected', 'Rejected'),
-        ('processed', 'Processed'),
+        ('proccessed', 'Proccessed'),
         ('verified', 'Verified'),
         ('paid', 'Paid'),
     ]
@@ -280,7 +280,7 @@ class TransaksiBBM(models.Model):
 class TransaksiNonBBM(models.Model):
     STATUS_CHOICES = [
         ('rejected', 'Rejected'),
-        ('processed', 'Processed'),
+        ('proccessed', 'Proccessed'),
         ('verified', 'Verified'),
         ('paid', 'Paid'),
     ]
