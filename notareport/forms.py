@@ -275,5 +275,106 @@ class FormAddKendaraan(forms.ModelForm):
         })
         self.fields['witel'].initial = 'Pilih Area'
         self.fields['witel'].choices = [('', 'Pilih Area')] + Naker.WITEL_CHOICES
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['nik'].widget = forms.TextInput(attrs={
+            'class': 'form-control', 
+            'id': 'NIKNumber', 
+            'name': 'NIKNumber'
+        })
         
+        self.fields['witel'].widget = forms.Select(attrs={
+            'class': 'form-select form-select-solid',
+            'id': 'WITELSelect',
+            'data-control': 'select2',
+            'data-dropdown-css-class': 'w-200px',
+            'data-placeholder': 'Pilih area',
+            'data-hide-search': 'true'
+        })
+        self.fields['witel'].initial = 'Pilih Area'
+        self.fields['witel'].choices = [('', 'Pilih Area')] + Naker.WITEL_CHOICES
+
+        self.fields['jenis_KBM'].widget = forms.RadioSelect(attrs={
+            'class': 'btn-group btn-group-solid',
+            'id': 'jenis_KBM',
+            'data-kt-buttons': 'true',
+            'data-kt-buttons-target': '[data-kt-button="true"]'
+        })
+        self.fields['jenis_KBM'].choices = [
+            ('roda2', 'Roda 2'),
+            ('roda4', 'Roda 4')
+        ]
+
+        self.fields['merk_type_KBM'].widget = forms.RadioSelect(attrs={
+            'class': 'btn-group btn-group-solid',
+            'id': 'merk_type_KBM',
+            'data-kt-buttons': 'true',
+            'data-kt-buttons-target': '[data-kt-button="true"]'
+        })
+        self.fields['merk_type_KBM'].choices = [
+            ('honda_beat', 'Honda Beat'),
+            ('mitsubishi_expander', 'Mitsubishi Expander'),
+            ('lainnya', 'Yang lain')
+        ]
+
+        self.fields['nik_pengguna_kbm'].widget = forms.TextInput(attrs={
+            'class': 'form-control', 
+            'id': 'NIKNumberPengguna', 
+            'name': 'NIKNumberPengguna'
+        })
+
+        self.fields['no_polisi'].widget = forms.TextInput(attrs={
+            'class': 'form-control', 
+            'id': 'plateNumber', 
+            'name': 'plateNumber'
+        })
+
+        self.fields['odometer'].widget = forms.TextInput(attrs={
+            'class': 'form-control', 
+            'id': 'odometer', 
+            'name': 'odometer'
+        })
+
+        self.fields['foto_speedometer'].widget = forms.FileInput(attrs={
+            'class': 'form-control', 
+            'id': 'speedometerPhoto', 
+            'name': 'speedometerPhoto'
+        })
+
+        self.fields['foto_tampak_depan'].widget = forms.FileInput(attrs={
+            'class': 'form-control', 
+            'id': 'foto_tampak_depan', 
+            'name': 'foto_tampak_depan'
+        })
+
+        self.fields['foto_tampak_samping'].widget = forms.FileInput(attrs={
+            'class': 'form-control', 
+            'id': 'foto_tampak_samping', 
+            'name': 'foto_tampak_samping'
+        })
+
+        self.fields['tgl_tempo_STNK_5thn'].widget = forms.DateInput(attrs={
+            'class': 'form-control', 
+            'id': 'tanggalJatuhTempo', 
+            'name': 'tanggalJatuhTempo'
+        })
+
+        self.fields['tgl_service_terakhir'].widget = forms.DateInput(attrs={
+            'class': 'form-control', 
+            'id': 'tanggalServiceTerakhir', 
+            'name': 'tanggalServiceTerakhir'
+        })
+
+        self.fields['kondisi_kendaraan'].widget = forms.TextInput(attrs={
+            'class': 'form-control', 
+            'id': 'vehicleCondition', 
+            'name': 'vehicleCondition'
+        })
+
+        self.fields['foto_kondisi_kendaraan'].widget = forms.FileInput(attrs={
+            'class': 'form-control', 
+            'id': 'vehiclePhoto', 
+            'name': 'vehiclePhoto'
+        })  
         
