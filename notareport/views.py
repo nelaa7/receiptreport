@@ -141,7 +141,7 @@ def nota_edit(request, pk):
         if form.is_valid():
             form.save()
             # Ambil data terbaru dan urutkan berdasarkan ID
-            updated_nota_list = Posisi.objects.all().order_by('id')
+            updated_nota_list = JenisNota.objects.all().order_by('id')
             return JsonResponse({
                 'status': 'success',
                 'nota_list': list(updated_nota_list.values('id', 'jenis_nota', 'nama_nota'))
@@ -412,12 +412,9 @@ def sto_list(request):
     #     'nama_sto': sto_edit.nama_sto
     # })
 
-def jenisNota_list(request):
-    jenisNota_list = JenisNota.objects.all()
-    context={
-        'jenisNota_list':jenisNota_list
-    }
-    return render(request, "finance/management/nota.html", context)
+def nota_list(request):
+    nota_list = JenisNota.objects.all()
+    return render(request, 'finance/management/nota.html', {'nota_list': nota_list})
 
 def posisi_list(request):
     posisi_list = Posisi.objects.all()
