@@ -51,34 +51,28 @@
                     <div class="post d-flex flex-column-fluid" id="kt_post">
                         <!--begin::Container-->
                         <div class="container mt-5">
-                            <form id="kt_ecommerce_add_product_form" class="needs-validation" novalidate>
+                            <form action="{% url 'add_naker' %}" method="POST" id="kt_form_naker">
+                                {% csrf_token %}
                                 <div class="card shadow-sm">
                                     <div class="card-header">
                                         <h2 class="card-title">Add Data Kendaraan</h2>
                                     </div>
                                     <div class="card-body">
+                                        <!--begin::NIK-->
+                                        <div class="mb-4">
+                                            <label for="id_nik" class="required form-label">NIK</label>
+                                            <div class="col-sm-10">
+                                                {{ form.nik }}
+                                            </div>
+                                        </div>
+                                        <!--End::NIK--
                                         <!--begin::Area-->
                                         <div class="mb-4">
                                             <!--begin::Label-->
-                                            <label class="fs-6 fw-semibold mb-2">Area<span class="text-danger">*</span></label>
-                                            <!--End::Label-->
-                                            <form method="post">
-                                                {% csrf_token %}
-                                                {{ form.as_p }}
-                                                <button type="submit" class="btn btn-primary">Submit</button>
-                                            </form>
+                                            <label for="AREASelect" class="required form-label">Area</label>
+                                            {{ form.area }}
                                         </div>
                                         <!--End::Area-->
-                                        <!--begin::NIK-->
-                                        <div class="mb-4">
-                                            <label for="NIKNumber" class="form-label">NIK <span class="text-danger">*</span></label>
-                                            <input type="text" class="form-control" id="NIKNumber" name="NIKNumber" required minlength="8" maxlength="8" pattern="\d{8}" inputmode="numeric">
-                                            <div class="form-text">Isi NIK dengan teliti dan benar</div>
-                                            <div class="invalid-feedback">
-                                                Mohon masukkan NIK yang valid
-                                            </div>
-                                        </div>
-                                        <!--End::NIK-->
                                         <!--begin::Jenis KBM-->
                                         <div class="mb-4">
                                             <!--begin::Label-->

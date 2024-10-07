@@ -181,41 +181,7 @@ class FormAddNatura(forms.ModelForm):
         self.fields['nama'].widget.attrs['readonly'] = True
         self.fields['posisi'].widget.attrs['readonly'] = True
         self.fields['witel'].widget.attrs['readonly'] = True
-    # class Meta:
-    #     model = Natura
-    #     fields = ['nik', 'nama', 'posisi', 'witel', 'km_referensi', 'km_liter', 'harga_bensin']
     
-    # def __init__(self, *args, **kwargs):
-    #     super().__init__(*args, **kwargs)
-    #     self.fields['nik'].widget = forms.TextInput(attrs={'class': 'form-control', 'id': 'NIKNumber', 'name': 'NIKNumber'})  
-    #     self.fields['nama'].widget = forms.TextInput(attrs={'class': 'form-control', 'id': 'TextNama', 'name': 'TextNama'})  
-        
-    #     self.fields['posisi'].widget = forms.Select(attrs={
-    #         'class': 'form-select form-select-solid',
-    #         'id': 'PosisiSelect',
-    #         'data-control': 'select2',
-    #         'data-dropdown-css-class': 'w-200px',
-    #         'data-placeholder': 'Pilih posisi',
-    #         'data-hide-search': 'false'
-    #     })
-    #     self.fields['posisi'].empty_label = 'Pilih Posisi'
-    #     self.fields['posisi'].queryset = Posisi.objects.all()
-        
-    #     self.fields['witel'].widget = forms.Select(attrs={
-    #         'class': 'form-select form-select-solid',
-    #         'id': 'WITELSelect',
-    #         'data-control': 'select2',
-    #         'data-dropdown-css-class': 'w-200px',
-    #         'data-placeholder': 'Pilih witel',
-    #         'data-hide-search': 'true'
-    #     })
-    #     self.fields['witel'].initial = 'Pilih WITEL'
-    #     self.fields['witel'].choices = [('', 'Pilih WITEL')] + Naker.WITEL_CHOICES
-        
-    #     self.fields['km_referensi'].widget = forms.TextInput(attrs={'class': 'form-control', 'id': 'KMNumber', 'name': 'KMNumber'})
-    #     self.fields['km_liter'].widget = forms.TextInput(attrs={'class': 'form-control', 'id': 'KMLNumber', 'name': 'KMLNumber'})
-    #     self.fields['harga_bensin'].widget = forms.TextInput(attrs={'class': 'form-control', 'id': 'BensinNumber', 'name': 'BensinNumber'})
-
  
 class FormAddNota(forms.ModelForm):
 
@@ -224,7 +190,7 @@ class FormAddNota(forms.ModelForm):
         fields = ('jenis_nota', 'nama_nota')
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)          
         self.fields['jenis_nota'].widget = forms.Select(attrs={
             'class': 'form-select form-select-solid',
             'id': 'NOTASelect',
@@ -282,8 +248,103 @@ class FormAddSto(forms.ModelForm):
         self.fields['nama_sto'].widget = forms.TextInput(attrs={'class': 'form-control', 'id': 'TextSTO', 'name': 'TextSTO'})
 
 
+class FormAddKendaraan(forms.ModelForm):
 
-          
+    class Meta:
+        model = Kendaraan
+        fields = ('nik', 'tgl_pendataan', 'witel', 'jenis_KBM', 'merk_type_KBM', 'nik_pengguna_kbm', 'no_polisi', 'odometer' ,'foto_speedometer', 'foto_tampak_depan', 'foto_tampak_samping', 'tgl_tempo_STNK_5thn', 'tgl_service_terakhir', 'kondisi_kendaraan', 'foto_kondisi_kendaraan')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['nik'].widget = forms.TextInput(attrs={
+            'class': 'form-control', 
+            'id': 'NIKNumber', 
+            'name': 'NIKNumber'
+        })
+        
+        self.fields['tgl_pendataan'].widget = forms.DateInput(attrs={
+            'class': 'form-control', 
+            'id': 'tgl_pendataan', 
+            'name': 'tgl_pendataan', 
+            'type': 'date'
+        })
+        
+        self.fields['witel'].widget = forms.Select(attrs={
+            'class': 'form-select form-select-solid',
+            'id': 'WITELSelect',
+            'data-control': 'select2',
+            'data-dropdown-css-class': 'w-200px',
+            'data-placeholder': 'Pilih witel',
+            'data-hide-search': 'true'
+        })
+        self.fields['witel'].initial = 'Pilih WITEL'
+        self.fields['witel'].choices = [('', 'Pilih WITEL')] + Naker.WITEL_CHOICES
+        
+        self.fields['jenis_KBM'].widget = forms.RadioSelect(
+            choices=[
+                ('roda2', 'Roda 2'),
+                ('roda4', 'Roda 4'),
+            ],
+            attrs={
+                'class': 'd-flex flex-column',
+                'data-kt-buttons': 'true',
+                'data-kt-buttons-target': '[data-kt-button="true"]',
+            }
+        )
+        self.fields['jenis_kbm'].label = "Jenis KBM"
+        self.fields['jenis_kbm'].help_text = "Pilih jenis kendaraan yang akan diinputkan"
+
+        # Optionally, customize the appearance of the form field
+        for key in self.fields:
+            self.fields[key].widget.attrs.update({
+                'class': 'form-check-input',  # Adding Bootstrap class for styling
+            })
+        
+        self.fields['sto'].widget = forms.Select(attrs={
+            'class': 'form-select form-select-solid',
+            'id': 'STOSelect',
+            'data-control': 'select2',
+            'data-dropdown-css-class': 'w-200px',
+            'data-placeholder': 'Pilih sto',
+            'data-hide-search': 'false'
+        })
+        
+        self.fields['sto'].empty_label = 'Pilih STO'
+        self.fields['sto'].queryset = Sto.objects.all()
+        
+        self.fields['posisi'].widget = forms.Select(attrs={
+            'class': 'form-select form-select-solid',
+            'id': 'PosisiSelect',
+            'data-control': 'select2',
+            'data-dropdown-css-class': 'w-200px',
+            'data-placeholder': 'Pilih posisi',
+            'data-hide-search': 'false'
+        })
+        self.fields['posisi'].empty_label = 'Pilih Posisi'
+        self.fields['posisi'].queryset = Posisi.objects.all()
+        
+        self.fields['unit'].widget = forms.Select(attrs={
+            'class': 'form-select form-select-solid',
+            'id': 'UnitSelect',
+            'data-control': 'select2',
+            'data-dropdown-css-class': 'w-200px',
+            'data-placeholder': 'Pilih unit',
+            'data-hide-search': 'false'
+        })
+        self.fields['unit'].empty_label = 'Pilih Unit'
+        self.fields['unit'].queryset = Unit.objects.all()
+        
+        self.fields['role'].widget = forms.Select(attrs={
+            'class': 'form-select form-select-solid',
+            'id': 'RoleSelect',
+            'data-control': 'select2',
+            'data-dropdown-css-class': 'w-200px',
+            'data-placeholder': 'Pilih role',
+            'data-hide-search': 'true'
+        })
+        self.fields['role'].empty_label = 'Pilih Role'
+        self.fields['role'].queryset = Role.objects.all()
+                
 
 
 
