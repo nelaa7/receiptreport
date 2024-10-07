@@ -11,6 +11,7 @@ class Sto (models.Model):
     update_at = models.DateTimeField(auto_now=True)
        
     class Meta:
+        ordering = ['id']
         verbose_name = 'STO'
         verbose_name_plural = 'STO'
 
@@ -61,6 +62,7 @@ class Project (models.Model):
     updated_at = models.DateTimeField(auto_now=True)
        
     class Meta:
+        ordering = ['id']
         verbose_name = 'Project'
         verbose_name_plural = 'Project'
 

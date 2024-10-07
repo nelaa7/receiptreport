@@ -17,10 +17,11 @@ urlpatterns = [
     path('add-project/', views.add_project, name='add_project'),
     path('add-sto/', views.add_sto, name='add_sto'), 
     path('finance/management/posisi-list/<int:pk>/', views.posisi_edit, name='posisi_edit'),
+    path('finance/management/project-list/<int:pk>/', views.project_edit, name='project_edit'),
 
 
 
-    path('finance/management/sto/<int:id>/edit/', views.sto_edit, name='sto_edit'),
+    path('finance/management/sto-list/<int:pk>/', views.sto_edit, name='sto_edit'),
     # path('edit-sto/<int:id>/', views.sto_edit, name='sto_edit'),    
     path('register/', views.register_view, name='register'),
     path('login/', views.login_view, name='login'),

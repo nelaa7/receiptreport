@@ -125,11 +125,11 @@
                                         <!--end::Table head-->
                                         <!--begin::Table body-->
                                         <tbody class="fw-semibold text-gray-600">
-                                            {% for project in project_li%}
+                                            {% for project in project_list%}
                                             <tr>
                                                 <!--begin::No=-->
                                                 <td>
-                                                    <span class="text-gray-600 text-hover-primary mb-1">{{forloop.counter}}</span>
+                                                    <span class="text-gray-600 text-hover-primary mb-1">{{project.id}}</span>
                                                 </td>
                                                 <!--end::No=-->
                                                 <!--begin::Id Project=-->
@@ -139,8 +139,7 @@
                                                 <!--end::Id Project=-->
                                                 <!--begin::Action=-->
                                                 <td class="text-end">
-                                                    <a href="#" class="btn btn-icon btn-sm btn-light btn-active-light-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_edit_item">
-                                                        <!--begin::Svg Icon | path: icons/duotune/art/art005.svg-->
+                                                    <a href="#" class="btn btn-icon btn-sm btn-light btn-active-light-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_edit_item_{{ project.id }}">                                                      <!--begin::Svg Icon | path: icons/duotune/art/art005.svg-->
                                                         <span class="svg-icon svg-icon-2">
                                                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                                 <path opacity="0.3" d="M21.4 8.35303L19.241 10.511L13.485 4.755L15.643 2.59595C16.0248 2.21423 16.5426 1.99988 17.0825 1.99988C17.6224 1.99988 18.1402 2.21423 18.522 2.59595L21.4 5.474C21.7817 5.85581 21.9962 6.37355 21.9962 6.91345C21.9962 7.45335 21.7817 7.97122 21.4 8.35303ZM3.68699 21.932L9.88699 19.865L4.13099 14.109L2.06399 20.309C1.98815 20.5354 1.97703 20.7787 2.03189 21.0111C2.08674 21.2436 2.2054 21.4561 2.37449 21.6248C2.54359 21.7934 2.75641 21.9115 2.989 21.9658C3.22158 22.0201 3.4647 22.0084 3.69099 21.932H3.68699Z" fill="currentColor" />
@@ -163,12 +162,13 @@
                             <!--end::Card-->
 
                             <!--begin::Modal Edit-->
-                            <div class="modal fade" id="kt_modal_edit_item" tabindex="-1" aria-hidden="true">
+                            {% for project in project_list %}
+                            <div class="modal fade" id="kt_modal_edit_item_{{ project.id }}" tabindex="-1" aria-hidden="true">                
                                 <div class="modal-dialog modal-dialog-centered mw-650px">
                                     <div class="modal-content">
                                         <div class="modal-header" id="kt_modal_edit_item_header">
                                             <h2 class="fw-bold">Edit Data Project</h2>
-                                            <div class="btn btn-icon btn-sm btn-active-icon-primary" data-kt-modal-action="close" id="close">
+                                            <div class="btn btn-icon btn-sm btn-active-icon-primary" data-bs-dismiss="modal">
                                                 <span class="svg-icon svg-icon-1">
                                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                         <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1" transform="rotate(-45 6 17.3137)" fill="currentColor" />
@@ -178,94 +178,84 @@
                                             </div>
                                         </div>
                                         <div class="modal-body py-10 px-lg-17">
-                                            <div class="scroll-y me-n7 pe-7" id="kt_modal_edit_item_scroll" data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_edit_item_header" data-kt-scroll-wrappers="#kt_modal_edit_item_scroll" data-kt-scroll-offset="300px">
+                                            <!-- Form -->
+                                            <form id="edit-form-{{ project.id }}">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="project_id" value="{{ project.id }}">
                                                 <div class="fv-row mb-7">
-                                                    <label class="required fs-6 fw-semibold mb-2">Id Project</label>
-                                                    <!--begin::Input-->
-													<input type="text" name="idproject" class="form-control mb-2" placeholder="IdProject" value="R05-7/2024" />
-													<!--end::Input-->
+                                                    <label for="id_project_{{ project.id }}" class="required form-label">Id Project</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="text" name="id_project" id="id_project_{{ project.id }}" class="form-control" value="{{ project.id_project }}" required>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="modal-footer flex-center">
-                                            <!--begin::Button-->
-                                            <button type="reset" id="kt_modal_edit_item_cancel" class="btn btn-light me-3">Discard</button>
-                                            <!--end::Button-->
-                                            <!--begin::Button-->
-                                            <button type="submit" id="kt_modal_edit_item_submit" class="btn btn-primary">
-                                                <span class="indicator-label">Submit</span>
-                                                <span class="indicator-progress">Please wait...
-                                                <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
-                                            </button>
-                                            <!--end::Button-->
+                                                <button type="submit" class="btn btn-primary">
+                                                    <span class="indicator-label">Submit</span>
+                                                    <span class="indicator-progress">Please wait...
+                                                        <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                                                    </span>
+                                                </button>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            {% endfor %}
                             <!-- End::Modal Edit -->
 
                             <script>
 
+                                const csrfToken = '{% csrf_token %}';
+
                                 document.addEventListener('DOMContentLoaded', () => {
-                                            const closeButton = document.getElementById('close');
-
-                                            closeButton.addEventListener('click', e => {
-                                                e.preventDefault();
-
-                                                window.location.href = 'project_list'
+                                    const editForms = document.querySelectorAll('form[id^="edit-form-"]');
+                                    editForms.forEach(form => {
+                                        form.addEventListener('submit', (e) => {
+                                            e.preventDefault();
+                                            const formData = new FormData(form);
+                                            const projectId = form.querySelector('input[name="project_id"]').value;
+                                
+                                            fetch(`/finance/management/project-list/${projectId}/`, {
+                                                method: 'POST',
+                                                body: formData,
+                                                headers: {
+                                                    'X-CSRFToken': csrfToken
+                                                }
+                                            }).then(response => response.json())
+                                            .then(data => {
+                                                if (data.status === 'success') {
+                                                    // Close the modal
+                                                    const modal = form.closest('.modal');
+                                                    const modalInstance = bootstrap.Modal.getInstance(modal);
+                                                    modalInstance.hide();
+                                
+                                                    // Store the current scroll position
+                                                    const scrollPosition = window.pageYOffset;
+                                
+                                                    // Refresh the page and restore scroll position
+                                                    window.location.reload();
+                                                    window.addEventListener('load', function() {
+                                                        window.scrollTo(0, scrollPosition);
+                                                    });
+                                                } else {
+                                                    // Display error messages in the form itself
+                                                    const errorMessages = data.errors;
+                                                    Object.keys(errorMessages).forEach(key => {
+                                                        const errorMessage = errorMessages[key];
+                                                        const formField = form.querySelector(`[name="${key}"]`);
+                                                        formField.classList.add('is-invalid');
+                                                        const errorElement = formField.nextElementSibling || document.createElement('div');
+                                                        errorElement.textContent = errorMessage;
+                                                        errorElement.classList.add('invalid-feedback');
+                                                        if (!formField.nextElementSibling) {
+                                                            formField.parentNode.appendChild(errorElement);
+                                                        }
+                                                    });
+                                                }
                                             });
-
-                                });
-
-
-
-                                const submitButton = document.getElementById('kt_modal_edit_item_submit');
-
-                                submitButton.addEventListener('click', e =>{
-                                    e.preventDefault();
-
-                                    Swal.fire({
-                                        text: "Form has been successfully submitted!",
-                                        icon: "success",
-                                        buttonsStyling: false,
-                                        confirmButtonText: "Oke",
-                                        customClass: {
-                                            confirmButton: "btn btn-primary"
-                                        }
-                                    }).then(() => {
-                                        //ganti halaman
-                                        window.location.href = 'project_list'
+                                        });
                                     });
                                 });
-
-                                const discardButton = document.getElementById('kt_modal_edit_item_cancel');
-
-                                discardButton.addEventListener('click', e => {
-                                    e.preventDefault();
-
-                                    Swal.fire({
-                                        title: 'Discard Changes?',
-                                        text: "Are you sure you want to discard the changes?",
-                                        icon: 'warning',
-                                        showCancelButton: true,
-                                        confirmButtonText: 'Yes, discard it!',
-                                        cancelButtonText: 'No, keep it',
-                                        customClass: {
-                                            confirmButton: 'btn btn-danger',
-                                            cancelButton: 'btn btn-light'
-                                        }
-                                    }).then((result) => {
-                                        if (result.isConfirmed) {
-                                            // Jika pengguna mengkonfirmasi, lakukan aksi yang diinginkan
-                                            console.log('Changes discarded.');
-                                             window.location.href = 'project_list'
-                                            // Anda bisa melakukan reset atau tindakan lain di sini
-                                            // document.getElementById('yourFormId').reset(); // jika ada form
-                                        } else {
-                                            console.log('Discard action cancelled.');
-                                        }
-                                    });
-                                });
-    </script>
+                                
+                            </script>
 
     {% endblock %} 

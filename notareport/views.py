@@ -144,6 +144,27 @@ def add_project(request):
 
     return render(request, 'finance/management/add-project.html', {'form': form})
 
+def project_edit(request, pk):
+    project = get_object_or_404(Project, pk=pk)
+    
+    if request.method == 'POST':
+        form = FormAddProject(request.POST, instance=project)
+        if form.is_valid():
+            form.save()
+            # Ambil data terbaru dan urutkan berdasarkan ID
+            updated_project_list = Project.objects.all().order_by('id')
+            return JsonResponse({
+                'status': 'success',
+                'project_list': list(updated_project_list.values('id', 'id_project'))
+            })
+        else:
+            return JsonResponse({'status': 'error', 'errors': form.errors})
+    else:
+        form = FormAddProject(instance=project)
+    
+    # Pastikan project selalu diurutkan berdasarkan ID
+    project_list = Project.objects.all().order_by('id')
+    return render(request, 'finance/management/project-list.html', {'form': form, 'project_list': project_list})
 
 def add_sto(request):
     if request.method == 'POST':
@@ -156,6 +177,27 @@ def add_sto(request):
 
     return render(request, 'finance/management/add-sto.html', {'form': form})
  
+def sto_edit(request, pk):
+    sto = get_object_or_404(Sto, pk=pk)
+    
+    if request.method == 'POST':
+        form = FormAddSto(request.POST, instance=sto)
+        if form.is_valid():
+            form.save()
+            # Ambil data terbaru dan urutkan berdasarkan ID
+            updated_sto_list = Sto.objects.all().order_by('id')
+            return JsonResponse({
+                'status': 'success',
+                'sto_list': list(updated_sto_list.values('id', 'nama_sto'))
+            })
+        else:
+            return JsonResponse({'status': 'error', 'errors': form.errors})
+    else:
+        form = FormAddSto(instance=sto)
+    
+    # Pastikan sto selalu diurutkan berdasarkan ID
+    sto_list = Sto.objects.all().order_by('id')
+    return render(request, 'finance/management/sto-list.html', {'form': form, 'sto_list': sto_list})
 
 
 
@@ -307,18 +349,18 @@ def sto_list(request):
 
 #     return JsonResponse({'success': False}, status=400)
 
-def sto_edit(request, id):
-    sto_edit = get_object_or_404(Sto, id=id)
-    # url = reverse('sto_edit', args=[Sto.id])
-    if request.method == "POST":
-        try:
-            sto_edit.nama_sto = request.POST.get('nama_sto', sto_edit.nama_sto)
-            sto_edit.save()
-            return JsonResponse({'message': 'Data updated successfully'}, status=200)
-        except Exception as e:
-            print(f'Error updating STO: {e}')
-            return JsonResponse({'message': str(e)}, status=500)
-    return render(request, "finance/management/sto.html", {'sto_edit':sto_edit})    
+# def sto_edit(request, id):
+#     sto_edit = get_object_or_404(Sto, id=id)
+#     # url = reverse('sto_edit', args=[Sto.id])
+#     if request.method == "POST":
+#         try:
+#             sto_edit.nama_sto = request.POST.get('nama_sto', sto_edit.nama_sto)
+#             sto_edit.save()
+#             return JsonResponse({'message': 'Data updated successfully'}, status=200)
+#         except Exception as e:
+#             print(f'Error updating STO: {e}')
+#             return JsonResponse({'message': str(e)}, status=500)
+#     return render(request, "finance/management/sto.html", {'sto_edit':sto_edit})    
 
     # Jika method GET, kembalikan data STO dalam format JSON
     # return JsonResponse({

@@ -59,7 +59,7 @@
                                     <div class="card-body">
                                         <!--begin::Id Project-->
                                         <div class="mb-4">
-                                            <label for="id_nama_posisi" class="required form-label">Id Project</label>
+                                            <label for="id_project" class="required form-label">Id Project</label>
                                             <div class="col-sm-10">
                                                 {{ form.id_project }}
                                             </div>
@@ -68,7 +68,9 @@
 
                                     <div class="card-footer d-flex justify-content-end">
                                        <!--begin::Button-->
+                                       <a href="{% url 'project_list' %}">
                                        <button type="reset" id="kt_modal_edit_item_cancel" class="btn btn-light me-3">Cancel</button>
+                                       </a>
                                        <!--end::Button-->
                                        <!--begin::Button-->
                                        <button type="submit" id="kt_modal_edit_item_submit" class="btn btn-primary">
@@ -83,34 +85,42 @@
                         </div>
 
                         <script>
-
                             const submitButton = document.getElementById('kt_modal_edit_item_submit');
-
+                        
                             submitButton.addEventListener('click', e =>{
-                                e.preventDefault();
-
+                                e.preventDefault(); // prevent default form submission
+                        
                                 Swal.fire({
-                                    text: "Form has been successfully submitted!",
-                                    icon: "success",
-                                    buttonsStyling: false,
-                                    confirmButtonText: "Oke",
+                                    title: "Confirm Submit",
+                                    text: "Are you sure you want to submit the form?",
+                                    icon: "warning",
+                                    showCancelButton: true,
+                                    confirmButtonText: "Submit",
+                                    cancelButtonText: "Cancel",
                                     customClass: {
-                                        confirmButton: "btn btn-primary"
+                                        confirmButton: "btn btn-primary",
+                                        cancelButton: "btn btn-secondary"
                                     }
-                                }).then(() => {
-                                    //ganti halaman
-                                    window.location.href = ''
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        const form = document.getElementById('kt_form_project');
+                                        form.submit();
+                        
+                                        Swal.fire({
+                                            text: "Form has been successfully submitted!",
+                                            icon: "success",
+                                            buttonsStyling: false,
+                                            confirmButtonText: "Oke",
+                                            customClass: {
+                                                confirmButton: "btn btn-primary"
+                                            }
+                                        }).then(() => {
+                                            //ganti halaman
+                                            window.location.href = ''
+                                        });
+                                    }
                                 });
                             });
-
-                            const discardButton = document.getElementById('kt_modal_edit_item_cancel');
-
-                            discardButton.addEventListener('click', e => {
-                                e.preventDefault();
-                                window.location.href = ''
-
-
-                                });
-</script>
+                        </script>
 
 {% endblock %} 
