@@ -145,7 +145,7 @@
                                                 
                                                 <!--begin::Action=-->
                                                 <td class="text-end">
-                                                    <a href="#" class="btn btn-icon btn-sm btn-light btn-active-light-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_edit_item">
+                                                    <a href="#" class="btn btn-icon btn-sm btn-light btn-active-light-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_edit_item_{{ nota.id}}">
                                                         <!--begin::Svg Icon | path: icons/duotune/art/art005.svg-->
                                                         <span class="svg-icon svg-icon-2">
                                                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -169,7 +169,9 @@
                             <!--end::Card-->
 
                             <!--begin::Modal Edit-->
-                            <div class="modal fade" id="kt_modal_edit_item" tabindex="-1" aria-hidden="true">
+
+                            {% for nota in jenisNota_list%}
+                            <div class="modal fade" id="kt_modal_edit_item_{{ nota.id}}" tabindex="-1" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered mw-650px">
                                     <div class="modal-content">
                                         <div class="modal-header" id="kt_modal_edit_item_header">
@@ -184,18 +186,22 @@
                                             </div>
                                         </div>
                                         <div class="modal-body py-10 px-lg-17">
+                                            <form id="edit-form-{{ nota.id }}">
+                                                {% csrf_token %}
                                             <div class="scroll-y me-n7 pe-7" id="kt_modal_edit_item_scroll" data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_edit_item_header" data-kt-scroll-wrappers="#kt_modal_edit_item_scroll" data-kt-scroll-offset="300px">
+                                                <input type="hidden" name="nota_id" value="{{ nota.id }}">
                                                 <div class="fv-row mb-7">
-                                                    <label class="required fs-6 fw-semibold mb-2">Jenis Nota</label>
-                                                    <select id="JenisNota" class="form-select form-select-solid" name="JenisNota">
-                                                        <option value="BBM">BBM</option>
-                                                        <option value="Non BBM">Non BBM</option>
-                                                    </select>
+                                                    <label for="jenis_nota_{{nota.id}}" class="required fs-6 fw-semibold mb-2">Jenis Nota</label>
+                                                    <select name="jenis_nota" id="jenis_nota_{{ nota.id }}" class= "form-select form-select-solid" data-control= "select2" data-hide-search= "true">
+                                                        {% for choice in nota.NOTA_CHOICES %}
+                                                            <option value="{{ choice.0 }}" {% if nota.jenis_nota == choice.0 %}selected{% endif %}>{{ choice.1 }}</option>
+                                                        {% endfor %}
+                                                    </select>+
                                                 </div>
                                                 <div class="fv-row mb-7">
-                                                    <label class="required fs-6 fw-semibold mb-2">Nama Nota</label>
+                                                    <label for="nama_nota_{{ nota.id }}" class="required fs-6 fw-semibold mb-2">Nama Nota</label>
                                                     <!--begin::Input-->
-													<input type="text" name="namanota" class="form-control mb-2" placeholder="NamaNota" value="Nota ATK" />
+													<input type="text" name="nama_nota" class="form-control mb-2" id="nama_nota_{{ nota.id }}"  placeholder="Nama Nota" value="{{ nota.nama_nota }}" />
 													<!--end::Input-->
                                                 </div>
                                             </div>
@@ -213,6 +219,8 @@
                                             <!--end::Button-->
                                         </div>
                                     </div>
+                                    {% endfor %}
+                                </form>
                                 </div>
                             </div>
                             <!-- End::Modal Edit -->
@@ -220,66 +228,140 @@
 
                             <script>
 
-                                document.addEventListener('DOMContentLoaded', () => {
-                                            const closeButton = document.getElementById('close');
+                               // Constants
+const ROUTES = {
+    MANAGEMENT_NOTA: 'management-nota'
+};
 
-                                            closeButton.addEventListener('click', e => {
-                                                e.preventDefault();
+// Utility functions
+const showSuccessAlert = (message) => {
+    return Swal.fire({
+        text: message,
+        icon: "success",
+        buttonsStyling: false,
+        confirmButtonText: "Ok",
+        customClass: {
+            confirmButton: "btn btn-primary"
+        }
+    });
+};
 
-                                                window.location.href = 'management-nota'
-                                            });
+const showDiscardConfirmation = () => {
+    return Swal.fire({
+        title: 'Discard Changes?',
+        text: "Are you sure you want to discard the changes?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, discard it!',
+        cancelButtonText: 'No, keep it',
+        customClass: {
+            confirmButton: 'btn btn-danger',
+            cancelButton: 'btn btn-light'
+        }
+    });
+};
 
-                                });
+const redirectTo = (path) => {
+    window.location.href = path;
+};
 
+// Form handling
+const handleFormErrors = (form, errors) => {
+    Object.entries(errors).forEach(([key, message]) => {
+        const formField = form.querySelector(`[name="${key}"]`);
+        if (!formField) return;
 
+        formField.classList.add('is-invalid');
+        
+        let errorElement = formField.nextElementSibling;
+        if (!errorElement || !errorElement.classList.contains('invalid-feedback')) {
+            errorElement = document.createElement('div');
+            errorElement.classList.add('invalid-feedback');
+            formField.parentNode.appendChild(errorElement);
+        }
+        errorElement.textContent = message;
+    });
+};
 
-                                const submitButton = document.getElementById('kt_modal_edit_item_submit');
+const submitEditForm = async (form, notaId, csrfToken) => {
+    try {
+        const formData = new FormData(form);
+        const response = await fetch(`/finance/management/nota-list/${notaId}/`, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': csrfToken
+            }
+        });
+        
+        const data = await response.json();
+        
+        if (data.status === 'success') {
+            const modal = form.closest('.modal');
+            const modalInstance = bootstrap.Modal.getInstance(modal);
+            modalInstance.hide();
 
-                                submitButton.addEventListener('click', e =>{
-                                    e.preventDefault();
+            const scrollPosition = window.pageYOffset;
+            window.location.reload();
+            
+            window.addEventListener('load', () => {
+                window.scrollTo(0, scrollPosition);
+            });
+        } else {
+            handleFormErrors(form, data.errors);
+        }
+    } catch (error) {
+        console.error('Error submitting form:', error);
+        Swal.fire({
+            title: 'Error',
+            text: 'An error occurred while submitting the form',
+            icon: 'error'
+        });
+    }
+};
 
-                                    Swal.fire({
-                                        text: "Form has been successfully submitted!",
-                                        icon: "success",
-                                        buttonsStyling: false,
-                                        confirmButtonText: "Oke",
-                                        customClass: {
-                                            confirmButton: "btn btn-primary"
-                                        }
-                                    }).then(() => {
-                                        //ganti halaman
-                                        window.location.href = 'management-nota'
-                                    });
-                                });
+// Event Listeners Setup
+document.addEventListener('DOMContentLoaded', () => {
+    // Close button handler
+    const closeButton = document.getElementById('close');
+    closeButton?.addEventListener('click', (e) => {
+        e.preventDefault();
+        redirectTo(ROUTES.MANAGEMENT_NOTA);
+    });
 
-                                const discardButton = document.getElementById('kt_modal_edit_item_cancel');
+    // Submit button handler
+    const submitButton = document.getElementById('kt_modal_edit_item_submit');
+    submitButton?.addEventListener('click', (e) => {
+        e.preventDefault();
+        showSuccessAlert("Form has been successfully submitted!")
+            .then(() => redirectTo(ROUTES.MANAGEMENT_NOTA));
+    });
 
-                                discardButton.addEventListener('click', e => {
-                                    e.preventDefault();
+    // Discard button handler
+    const discardButton = document.getElementById('kt_modal_edit_item_cancel');
+    discardButton?.addEventListener('click', async (e) => {
+        e.preventDefault();
+        const result = await showDiscardConfirmation();
+        if (result.isConfirmed) {
+            console.log('Changes discarded.');
+            redirectTo(ROUTES.MANAGEMENT_NOTA);
+        } else {
+            console.log('Discard action cancelled.');
+        }
+    });
 
-                                    Swal.fire({
-                                        title: 'Discard Changes?',
-                                        text: "Are you sure you want to discard the changes?",
-                                        icon: 'warning',
-                                        showCancelButton: true,
-                                        confirmButtonText: 'Yes, discard it!',
-                                        cancelButtonText: 'No, keep it',
-                                        customClass: {
-                                            confirmButton: 'btn btn-danger',
-                                            cancelButton: 'btn btn-light'
-                                        }
-                                    }).then((result) => {
-                                        if (result.isConfirmed) {
-                                            // Jika pengguna mengkonfirmasi, lakukan aksi yang diinginkan
-                                            console.log('Changes discarded.');
-                                             window.location.href = 'management-nota'
-                                            // Anda bisa melakukan reset atau tindakan lain di sini
-                                            // document.getElementById('yourFormId').reset(); // jika ada form
-                                        } else {
-                                            console.log('Discard action cancelled.');
-                                        }
-                                    });
-                                });
+    // Edit forms handler
+    const editForms = document.querySelectorAll('form[id^="edit-form-"]');
+    editForms.forEach(form => {
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const notaId = form.querySelector('input[name="nota_id"]').value;
+            submitEditForm(form, notaId, csrfToken);
+        });
+    });
+});
+    
     </script>
+
 
     {% endblock %} 

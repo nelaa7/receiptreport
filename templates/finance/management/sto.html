@@ -174,10 +174,12 @@
                                             </div>
                                         </div>
                                         <div class="modal-body py-10 px-lg-17">
-                                            <!-- Form -->
-                                            <form id="edit-form-{{ sto.id }}">
-                                                {% csrf_token %}
-                                                <input type="hidden" name="sto_id" value="{{ sto.id }}">
+                                            <div class="scroll-y me-n7 pe-7" id="kt_modal_edit_item_scroll" data-kt-scroll="true" data-kt-scroll-activate="{default: false, lg: true}" data-kt-scroll-max-height="auto" data-kt-scroll-dependencies="#kt_modal_edit_item_header" data-kt-scroll-wrappers="#kt_modal_edit_item_scroll" data-kt-scroll-offset="300px">
+                                                <form action="#" id="editForm" method="post">
+                                                    
+                                                    {% csrf_token %}
+
+                                                    <input type="hidden" id="edit_id" value="{{ sto_edit.id }}">
                                                 <div class="fv-row mb-7">
                                                     <label for="nama_sto_{{ sto.id }}" class="required form-label">Nama STO</label>
                                                     <div class="col-sm-10">
@@ -196,7 +198,10 @@
                                 </div>
                             </div>
                             {% endfor %}
+                            {% endfor %}
                             <!-- End::Modal Edit -->
+
+                            <script src="{% static 'js/custom/apps/customers/list/list.js' %}"></script>
 
                             <script>
 
