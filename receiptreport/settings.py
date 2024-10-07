@@ -83,7 +83,6 @@ WSGI_APPLICATION = 'receiptreport.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        # 'NAME': BASE_DIR / 'db.sqlite3',
         'NAME' : 'receipt',
         'USER'  : 'notadmin',
         'PASSWORD' : 'notadmin',
