@@ -18,6 +18,7 @@ urlpatterns = [
     path('add-sto/', views.add_sto, name='add_sto'), 
     path('finance/management/posisi-list/<int:pk>/', views.posisi_edit, name='posisi_edit'),
     path('finance/management/project-list/<int:pk>/', views.project_edit, name='project_edit'),
+    path('add-kendaraan/', views.add_kendaraan, name='add_kendaraan'), 
 
 
     

@@ -51,7 +51,7 @@
                     <div class="post d-flex flex-column-fluid" id="kt_post">
                         <!--begin::Container-->
                         <div class="container mt-5">
-                            <form action="{% url 'add_naker' %}" method="POST" id="kt_form_naker">
+                            <form action="{% url 'add_kendaraan' %}" method="POST" id="kt_form_naker">
                                 {% csrf_token %}
                                 <div class="card shadow-sm">
                                     <div class="card-header">
@@ -61,16 +61,14 @@
                                         <!--begin::NIK-->
                                         <div class="mb-4">
                                             <label for="id_nik" class="required form-label">NIK</label>
-                                            <div class="col-sm-10">
-                                                {{ form.nik }}
-                                            </div>
+                                            {{ form.nik }}
                                         </div>
                                         <!--End::NIK--
                                         <!--begin::Area-->
                                         <div class="mb-4">
                                             <!--begin::Label-->
-                                            <label for="AREASelect" class="required form-label">Area</label>
-                                            {{ form.area }}
+                                            <label for="WITELSelect" class="required form-label">Area</label>
+                                            {{ form.witel }}
                                         </div>
                                         <!--End::Area-->
                                         <!--begin::Jenis KBM-->

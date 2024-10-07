@@ -1,7 +1,7 @@
 import json
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Kendaraan, Naker, MyUser, Sto, Posisi, Unit, JenisNota, Project, Natura, TransaksiBBM, TransaksiNonBBM, Role
-from .forms import form_kendaraan, PasswordResetForm, RegistrationForm, FormAddNaker, FormAddNatura, FormAddNota, FormAddPosisi, FormAddProject, FormAddSto
+from .forms import form_kendaraan, PasswordResetForm, RegistrationForm, FormAddNaker, FormAddNatura, FormAddNota, FormAddPosisi, FormAddProject, FormAddSto, FormAddKendaraan
 from django.contrib import messages 
 from django.contrib.auth import authenticate
 from django.http import JsonResponse
@@ -244,6 +244,16 @@ def sto_edit(request, pk):
     return render(request, 'finance/management/sto-list.html', {'form': form, 'sto_list': sto_list})
 
 
+def add_kendaraan(request):
+    if request.method == 'POST':
+        form = FormAddKendaraan(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('kendaraan_list')
+    else:
+        form = FormAddKendaraan()
+
+    return render(request, 'finance/management/add-kendaraan.html', {'form': form})
 
    
 
